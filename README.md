@@ -5,8 +5,8 @@ Kuharica web app for PIOS &amp; OORP
 
 Clone the repository:
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/DinoSirovica/Kuharica.git
+cd Kuharica
 ```
 
 ## Install server dependencies:
@@ -38,15 +38,13 @@ mysql -u your_db_user -p kuharica < schema.sql
 ```
 
 ## Project Structure
-```
+```php
 Kuharica/
 ├── backend/               # Node.js + Express back-end
 │   ├── src/               # Source files
 │   ├── package.json       # Server dependencies
 │   └── .env               # Environment variables
 ├── frontend/              # Angular front-end
-│   ├── src/               # Source files
-│   ├── angular.json       # Angular configuration
 │   └── package.json       # Client dependencies
 ├── .gitignore             # Git ignore file
 └── README.md              # This README file
@@ -78,6 +76,7 @@ module.exports = {
 };
 ```
 
+Run the server
 ```bash
 npm start
 ```
@@ -87,9 +86,6 @@ Open a new terminal window and navigate to the frontend directory:
 
 ```bash
 cd frontend
-```
-
-```bash
 ng serve
 ```
 
