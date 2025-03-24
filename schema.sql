@@ -26,12 +26,12 @@ CREATE TABLE `kategorija`
 /*Data for the table `kategorija` */
 
 insert into `kategorija`(`id`, `ime`)
-values (4, 'Appetizer'),
-       (3, 'Beverage'),
-       (6, 'Dessert'),
-       (5, 'Main Course'),
-       (1, 'Salad'),
-       (2, 'Soup');
+values (4, 'Predjelo'),
+       (3, 'Piće'),
+       (6, 'Desert'),
+       (5, 'Glavno jelo'),
+       (1, 'Salata'),
+       (2, 'Juha');
 
 /*Table structure for table `slika` */
 
@@ -77,21 +77,21 @@ CREATE TABLE `sastojak`
 /*Data for the table `sastojak` */
 
 insert into `sastojak`(`id`, `ime`)
-values (13, 'Butter'),
-       (4, 'Chicken'),
-       (10, 'Eggs'),
-       (11, 'Flour'),
-       (8, 'Garlic'),
-       (14, 'Lemon'),
-       (2, 'Lettuce'),
-       (9, 'Milk'),
-       (3, 'Olive Oil'),
-       (7, 'Onion'),
-       (6, 'Pepper'),
-       (5, 'Salt'),
-       (12, 'Sugar'),
-       (1, 'Tomato'),
-       (15, 'Water');
+values (13, 'Maslac'),
+       (4, 'Piletina'),
+       (10, 'Jaja'),
+       (11, 'Brašno'),
+       (8, 'Češnjak'),
+       (14, 'Limun'),
+       (2, 'Zelena salata'),
+       (9, 'Mlijeko'),
+       (3, 'Maslinovo ulje'),
+       (7, 'Luk'),
+       (6, 'Papar'),
+       (5, 'Sol'),
+       (12, 'Šećer'),
+       (1, 'Rajčica'),
+       (15, 'Voda');
 
 /*Table structure for table `recipe_sastojak` */
 
@@ -113,24 +113,24 @@ CREATE TABLE `recpt_sastojak`
 /*Data for the table `recpt_sastojak` */
 
 insert into `recpt_sastojak`(`recept_id`, `sastojak_id`, `kolicina`)
-values (1, 1, '1 cup'),
-       (1, 2, '1 cup'),
-       (1, 3, '1 tbsp'),
-       (1, 9, '1 cup'),
+values (1, 1, '1 šalica'),
+       (1, 2, '1 šalica'),
+       (1, 3, '1 žlica'),
+       (1, 9, '1 šalica'),
        (1, 10, '1'),
-       (2, 2, '1 head'),
-       (2, 3, '2 tbsp'),
-       (2, 5, '1 tsp'),
-       (2, 6, '1 tsp'),
-       (2, 8, '1 clove'),
+       (2, 2, '1 glavica'),
+       (2, 3, '2 žlice'),
+       (2, 5, '1 žličica'),
+       (2, 6, '1 žličica'),
+       (2, 8, '1 češanj'),
        (3, 4, '200g'),
-       (3, 5, 'to taste'),
-       (3, 6, 'to taste'),
+       (3, 5, 'po ukusu'),
+       (3, 6, 'po ukusu'),
        (3, 7, '1'),
-       (3, 8, '2 cloves'),
-       (4, 12, '1 cup'),
+       (3, 8, '2 češnja'),
+       (4, 12, '1 šalica'),
        (4, 14, '3'),
-       (4, 15, '4 cups');
+       (4, 15, '4 šalice');
 
 /*Table structure for table `recept` */
 
@@ -158,13 +158,13 @@ CREATE TABLE `recept`
 /*Data for the table `recept` */
 
 insert into `recept`(`id`, `korisnik_id`, `kategorija_id`, `naslov`, `opis`, `upute`, `slika_id`)
-values (1, 4, 1, 'Vegan Smoothie TEST', 'A healthy and refreshing vegan smoothie.', '1. Blend fruits with almond milk. 2. Serve chilled.',
+values (1, 4, 1, 'Vegan Smoothie TEST', 'Zdrav i osvježavajući veganski smoothie.', '1. Pomiješajte voće s bademovim mlijekom. 2. Poslužite ohlađeno.',
         1),
-       (2, 2, 4, 'Caesar Salad', 'A classic Caesar Salad with homemade dressing.',
-        '1. Mix lettuce, croutons, and Parmesan cheese. 2. Add Caesar dressing and toss well.', 2),
-       (3, 3, 2, 'Chicken Soup', 'Hearty and healthy chicken soup.', '1. Boil chicken with vegetables. 2. Add salt and pepper to taste.',
+       (2, 2, 4, 'Caesar Salad', 'Klasična Caesar salata s domaćim preljevom.',
+        '1. Pomiješajte zelenu salatu, krutone i parmezan. 2. Dodajte Caesar preljev i dobro promiješajte.', 2),
+       (3, 3, 2, 'Chicken Soup', 'Zdrava i hranjiva pileća juha.', '1. Kuhajte piletinu s povrćem. 2. Dodajte sol i papar po ukusu.',
         3),
-       (4, 1, 3, 'Lemonade', 'Refreshing homemade lemonade.', '1. Mix lemon juice, water, and sugar. 2. Serve chilled.',
+       (4, 1, 3, 'Lemonade', 'Osvježavajuća domaća limunada.', '1. Pomiješajte limunov sok, vodu i šećer. 2. Poslužite ohlađeno.',
         4);
 
 /*Table structure for table `korisnik` */
@@ -199,4 +199,3 @@ values (1, 'foodie123', 'foodie123@example.com', 'hashed_password_2'),
 /*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
-
