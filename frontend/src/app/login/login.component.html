@@ -1,0 +1,26 @@
+<div class="login-box">
+    <h1>Prijava</h1>
+    <div class="formDiv">
+      <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+        <div class="user-box">
+          <input type="text" name="username" [(ngModel)]="username" required />
+          <label>Korisničko ime</label>
+        </div>
+        <div class="user-box">
+          <input [type]="isPasswordVisible ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" required />
+          <label>Lozinka</label>
+          <span class="password-toggle-icon" (click)="togglePasswordVisibility()">
+            <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </span>
+        </div>
+        <button type="submit">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Prijavi se
+        </button>
+      </form>
+  </div>
+</div>
+  

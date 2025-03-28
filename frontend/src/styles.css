@@ -1,1 +1,104 @@
-/* You can add global styles to this file, and also import other style files */
+body{
+    margin: 0 auto;
+    padding: 0px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+}
+
+h1{
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #660f00;
+}
+
+h2{
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #660f00;
+}
+
+h3{
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #660f00;
+}
+
+h4{
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #660f00;
+}
+
+h5{
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #660f00;
+}
+
+h6{
+    font-size: 1rem;
+    font-weight: 800;
+    color: #660f00;
+}
+
+a:link{
+  color: #111517;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+a:visited{
+  color: #111517;
+    text-decoration: none;
+    transition: linear ease-in 1s;
+}
+
+a:hover{
+    color: #111517;
+    text-decoration: none;
+    font-weight: 600;
+    transition: linear ease-in 1s;
+}
+
+.container{
+    width: 1024px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+ul{
+    list-style: none;
+    padding: 0 0;
+}
+
+li{
+    margin: 0.5rem 0;
+    padding: 0 0;
+}
+
+button{
+    background-color: unset;
+    border: none;
+
+}
+
+.mainTile a:link{
+  color: #660f00;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.mainTile a:visited{
+  color: #660f00;
+  text-decoration: none;
+  transition: linear ease-in 1s;
+}
+
+.mainTile a:hover{
+  color: #660f00;
+  text-decoration: none;
+  font-weight: 600;
+  transition: linear ease-in 1s;
+}
+
+

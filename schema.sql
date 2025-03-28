@@ -8,6 +8,35 @@ CREATE DATABASE IF NOT EXISTS `kuharica` /*!40100 DEFAULT CHARACTER SET utf8mb4 
 
 USE `kuharica`;
 
+/*Table structure for table `korisnik` */
+
+DROP TABLE IF EXISTS `korisnik`;
+
+CREATE TABLE `korisnik`
+(
+    `id`               int          NOT NULL AUTO_INCREMENT,
+    `korisnik_ime`     varchar(50)  NOT NULL,
+    `email`            varchar(100) NOT NULL,
+    `lozinka`          varchar(255) NOT NULL,
+    `omiljeni_recepti`          varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `korisnik_ime` (`korisnik_ime`),
+    UNIQUE KEY `email` (`email`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 6
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+/*Data for the table `korisnik` */
+
+insert into `korisnik`(`id`, `korisnik_ime`, `email`, `lozinka`)
+values (1, 'foodie123', 'foodie123@example.com', 'hashed_password_2'),
+       (2, 'bakerqueen', 'bakerqueen@example.com', 'hashed_password_3'),
+       (3, 'souschef', 'souschef@example.com', 'hashed_password_4'),
+       (4, 'chefmaster', 'chefmaster@example.com', 'hashed_password'),
+       (5, 'adminMaster', 'admin@email.com', 'adminpass');
+
+
 /*Table structure for table `kategorija` */
 
 DROP TABLE IF EXISTS `kategorija`;
@@ -92,6 +121,41 @@ values (13, 'Maslac'),
        (12, 'Šećer'),
        (1, 'Rajčica'),
        (15, 'Voda');
+       
+       /*Table structure for table `recept` */
+
+DROP TABLE IF EXISTS `recept`;
+
+CREATE TABLE `recept`
+(
+    `id`            int          NOT NULL AUTO_INCREMENT,
+    `korisnik_id`   int DEFAULT NULL,
+    `kategorija_id` int DEFAULT NULL,
+    `naslov`        varchar(100) NOT NULL,
+    `opis`          text,
+    `upute`         text,
+    `slika_id`      int DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `korisnik_id` (`korisnik_id`),
+    KEY `kategorija_id` (`kategorija_id`),
+    CONSTRAINT `recept_ibfk_1` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnik` (`id`),
+    CONSTRAINT `recept_ibfk_2` FOREIGN KEY (`kategorija_id`) REFERENCES `kategorija` (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 18
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+/*Data for the table `recept` */
+
+insert into `recept`(`id`, `korisnik_id`, `kategorija_id`, `naslov`, `opis`, `upute`, `slika_id`)
+values (1, 4, 1, 'Vegan Smoothie TEST', 'Zdrav i osvježavajući veganski smoothie.', '1. Pomiješajte voće s bademovim mlijekom. 2. Poslužite ohlađeno.',
+        1),
+       (2, 2, 4, 'Caesar Salad', 'Klasična Caesar salata s domaćim preljevom.',
+        '1. Pomiješajte zelenu salatu, krutone i parmezan. 2. Dodajte Caesar preljev i dobro promiješajte.', 2),
+       (3, 3, 2, 'Chicken Soup', 'Zdrava i hranjiva pileća juha.', '1. Kuhajte piletinu s povrćem. 2. Dodajte sol i papar po ukusu.',
+        3),
+       (4, 1, 3, 'Lemonade', 'Osvježavajuća domaća limunada.', '1. Pomiješajte limunov sok, vodu i šećer. 2. Poslužite ohlađeno.',
+        4);
 
 /*Table structure for table `recipe_sastojak` */
 
@@ -132,68 +196,6 @@ values (1, 1, '1 šalica'),
        (4, 14, '3'),
        (4, 15, '4 šalice');
 
-/*Table structure for table `recept` */
-
-DROP TABLE IF EXISTS `recept`;
-
-CREATE TABLE `recept`
-(
-    `id`            int          NOT NULL AUTO_INCREMENT,
-    `korisnik_id`   int DEFAULT NULL,
-    `kategorija_id` int DEFAULT NULL,
-    `naslov`        varchar(100) NOT NULL,
-    `opis`          text,
-    `upute`         text,
-    `slika_id`      int DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    KEY `korisnik_id` (`korisnik_id`),
-    KEY `kategorija_id` (`kategorija_id`),
-    CONSTRAINT `recept_ibfk_1` FOREIGN KEY (`korisnik_id`) REFERENCES `korisnik` (`id`),
-    CONSTRAINT `recept_ibfk_2` FOREIGN KEY (`kategorija_id`) REFERENCES `kategorija` (`id`)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 18
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-
-/*Data for the table `recept` */
-
-insert into `recept`(`id`, `korisnik_id`, `kategorija_id`, `naslov`, `opis`, `upute`, `slika_id`)
-values (1, 4, 1, 'Vegan Smoothie TEST', 'Zdrav i osvježavajući veganski smoothie.', '1. Pomiješajte voće s bademovim mlijekom. 2. Poslužite ohlađeno.',
-        1),
-       (2, 2, 4, 'Caesar Salad', 'Klasična Caesar salata s domaćim preljevom.',
-        '1. Pomiješajte zelenu salatu, krutone i parmezan. 2. Dodajte Caesar preljev i dobro promiješajte.', 2),
-       (3, 3, 2, 'Chicken Soup', 'Zdrava i hranjiva pileća juha.', '1. Kuhajte piletinu s povrćem. 2. Dodajte sol i papar po ukusu.',
-        3),
-       (4, 1, 3, 'Lemonade', 'Osvježavajuća domaća limunada.', '1. Pomiješajte limunov sok, vodu i šećer. 2. Poslužite ohlađeno.',
-        4);
-
-/*Table structure for table `korisnik` */
-
-DROP TABLE IF EXISTS `korisnik`;
-
-CREATE TABLE `korisnik`
-(
-    `id`               int          NOT NULL AUTO_INCREMENT,
-    `korisnik_ime`     varchar(50)  NOT NULL,
-    `email`            varchar(100) NOT NULL,
-    `lozinka`          varchar(255) NOT NULL,
-    'omiljeni_recepti' varchar(255) DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `korisnik_ime` (`korisnik_ime`),
-    UNIQUE KEY `email` (`email`)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 6
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-
-/*Data for the table `korisnik` */
-
-insert into `korisnik`(`id`, `korisnik_ime`, `email`, `lozinka`)
-values (1, 'foodie123', 'foodie123@example.com', 'hashed_password_2'),
-       (2, 'bakerqueen', 'bakerqueen@example.com', 'hashed_password_3'),
-       (3, 'souschef', 'souschef@example.com', 'hashed_password_4'),
-       (4, 'chefmaster', 'chefmaster@example.com', 'hashed_password'),
-       (5, 'adminMaster', 'admin@email.com', 'adminpass');
 
 /*!40101 SET SQL_MODE = @OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;
