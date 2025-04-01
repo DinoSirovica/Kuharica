@@ -9,11 +9,13 @@ import { SignupComponent } from './signup/signup.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
-import { NgToastModule } from 'ng-angular-popup'
+import { NgToastModule } from 'ng-angular-popup';
+import { HomepageComponent } from './homepage/homepage.component'
 
 const routes: Routes = [
   { path: 'profile/login', component: LoginComponent },
   { path: 'profile/signup', component: SignupComponent },
+  { path: '', component: HomepageComponent},
   { path: '**', component: PagenotfoundComponent }
 ];
 
@@ -24,6 +26,7 @@ const routes: Routes = [
     LoginComponent,
     SignupComponent,
     PagenotfoundComponent,
+    HomepageComponent,
   ],
   imports: [
     BrowserModule,

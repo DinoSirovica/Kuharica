@@ -2,11 +2,23 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 20px 0;
   }
 
-  .home a {
-    font-size: 1.4rem;
+.home a{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+  .home a, .secondary a{
+    font-size: 1rem;
+    color: var(--Red);
+  }
+
+  .home img{
+    width: 60px;
+    padding-right: 20px;
   }
 
   .secondary {
@@ -16,57 +28,22 @@
   .secondary > div {
     display: flex;
     flex-direction: column;
-    padding: 10px 40px;
+    padding: 10px 10px;
     position: relative;
-  }
-
-  .secondary > div ul {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #fff;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 200px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-  }
-
-  .secondary > div ul li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .secondary > div ul li a {
-    text-decoration: none;
-    color: #ff0606;
-    display: block;
-  }
-
-  .secondary > div ul li:hover {
-    background: #f4f4f4;
-  }
-
-  .secondary > div:hover ul {
-    display: block;
-  }
-
-  .secondary > button {
-    padding: 10px 40px;
   }
 
   footer {
     width: 100%;
     background-color: #748067;
-    color: white;
-    padding: 15px 0;
-    text-align: center;
-    font-size: 10px;
-    margin-top: 30px;
+    color: #FFFFFB;
+    text-align: left;
   }
 
-  button{
-    cursor: pointer;
+  footer > .container{
+    width: 1140px;
+    padding: 100px 0;
+  }
+
+  footer > h5{
+    color: #FFFFFB;
   }
