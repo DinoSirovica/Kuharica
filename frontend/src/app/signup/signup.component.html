@@ -1,5 +1,5 @@
 <div class="signup-box">
-  <h2>Registracija</h2>
+  <h1>Registracija</h1>
   <div class="formDiv">
     <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
       <div class="user-box">
@@ -25,12 +25,11 @@
         </span>
       </div>
       <button type="submit">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
         Registriraj se
       </button>
     </form>
+  </div>
+  <div class="signupBox__redirect">
+    <p>Imaš korisnički račun? <a routerLink="/profile/login">Prijavi se</a></p>
   </div>
 </div>
