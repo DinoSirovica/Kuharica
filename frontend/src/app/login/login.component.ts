@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   password: string = '';
 
   ngOnInit(): void {
+
     this.apiService.getUsers().subscribe(
       (data: any) => {
         console.log(data);
@@ -46,12 +47,13 @@ export class LoginComponent implements OnInit {
         
         console.log('Login successful! Redirecting...');
         this.activeUserService.setActiveUser(user);
-        this.router.navigate(['/profile/profileDetails']);
+        this.router.navigate(['/profil']);
 
         return;
       }
     }
 
     console.log('Login failed. Invalid username or password.');
+    alert("Neuspješna prijava! Pogrešna lozinka ili korisničko ime.")
   }
 }

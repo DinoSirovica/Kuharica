@@ -1,0 +1,23 @@
+<div class="profile">
+    <h1>Detalji profila</h1>
+
+    <div class="profile__info">
+        <h2>Korisnički detalji</h2>
+        <div class="user-box">
+            <label>Korisničko ime</label>
+            <input type="text" name="username" [(ngModel)]="username" required />
+        </div>
+        <div class="user-box">
+            <label>Email</label>
+            <input type="email" name="email" [(ngModel)]="email" required />
+          </div>
+    </div>
+
+    <div class="profile__links">
+        <h2>Korisne poveznice</h2>
+        <a routerLink="uredivanje-profila">Uredi profil</a><br/>
+        <a routerLink="moji-recepti">Moji recepti</a><br/>
+        <a routerLink="moji-favoriti">Moji favoriti</a><br/>
+        <a routerLink="novi-recept">Dodaj novi recept</a><br/>
+    </div>
+</div>
