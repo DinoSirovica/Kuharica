@@ -7,17 +7,23 @@ import { Route, Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  
+export class AppComponent implements OnInit {
+
   title = 'frontend';
   activeUser: any;
 
   constructor(
     private ActiveUserService: ActiveUserService,
     private router: Router
-  ){};
+  ) {}
 
-  logoutUser(){
+  ngOnInit(): void {
+    this.ActiveUserService.activeUser$.subscribe(user => {
+      this.activeUser = user;
+    });
+  }
+  
+  logoutUser() {
     this.ActiveUserService.clearActiveUser();
     console.log("Log out");
     this.router.navigate(['/']);

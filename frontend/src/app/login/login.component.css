@@ -78,3 +78,27 @@ button:hover {
   text-align: center;
   margin: 44px 0 100px 0;
 }
+
+@media (max-width: 1144px) {
+  .formDiv{
+    width: 60%;
+  }
+}
+
+@media (max-width: 900px) {
+  .formDiv{
+    width: 60%;
+  }
+}
+
+@media (max-width: 600px) {
+  .formDiv{
+    width: 90%;
+  }
+}
+
+@media (max-width: 400px) {
+  .formDiv{
+    width: 95%;
+  }
+}

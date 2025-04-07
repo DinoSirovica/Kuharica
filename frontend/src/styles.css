@@ -106,6 +106,36 @@ button{
 
 }
 
+@media (max-width: 1144px){
+    body{
+        margin: 0 auto;
+        padding: 0px;
+        font-family: 'InclusiveSans-Regular';
+        font-size: 17px;
+    }
+
+    .container{
+        width: 80%;
+        margin: 0 auto;
+        padding: 0;
+    }   
+}
+
+@media (max-width: 900px) {
+    body{
+        margin: 0 auto;
+        padding: 0px;
+        font-family: 'InclusiveSans-Regular';
+        font-size: 16px;
+    }
+
+    .container{
+        width: 80%;
+        margin: 0 auto;
+        padding: 0;
+    }   
+}
+
 @media (max-width: 600px) {
     body{
         margin: 0 auto;
@@ -115,8 +145,23 @@ button{
     }
 
     .container{
-        width: 500px;
+        width: 85%;
         margin: 0 auto;
         padding: 0;
+    }   
+}
+
+@media (max-width: 400px) {
+    body{
+        margin: 0 auto;
+        padding: 0px;
+        font-family: 'InclusiveSans-Regular';
+        font-size: 14px;
     }
+
+    .container{
+        width: 90%;
+        margin: 0 auto;
+        padding: 0;
+    }   
 }

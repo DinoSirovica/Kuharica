@@ -6,17 +6,37 @@
           Kuharica
         </a>
       </div>
-      <div class="navigation secondary">
-        <div class="navigation search">
-          <span><a routerLink="search">Pretraži recepte</a></span>
+
+      <!-- navigacija koja se prikazuje ukoliko je korisnik ulogiran -->
+      <ng-container *ngIf="activeUser; else noUser">
+        <div class="navigation secondary">
+          <div class="navigation search">
+            <span><a routerLink="pretrazivanje">Pretraži recepte</a></span>
+          </div>
+          <div class="navigation profile">
+            <span><a routerLink="profil">Moj profil</a></span>
+          </div>
+          <div class="navigation search">
+            <span><a (click)="logoutUser()">Odjava</a></span>
+          </div>
         </div>
-        <div class="navigation profile">
-          <span><a routerLink="profile/login">Prijava</a></span>
+      </ng-container>
+      
+      <!-- navigacija koja se prikazuje ukoliko korisnik nije ulogian -->
+      <ng-template #noUser>
+        <div class="navigation secondary">
+          <div class="navigation search">
+            <span><a routerLink="pretrazivanje">Pretraži recepte</a></span>
+          </div>
+          <div class="navigation profile">
+            <span><a routerLink="profil/prijava">Prijava</a></span>
+          </div>
+          <div class="navigation search">
+            <span><a routerLink="profil/registracija">Registracija</a></span>
+          </div>
         </div>
-        <div class="navigation search">
-          <span><a routerLink="profile/signup">Registracija</a></span>
-        </div>
-      </div>
+      </ng-template>
+
   </nav>
 </div>
 <div class="container">
