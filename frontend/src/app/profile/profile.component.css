@@ -1,0 +1,66 @@
+h1{
+    text-align: center;
+    margin: 5rem 0 7rem 0;
+    color: #F58F29;
+}
+
+h2{
+    color: #748067;
+    margin: 4rem 0 3rem 0;
+}
+
+table, tr{
+    width: 100%;
+}
+
+td{
+    width: 35%;
+}
+
+.user-box {
+    position: relative;
+    margin-bottom: 50px;
+    width: 500px;
+  }
+  
+  .user-box input {
+    width: 100%;
+    padding: 10px 5px;
+    border: none;
+    border-bottom: 1px solid black;
+    border-radius: 4px;
+  }
+  
+  .user-box label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    pointer-events: none;
+    transition: 0.5s;
+  }
+  
+  .user-box input:focus~label,
+  .user-box input:valid~label {
+    top: -18px;
+    left: 10px;
+    font-size: 12px;
+  }
+  
+  .password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+  }
+  
+.profile__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 4rem;
+}
+.profile__links a::before {
+    content: "•";
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}

@@ -70,22 +70,20 @@ p{
     font-size: 18px;
 }
 
-a:link{
+a:link,
+a:visited {
     color: var(--Red);
     text-decoration: none;
+    transition: color 150ms ease-in-out, font-weight 150ms ease-in-out;
 }
 
-a:visited{
+a:visited {
     color: var(--Orange);
-    text-decoration: none;
-    transition: linear ease-in 1s;
 }
 
-a:hover{
+a:hover {
     color: #111517;
-    text-decoration: none;
     font-weight: 600;
-    transition: linear ease-in 1s;
 }
 
 .container{

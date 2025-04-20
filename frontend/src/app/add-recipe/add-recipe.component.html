@@ -1,1 +1,72 @@
-<p>add-recipe works!</p>
+<div class="newRecipe">
+  <!--*ngIf="activeUser" -> osigurava da se stranica prikaže samo ako je korisnik ulogiran -->
+  <a routerLink="/profil">Natrag na detalje ← </a>
+  <h1>Dodaj novi recept</h1>
+  <div class="newRecipe__form">
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+      <table>
+        <tr>
+          <td colspan="1"><h5>Naziv recepta:</h5></td>
+          <td colspan="3">
+            <div class="user-box">
+              <input type="text" name="recipeName" [(ngModel)]="recipeName" required/>
+              <label>Unesite naziv</label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="1"><h5>Kategorija:</h5></td>
+          <td colspan="3">
+            <div class="user-box">
+              <select name="category" [(ngModel)]="selectedCategory" required>
+                <option value="" disabled selected hidden>Odaberi kategoriju</option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                  {{ category.ime	 }}
+                </option>
+              </select>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4"><h5>Sastojci:</h5></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td> 
+            <div class="user-box">
+              <select name="ingredient" [(ngModel)]="selectedIngredient" required>
+                <option value="" disabled selected hidden>Odaberi sastojak</option>
+                <option *ngFor="let ing of ingredients" [value]="ing.id">
+                  {{ ing.ime	 }}
+                </option>
+              </select>
+            </div>
+          </td>
+          <td>
+            <div class="user-box">
+              <input type="text" name="ingredientTotal" [(ngModel)]="selectedIngredientTotal" required/>
+              <label>Unesite količinu</label>
+            </div>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="1"><h5>Fotografija:</h5></td>
+          <td colspan="3">
+            <div class="user-box">
+              <input type="file" name="photo" (change)="onFileSelected($event)" accept="image/*" required />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4"><h5>Postupak:</h5></td>
+        </tr>
+        <tr>
+          <td colspan="4">
+
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
