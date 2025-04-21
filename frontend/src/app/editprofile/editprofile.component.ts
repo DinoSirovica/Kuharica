@@ -41,4 +41,11 @@ export class EditprofileComponent implements OnInit{
     });
   }
 
+  onSubmit(){
+    console.log("Korisničko ime: " + this.username);
+    console.log("mail: " + this.email);
+    console.log("Lozinka: " + this.password);
+    console.log("Ponovljena lozinka: " + this.passwordRepeat);
+  }
+
 }

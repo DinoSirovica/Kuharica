@@ -3,48 +3,50 @@
     <h1>Uredi profil</h1>
     <h2>Korisnički detalji</h2>
     <div class="editProfile__form">
-      <table>
-        <tr>
-          <td>Korisničko ime</td>
-          <td>       
-            <div class="user-box">
-                <input type="text" name="username" [(ngModel)]="username" required />
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Adresa elektroničke pošte</td>
-          <td>
-            <div class="user-box">
-              <input type="email" name="email" [(ngModel)]="email" required />
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Lozinka</td>
-          <td>
-            <div class="user-box">
-              <input [type]="isPasswordVisible ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" required />
-              <span class="password-toggle-icon" (click)="togglePasswordVisibility()">
-                <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Ponovljena lozinka</td>
-          <td>
-            <div class="user-box">
-              <input [type]="isRepeatPasswordVisible ? 'text' : 'password'" id="passwordRepeat" [(ngModel)]="passwordRepeat" name="passwordRepeat" required />
-              <span class="password-toggle-icon" (click)="toggleRepeatPasswordVisibility()">
-                <i [ngClass]="isRepeatPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </span>
-            </div>
-          </td>
-        </tr>
-      </table>
-      <button type="submit">
-        Potvrdi promjene
-      </button>
+      <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+        <table>
+          <tr>
+            <td>Korisničko ime</td>
+            <td>       
+              <div class="user-box">
+                  <input type="text" name="username" [(ngModel)]="username" required />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Adresa elektroničke pošte</td>
+            <td>
+              <div class="user-box">
+                <input type="email" name="email" [(ngModel)]="email" required />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Lozinka</td>
+            <td>
+              <div class="user-box">
+                <input [type]="isPasswordVisible ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" required />
+                <span class="password-toggle-icon" (click)="togglePasswordVisibility()">
+                  <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Ponovljena lozinka</td>
+            <td>
+              <div class="user-box">
+                <input [type]="isRepeatPasswordVisible ? 'text' : 'password'" id="passwordRepeat" [(ngModel)]="passwordRepeat" name="passwordRepeat" required />
+                <span class="password-toggle-icon" (click)="toggleRepeatPasswordVisibility()">
+                  <i [ngClass]="isRepeatPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <button type="submit">
+          Potvrdi promjene
+        </button>
+      </form>
     </div>
 </div>

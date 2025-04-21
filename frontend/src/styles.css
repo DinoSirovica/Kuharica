@@ -77,10 +77,6 @@ a:visited {
     transition: color 150ms ease-in-out, font-weight 150ms ease-in-out;
 }
 
-a:visited {
-    color: var(--Orange);
-}
-
 a:hover {
     color: #111517;
     font-weight: 600;

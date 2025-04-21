@@ -26,11 +26,31 @@ export class ApiServiceService {
     return this.http.post(`${this.baseUrl}/users`, user, { headers });
   }
 
+  getAuthor(userId: number) {
+    return this.http.get(`${this.baseUrl}/users/${userId}`); //http://localhost:8081/api/users/:id
+  }
+
+  getRecipes(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/recipes`); //http://localhost:8081/api/recipes
+  }
+
+  getRecipe(recipeId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/recipes/${recipeId}`); //http://localhost:8081/api/recipes/:id
+  }
+
   getCategories(): Observable<any> {
     return this.http.get(`${this.baseUrl}/categories`); //http://localhost:8081/api/categories
   }
 
+  getCategory(categoryId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/categories/${categoryId}`); //http://localhost:8081/api/categories/:id
+  }
+
   getIngredients(): Observable<any> {
     return this.http.get(`${this.baseUrl}/ingredients`); //http://localhost:8081/api/ingredients
+  }
+
+  getImage(imageId: number):Observable<any>{
+    return this.http.get(`${this.baseUrl}/images/${imageId}`); //http://localhost:8081/api/images/:imageId
   }
 }

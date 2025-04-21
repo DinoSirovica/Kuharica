@@ -1,12 +1,23 @@
+h1{
+  color: #F58F29;
+  text-align: center;
+  margin: 4rem 0 7rem 0;
+}
+
+table{
+  margin: 0 auto;
+  width: 90%;
+}
+
 td {
     padding: 0.3rem 1rem 0.3rem 0;
+    width: 25%;
   }
 
 .user-box {
     position: relative;
     margin-bottom: 0;
     width: 100%;
-    max-width: 500px;
   }
   
   .user-box input,
@@ -30,6 +41,17 @@ td {
     background-size: 12px;
     padding-right: 30px; 
   }
+
+  .user-box textarea{
+    width: 100%;
+    padding: 10px 5px;
+    border: none;
+    border-bottom: 1px solid #111517;
+    border-radius: 4px;
+    background-color: transparent;
+    font-family: 'InclusiveSans-Regular';
+    font-size: 1rem;
+  }
   
   .user-box label {
     position: absolute;
@@ -49,4 +71,38 @@ td {
     top: -12px;
     transform: none;
     font-size: 12px;
+  }
+
+  button {
+    font-family: Merienda;
+    font-size: 1.1rem;
+    color: #660F00;
+    border-color: #660F00;
+    display: block;
+    text-align: center;
+    padding: 0.3rem;
+    margin: 0 auto;
+    margin-top: 3rem;
+    margin-bottom: 7.5rem;
+    width: 15rem;
+    border-radius: 0.9rem;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+  }
+
+  button[name="buttonRemoveIng"],
+  button[name="buttonAddIng"]{
+    width: max-content;
+    margin: 0 0 0 0;
+    color: #F58F29;
+    border-color: #F58F29;
+  }
+
+  button[name="buttonAddIng"]{
+    align-self: center;
+  }
+  
+  button:hover {
+    font-size: 1.3rem;
+    transform: scale(1.05);
   }

@@ -28,27 +28,32 @@
           </td>
         </tr>
         <tr>
-          <td colspan="4"><h5>Sastojci:</h5></td>
+          <td colspan="3"><h5>Sastojci:</h5></td>
+          <td colspan="1" style="text-align: right;">
+            <button name="buttonAddIng" type="button" (click)="addIngredientRow()">+ Dodaj sastojak</button>
+          </td>
         </tr>
-        <tr>
+        <tr *ngFor="let ingredient of ingredientsList; let i = index">
           <td></td>
-          <td> 
+          <td>
             <div class="user-box">
-              <select name="ingredient" [(ngModel)]="selectedIngredient" required>
+              <select name="ingredient{{i}}" [(ngModel)]="ingredientsList[i].id" required>
                 <option value="" disabled selected hidden>Odaberi sastojak</option>
                 <option *ngFor="let ing of ingredients" [value]="ing.id">
-                  {{ ing.ime	 }}
+                  {{ ing.ime }}
                 </option>
               </select>
             </div>
           </td>
           <td>
             <div class="user-box">
-              <input type="text" name="ingredientTotal" [(ngModel)]="selectedIngredientTotal" required/>
+              <input type="text" name="ingredientTotal{{i}}" [(ngModel)]="ingredientsList[i].quantity" required />
               <label>Unesite količinu</label>
             </div>
           </td>
-          <td></td>
+          <td>
+            <button name="buttonRemoveIng" type="button" (click)="removeIngredientRow(i)">✖</button>
+          </td>
         </tr>
         <tr>
           <td colspan="1"><h5>Fotografija:</h5></td>
@@ -63,10 +68,15 @@
         </tr>
         <tr>
           <td colspan="4">
-
+            <div class="user-box">
+              <textarea col= "4" name="recipeProcedure" [(ngModel)]="recipeProcedure" required></textarea>
+            </div>
           </td>
         </tr>
       </table>
+      <button type="submit">
+        Spremi recept
+      </button>
     </form>
   </div>
 </div>

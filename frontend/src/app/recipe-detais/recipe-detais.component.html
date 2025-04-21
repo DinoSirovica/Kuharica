@@ -1,1 +1,43 @@
-<p>recipe-detais works!</p>
+<div class="recipeDetails" *ngIf="recipe && author && category && image; else loading">
+    <h1>{{ recipe.naslov }}</h1>
+    <div class="recipeDetails__basics">
+        <p>
+            Autor: <span> {{author.korisnik_ime}} </span> 
+            <br>
+            Kategorija: <span>{{category.ime}}</span>
+        </p> 
+        <svg (click)="toggleFavourite()"  
+            [ngClass]="{ 'filled': isFavourite }" 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="24" height="24" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor" 
+            stroke-width="2"
+            class="star-icon">
+            <path *ngIf="!isFavourite" stroke-linecap="round" stroke-linejoin="round" 
+            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.121 6.507h6.396c.969 0 1.371 1.24.588 1.81l-5.18 3.764 1.963 6.507c.287.952-.755 1.745-1.54 1.158L12 18.347l-5.3 3.326c-.784.587-1.826-.206-1.54-1.158l1.964-6.507-5.181-3.764c-.782-.57-.38-1.81.588-1.81h6.396l2.122-6.507z"/>
+            <path *ngIf="isFavourite" fill="#F58F29" 
+            d="M12 .587l3.668 7.568L24 9.423l-6 5.847 1.416 8.263L12 18.896 4.584 23.533 6 15.27 0 9.423l8.332-1.268z"/>
+        </svg> <!--*ngIf="activeUser"-->
+    </div>
+
+    <!--ne pitaj kako ne pitaj zašto samo znam da funkcionira-->
+    <img *ngIf="image" [src]="image" alt="Recipe Image">
+    <img src="image" alt="Default Image" *ngIf="!image">
+
+    <h3>Potrebni sastojci:</h3>
+    <!-- ovdje će ići još sastojci -->
+
+    <h3>Postupak:</h3>
+    <p>{{recipe.upute}}</p>
+
+    <h2>Dobar tek!</h2>
+</div>
+  
+  <ng-template #loading>
+    <div class="loading">
+      Učitavanje recepta...
+    </div>
+  </ng-template>
+  

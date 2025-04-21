@@ -1,42 +1,64 @@
 <div class="homepage">
     <div class="homepagebox">
-        <h2>Nešto slatko...</h2>
+        <h2>Salate</h2>
         <div class="homepagebox__recipes">
-            <div class="homepagebox__recipe">
-                <img src="../../assets/media/Choco.png"/>
-                <div class="homepagebox__recipeInfo">
-                    <span>Korisnik</span>
-                    <h5>Čokoladna torta</h5>
-                </div>
-            </div>
-            <div class="homepagebox__recipe">
-                <img src="../../assets/media/Choco.png"/>
-                <div class="homepagebox__recipeInfo">
-                    <span>Korisnik</span>
-                    <h5>Čokoladna torta</h5>
-                </div>
-            </div>
-            <div class="homepagebox__recipe">
-                <img src="../../assets/media/Choco.png"/>
-                <div class="homepagebox__recipeInfo">
-                    <span>Korisnik</span>
-                    <h5>Čokoladna torta</h5>
-                </div>
-            </div>
-            <div class="homepagebox__recipe">
-                <img src="../../assets/media/Choco.png"/>
-                <div class="homepagebox__recipeInfo">
-                    <span>Korisnik</span>
-                    <h5>Čokoladna torta</h5>
-                </div>
-            </div>
-            <div class="homepagebox__recipe">
-                <img src="../../assets/media/Choco.png"/>
-                <div class="homepagebox__recipeInfo">
-                    <span>Korisnik</span>
-                    <h5>Čokoladna torta</h5>
-                </div>
-            </div>
+            <a *ngFor="let recipe of getSalads" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
+              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
+              <div class="homepagebox__recipeInfo">
+                <span>{{ recipe.username }}</span>
+                <h5>{{ recipe.title }}</h5>
+              </div>
+            </a>
+          </div>
+        <h2>Juhe</h2>
+        <div class="homepagebox__recipes">
+            <a *ngFor="let recipe of getSoups" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
+              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
+              <div class="homepagebox__recipeInfo">
+                <span>{{ recipe.username }}</span>
+                <h5>{{ recipe.title }}</h5>
+              </div>
+            </a>
+        </div>
+        <h2>Predjela</h2>
+        <div class="homepagebox__recipes">
+            <a *ngFor="let recipe of getAppetizers" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
+              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
+              <div class="homepagebox__recipeInfo">
+                <span>{{ recipe.username }}</span>
+                <h5>{{ recipe.title }}</h5>
+              </div>
+            </a>
+        </div>
+        <h2>Glavna jela</h2>
+        <div class="homepagebox__recipes">
+            <a *ngFor="let recipe of getMain" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
+              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
+              <div class="homepagebox__recipeInfo">
+                <span>{{ recipe.username }}</span>
+                <h5>{{ recipe.title }}</h5>
+              </div>
+            </a>
+        </div>
+        <h2>Deserti</h2>
+        <div class="homepagebox__recipes">
+            <a *ngFor="let recipe of getDesserts" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
+              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
+              <div class="homepagebox__recipeInfo">
+                <span>{{ recipe.username }}</span>
+                <h5>{{ recipe.title }}</h5>
+              </div>
+            </a>
+        </div>
+        <h2>Pića</h2>
+        <div class="homepagebox__recipes">
+            <a *ngFor="let recipe of getDrinks" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
+              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
+              <div class="homepagebox__recipeInfo">
+                <span>{{ recipe.username }}</span>
+                <h5>{{ recipe.title }}</h5>
+              </div>
+            </a>
         </div>
     </div>
 </div>

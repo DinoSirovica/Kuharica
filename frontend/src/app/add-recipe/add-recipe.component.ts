@@ -13,11 +13,13 @@ export class AddRecipeComponent implements OnInit {
   author: any;
   recipeName: string = '';
   categories: any = [];
-  selectedCategory: string = '';
+  selectedCategory: any;
   ingredients: any = [];
-  selectedIngredient: string = "";
-  selectedIngredientTotal: string = "";
-  selectedFile: File | null = null;
+  ingredientsList: { id: string, quantity: string }[] = [
+    { id: '', quantity: '' }
+  ];
+  selectedFile: string | ArrayBuffer = "";
+  recipeProcedure: string = "";
 
   constructor(
     private ActiveUserService: ActiveUserService,
@@ -40,15 +42,49 @@ export class AddRecipeComponent implements OnInit {
     })
   }
 
-  onSubmit (){
-
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.result) {
+          this.selectedFile = reader.result;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
-  onFileSelected(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-    if (fileInput.files && fileInput.files.length > 0) {
-      this.selectedFile = fileInput.files[0];
-      console.log("Odabrana datoteka:", this.selectedFile);
+  addIngredientRow() {
+    this.ingredientsList.push({ id: '', quantity: '' });
+  }
+  
+  removeIngredientRow(index: number) {
+    if (this.ingredientsList.length > 1) {
+      this.ingredientsList.splice(index, 1);
     }
+  }
+
+  onSubmit (){
+      console.log("🔸 Novi recept:");
+      console.log("Naziv recepta:", this.recipeName);
+    
+      // Ispis kategorije
+      console.log("Kategorija: " + this.selectedCategory);
+    
+      // Ispis sastojaka
+      console.log("Sastojci:");
+      this.ingredientsList.forEach((item, index) => {
+        const ingredientObj = this.ingredients.find((ing: any) => ing.id === item.id);
+        console.log(`  ${index + 1}. (ID: ${item.id}) - količina: ${item.quantity}`);
+      });
+      
+    
+      // Ispis slike
+      console.log("Fotografija:", this.selectedFile ? this.selectedFile : "Nije odabrana");
+    
+      // Ispis postupka
+      console.log("Postupak:", this.recipeProcedure);
+    
   }
 }

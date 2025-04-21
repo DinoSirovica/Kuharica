@@ -49,6 +49,7 @@ const routes: Routes = [
     MyrecipiesComponent,
     EditRecipeComponent,
     AddRecipeComponent,
+    RecipeDetaisComponent
   ],
   imports: [
     BrowserModule,
