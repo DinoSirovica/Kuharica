@@ -12,7 +12,7 @@
 }
 
   .home a, .secondary a{
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--Red);
   }
 
@@ -40,7 +40,7 @@
   }
 
   footer > .container{
-    padding: 100px 0;
+    padding: 4rem 0;
   }
 
   footer > h5{

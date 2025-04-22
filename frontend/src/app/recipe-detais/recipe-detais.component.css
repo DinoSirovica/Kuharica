@@ -1,0 +1,46 @@
+h1{
+    text-align: center;
+    margin: 5rem 0 7rem 0;
+}
+
+h2{
+    color: #F58F29;
+    margin: 5rem 0;
+    text-align: center;
+}
+
+h3{
+    color: #748067;
+    margin: 5rem 0 2rem 0;
+}
+
+.recipeDetails__basics{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recipeDetails__basics span{
+    color: #F58F29;
+}
+
+.star-icon {
+    cursor: pointer;
+    transition: transform 0.2s;
+    stroke: #F58F29;
+}
+
+.star-icon:hover {
+    transform: scale(1.1);
+}
+
+.filled path {
+    fill: #F58F29;
+    stroke: none;
+}
+
+img{
+    width: 100%;
+    height: 30rem;
+    object-fit: cover;
+}

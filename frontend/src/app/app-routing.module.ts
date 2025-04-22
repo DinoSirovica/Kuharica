@@ -19,10 +19,10 @@ const routes: Routes = [
   { path: 'profil/registracija', component: SignupComponent },
   { path: 'profil/uredivanje-profila', component: EditprofileComponent },  
   { path: 'profil/moji-recepti', component: MyrecipiesComponent },
-  { path: 'profil/moji-recepti/uredivanje-recepta', component: EditRecipeComponent },
+  { path: 'profil/moji-recepti/uredivanje-recepta/:id', component: EditRecipeComponent },
   { path: 'profil/novi-recept', component: AddRecipeComponent },
   { path: 'profil/moji-favoriti', component: MyfavouritesComponent },
-  { path: 'recept/detalji', component: RecipeDetaisComponent },
+  { path: 'recept/detalji/:id', component: RecipeDetaisComponent },
   { path: 'pretrazivanje', component: SearchComponent },
   { path: '', component: HomepageComponent},
   { path: '**', component: PagenotfoundComponent }

@@ -1,0 +1,80 @@
+h1{
+    color: #F58F29;
+    text-align: center;
+    margin: 4rem 0 7rem 0;
+}
+
+h2{
+    color: #748067;
+    margin-bottom: 2.5rem;
+}
+
+table, tr{
+    width: 100%;
+}
+
+td{
+    width: 35%;
+}
+
+.user-box {
+    position: relative;
+    margin-bottom: 50px;
+    width: 500px;
+  }
+  
+  .user-box input {
+    width: 100%;
+    padding: 10px 5px;
+    border: none;
+    border-bottom: 1px solid black;
+    border-radius: 4px;
+  }
+  
+  .user-box label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    pointer-events: none;
+    transition: 0.5s;
+  }
+  
+  .user-box input:focus~label,
+  .user-box input:valid~label {
+    top: -18px;
+    left: 10px;
+    font-size: 12px;
+  }
+  
+  .password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+  }
+  
+  .password-toggle-icon i {
+    font-size: 16px;
+  }
+  
+  button {
+    font-family: Merienda;
+    font-size: 1.1rem;
+    color: #660F00;
+    border-color: #660F00;
+    display: block;
+    text-align: center;
+    padding: 0.3rem;
+    margin: 0 auto;
+    margin-top: 3rem;
+    margin-bottom: 7.5rem;
+    width: 15rem;
+    border-radius: 0.9rem;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+  }
+  
+  button:hover {
+    font-size: 1.3rem;
+    transform: scale(1.05);
+  }

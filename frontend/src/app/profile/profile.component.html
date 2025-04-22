@@ -1,16 +1,26 @@
-<div class="profile">
+<div class="profile"> <!--*ngIf="activeUser" -> osigurava da se stranica prikaže samo ako je korisnik ulogiran -->
     <h1>Detalji profila</h1>
 
     <div class="profile__info">
         <h2>Korisnički detalji</h2>
-        <div class="user-box">
-            <label>Korisničko ime</label>
-            <input type="text" name="username" [(ngModel)]="username" required />
-        </div>
-        <div class="user-box">
-            <label>Email</label>
-            <input type="email" name="email" [(ngModel)]="email" required />
-          </div>
+        <table>
+            <tr>
+              <td>Korisničko ime</td>
+              <td>       
+                <div class="user-box">
+                    <input type="text" name="username" [(ngModel)]="username" required />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Adresa elektroničke pošte</td>
+              <td>
+                <div class="user-box">
+                  <input type="email" name="email" [(ngModel)]="email" required />
+                </div>
+              </td>
+            </tr>
+        </table>
     </div>
 
     <div class="profile__links">

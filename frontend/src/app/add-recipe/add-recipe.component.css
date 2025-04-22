@@ -1,0 +1,108 @@
+h1{
+  color: #F58F29;
+  text-align: center;
+  margin: 4rem 0 7rem 0;
+}
+
+table{
+  margin: 0 auto;
+  width: 90%;
+}
+
+td {
+    padding: 0.3rem 1rem 0.3rem 0;
+    width: 25%;
+  }
+
+.user-box {
+    position: relative;
+    margin-bottom: 0;
+    width: 100%;
+  }
+  
+  .user-box input,
+  .user-box select {
+    width: 100%;
+    padding: 10px 5px;
+    border: none;
+    border-bottom: 1px solid #111517;
+    border-radius: 4px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #111517;
+    appearance: none;
+  }
+
+  .user-box select{
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23000' stroke-width='2' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 30px; 
+  }
+
+  .user-box textarea{
+    width: 100%;
+    padding: 10px 5px;
+    border: none;
+    border-bottom: 1px solid #111517;
+    border-radius: 4px;
+    background-color: transparent;
+    font-family: 'InclusiveSans-Regular';
+    font-size: 1rem;
+  }
+  
+  .user-box label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: 0.3s ease;
+    color: #111517;
+    line-height: 1;
+  }
+  
+  .user-box input:focus ~ label,
+  .user-box input:valid ~ label,
+  .user-box select:focus ~ label,
+  .user-box select:valid ~ label {
+    top: -12px;
+    transform: none;
+    font-size: 12px;
+  }
+
+  button {
+    font-family: Merienda;
+    font-size: 1.1rem;
+    color: #660F00;
+    border-color: #660F00;
+    display: block;
+    text-align: center;
+    padding: 0.3rem;
+    margin: 0 auto;
+    margin-top: 3rem;
+    margin-bottom: 7.5rem;
+    width: 15rem;
+    border-radius: 0.9rem;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+  }
+
+  button[name="buttonRemoveIng"],
+  button[name="buttonAddIng"]{
+    width: max-content;
+    margin: 0 0 0 0;
+    color: #F58F29;
+    border-color: #F58F29;
+  }
+
+  button[name="buttonAddIng"]{
+    align-self: center;
+  }
+  
+  button:hover {
+    font-size: 1.3rem;
+    transform: scale(1.05);
+  }

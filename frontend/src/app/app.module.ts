@@ -47,6 +47,9 @@ const routes: Routes = [
     SearchComponent,
     EditprofileComponent,
     MyrecipiesComponent,
+    EditRecipeComponent,
+    AddRecipeComponent,
+    RecipeDetaisComponent
   ],
   imports: [
     BrowserModule,

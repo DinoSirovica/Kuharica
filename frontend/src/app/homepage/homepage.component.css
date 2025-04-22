@@ -7,12 +7,21 @@ h2{
     justify-content: space-between;
 }
 
-.homepagebox__recipe{
-    width: 200px;
-}
 .homepagebox__recipe img{
     width: 100%;
 }
+
+.homepagebox__recipe {
+    width: 200px;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .homepagebox__recipe:hover {
+    transform: scale(1.03);
+    transition: 0.3s;
+    cursor: pointer;
+  }
 
 h5{
     text-align: center;
