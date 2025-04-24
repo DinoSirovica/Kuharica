@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'profil', component: ProfileComponent },
   { path: 'profil/prijava', component: LoginComponent },
   { path: 'profil/registracija', component: SignupComponent },
-  { path: 'profil/uredivanje-profila', component: EditprofileComponent },  
+  { path: 'profil/uredivanje-profila', component: EditprofileComponent },
   { path: 'profil/moji-recepti', component: MyrecipiesComponent },
   { path: 'profil/moji-recepti/uredivanje-recepta', component: EditRecipeComponent },
   { path: 'profil/novi-recept', component: AddRecipeComponent },
@@ -49,7 +49,8 @@ const routes: Routes = [
     MyrecipiesComponent,
     EditRecipeComponent,
     AddRecipeComponent,
-    RecipeDetaisComponent
+    RecipeDetaisComponent,
+    MyfavouritesComponent
   ],
   imports: [
     BrowserModule,

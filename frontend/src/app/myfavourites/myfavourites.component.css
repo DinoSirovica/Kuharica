@@ -1,0 +1,44 @@
+h2{
+  color: #F58F29;
+}
+
+.homepagebox__recipes{
+  display: flex;
+  justify-content: space-between;
+}
+
+.homepagebox__recipe img{
+  width: 100%;
+}
+
+.no_favourites{
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 15%;
+}
+
+.no_favourites *{
+  width: 100%;
+}
+
+.homepagebox__recipe {
+  width: 200px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.homepagebox__recipe:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+h1{
+  text-align: center;
+  margin-top: 5%;
+}
+
+span{
+  font-size: 0.89rem;
+  margin-top: 0;
+}

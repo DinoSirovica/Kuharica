@@ -1,1 +1,18 @@
-<p>myfavourites works!</p>
+<div class="favourites">
+  <h1>Moji favoriti</h1>
+    <span *ngIf="getFavourites.length == 0" class="homepagebox__recipes no_favourites">
+      <div>
+        <h2>Nemate spremljenih recepata ¯\_(ツ)_/¯</h2>
+        <p>Dodajte recepte u favorite klikom na ikonu zvjezdice.</p>
+      </div>
+    </span>
+    <span class="homepagebox__recipes">
+      <a *ngFor="let recipe of getFavourites" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe" class="homepagebox__recipe">
+        <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
+        <div class="homepagebox__recipeInfo">
+          <span>{{ recipe.username }}</span>
+          <h5>{{ recipe.title }}</h5>
+        </div>
+      </a>
+        </span>
+</div>
