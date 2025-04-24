@@ -44,10 +44,18 @@ export class LoginComponent implements OnInit {
 
     for (const user of this.users) {
       if (this.username === user.username && this.password === user.password_hash) {
-        
+
         console.log('Login successful! Redirecting...');
-        this.activeUserService.setActiveUser(user);
+        this.activeUserService.setActiveUser({
+          user_id: user.user_id,
+          username: user.username,
+          password: user.password_hash,
+          email: user.email,
+          favourites: (user.favourites == null || false) ? '' : user.favourites
+        })
         this.router.navigate(['/profil']);
+
+        console.log('Active user set:',this.activeUserService.getActiveUser())
 
         return;
       }

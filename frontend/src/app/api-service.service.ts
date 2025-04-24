@@ -16,9 +16,28 @@ export class ApiServiceService {
   // ingredients	"http://localhost:8081/api/ingredients"
   // users	"http://localhost:8081/api/users"
   // images	"http://localhost:8081/api/images"
-  
+
   getUsers(): Observable<any> {
     return this.http.get(`${this.baseUrl}/users`); //http://localhost:8081/api/users
+  }
+
+  updateUserProfile(userId:number, username:string, password: string, email: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = {
+      username: username,
+      password_hash: password,
+      email: email
+    };
+    return this.http.put(`${this.baseUrl}/users/${userId}`, body); //http://localhost:8081/api/users
+  }
+
+  updateFavourites(userId:number, favourites: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = {
+      favourites: favourites,
+    };
+    console.log('body', body);
+    return this.http.put(`${this.baseUrl}/users/${userId}/favourites`, body); //http://localhost:8081/api/users
   }
 
   addUser(user: any): Observable<any> {

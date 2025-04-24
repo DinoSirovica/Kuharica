@@ -43,6 +43,7 @@ export class RecipeDetaisComponent implements OnInit {
   loadActiveUser(): void {
     this.activeUserService.activeUser$.subscribe(user => {
       this.activeUser = user;
+      console.log(this.activeUser);
     });
   }
 
@@ -53,6 +54,13 @@ export class RecipeDetaisComponent implements OnInit {
       this.loadImage(this.recipe.slika_id);
       this.loadAuthor(this.recipe.korisnik_id);
       this.loadCategory(this.recipe.kategorija_id);
+      if(this.activeUser.favourites == null || this.activeUser.favourites == ''){
+        this.isFavourite = false;
+      }
+      else{
+        let favs : string = this.activeUser.favourites;
+        this.isFavourite = favs.split(',').some((favourite: any) => favourite == this.recipeId);
+      }
     });
   }
 
@@ -61,7 +69,7 @@ export class RecipeDetaisComponent implements OnInit {
       this.author = data;
     })
   }
-  
+
   loadImage(imageId: any): void {
     this.apiService.getImage(imageId).subscribe(data => {
       this.image=data.image.data;
@@ -71,12 +79,34 @@ export class RecipeDetaisComponent implements OnInit {
   loadCategory(categoryId: any): void {
     this.apiService.getCategory(categoryId).subscribe(data => {
       this.category=data;
-      console.log(this.category);
     })
   }
 
   toggleFavourite(): void {
-    this.isFavourite = !this.isFavourite;
-    // ovdje logika za favorite
+
+    if (this.isFavourite) {
+      // Remove from favourites
+      let favs : string = this.activeUser.favourites;
+      let favsArray = favs.split(',');
+      favsArray = favsArray.filter((favourite: any) => favourite != this.recipeId);
+      this.activeUser.favourites = favsArray.join(',');
+      if(this.activeUser.favourites == ''){
+        this.activeUser.favourites = null;
+      }
+    } else {
+      // Add to favourites
+      if(this.activeUser.favourites == null || this.activeUser.favourites == ''){
+        this.activeUser.favourites = this.recipeId;
+      }
+      else{
+        this.activeUser.favourites += ',' + this.recipeId;
+      }
+    }
+    console.log('data', this.activeUser.favourites);
+    this.apiService.updateFavourites(this.activeUser.user_id, this.activeUser.favourites).subscribe(data => {
+      console.log(data);
+      this.isFavourite = !this.isFavourite;
+    })
+
   }
 }

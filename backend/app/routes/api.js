@@ -286,6 +286,24 @@ module.exports = function(express, pool) {
     });
   });
 
+  router.put('/users/:id/favourites', (req, res) => {
+    const userId = req.params.id;
+    const { favourites } = req.body;
+    console.log('testing update',userId, favourites);
+    const updateUserQuery ='UPDATE korisnik SET omiljeni_recepti = ? WHERE id = ?';
+
+    pool.query(updateUserQuery, [favourites, userId], (error, results) => {
+      if (error) {
+        console.error('Error updating user:', error);
+        res.status(500).send('Error updating user');
+      } else {
+        console.log('User updated successfully');
+        res.status(200).end();
+        res.status(204).end();
+      }
+    });
+  });
+
   router.get('/images', (req, res) => {
     pool.query('SELECT * FROM slika', (error, results) => {
       if (error) {
