@@ -69,6 +69,10 @@ export class ApiServiceService {
     return this.http.get(`${this.baseUrl}/ingredients`); //http://localhost:8081/api/ingredients
   }
 
+  getIngredientsbyRecipe(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/recipe-ingredients`); //http://localhost:8081/api/recipe-ingredients
+  }
+
   getImage(imageId: number):Observable<any>{
     return this.http.get(`${this.baseUrl}/images/${imageId}`); //http://localhost:8081/api/images/:imageId
   }

@@ -19,6 +19,8 @@ export class RecipeDetaisComponent implements OnInit {
 
   category: any;
 
+  ingredients: any = [];
+
   isFavourite: boolean = false;
 
   constructor(
@@ -54,6 +56,8 @@ export class RecipeDetaisComponent implements OnInit {
       this.loadImage(this.recipe.slika_id);
       this.loadAuthor(this.recipe.korisnik_id);
       this.loadCategory(this.recipe.kategorija_id);
+      this.loadIngredients(this.recipe.id);
+
       if(this.activeUser.favourites == null || this.activeUser.favourites == ''){
         this.isFavourite = false;
       }
@@ -81,6 +85,27 @@ export class RecipeDetaisComponent implements OnInit {
       this.category=data;
     })
   }
+
+  loadIngredients(recipeId: any): void {
+    this.apiService.getIngredientsbyRecipe().subscribe(recipeData => {
+      const allRelations = recipeData.data;
+  
+      const filteredRelations = allRelations.filter((rel: any) => rel.recept_id === +recipeId);
+  
+      this.apiService.getIngredients().subscribe(ingredientData => {
+        const allIngredients = ingredientData.data;
+  
+        this.ingredients = filteredRelations.map((rel: any) => {
+          const sastojak = allIngredients.find((ing: any) => ing.id === rel.sastojak_id);
+          return {
+            ime: sastojak ? sastojak.ime : 'Nepoznat',
+            kolicina: rel.kolicina
+          };
+        });
+      });
+    });
+  }
+  
 
   toggleFavourite(): void {
 
