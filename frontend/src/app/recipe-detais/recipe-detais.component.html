@@ -27,7 +27,14 @@
     <img src="image" alt="Default Image" *ngIf="!image">
 
     <h3>Potrebni sastojci:</h3>
-    <!-- ovdje će ići još sastojci -->
+      <ul class="recipeDetails__ingredients" *ngIf="ingredients.length > 0">
+        <li *ngFor="let ing of ingredients">
+          ~ {{ ing.ime.toLowerCase() }} – {{ ing.kolicina }}
+        </li>
+    </ul>
+    <div *ngIf="ingredients.length === 0">
+        <p>Nisu pronađeni sastojci</p>
+    </div>
 
     <h3>Postupak:</h3>
     <p>{{recipe.upute}}</p>

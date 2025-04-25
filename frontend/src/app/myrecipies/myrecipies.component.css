@@ -1,0 +1,62 @@
+h1{
+    color: #F58F29;
+    text-align: center;
+    margin: 4rem 0 7rem 0;
+}
+
+.myRecipies__box{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.myRecipies__boxItem img{
+    width: 100%;
+}
+
+.myRecipies__boxItem {
+    width: 200px;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 2.75rem;
+  }
+
+  h5{
+    text-align: center;
+    margin: 3% 0 2% 0;
+}
+
+span{
+    font-size: 0.89rem;
+    margin-top: 0;
+}
+
+.myRecipies__boxItemButtons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .myRecipies__boxItemButton {
+    background-color: transparent !important;    
+    border: none !important;
+    border-radius: 0;
+    font-weight: 400;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 150ms ease-in-out;
+  }
+  
+  .myRecipies__boxItemButton--edit {
+    color: #748067;
+  }
+  
+  .myRecipies__boxItemButton--delete {
+    color: #660f00;
+  }
+
+  .myRecipies__boxItemButton:hover {
+    font-weight: 550;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  

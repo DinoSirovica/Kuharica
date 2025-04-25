@@ -1,1 +1,24 @@
-<p>myrecipies works!</p>
+<div class="myRecipies">  <!--*ngIf="activeUser" -> osigurava da se stranica prikaže samo ako je korisnik ulogiran -->
+    <a routerLink="../">Natrag na detalje ← </a>
+    <h1>Moji recepti</h1>
+    <div class="myRecipies__box">
+        <div class="myRecipies__boxItem" *ngFor="let recipe of userRecipes">
+            <img [src]="recipe.image_data" alt="{{ recipe.title }}" />
+            <span>{{ recipe.username }}</span>
+            <h5>{{ recipe.title }}</h5>
+            <div class="myRecipies__boxItemButtons">
+                <button
+                class="myRecipies__boxItemButton myRecipies__boxItemButton--edit"
+                (click)="editRecipe(recipe.recipe_id)">
+                Uredi
+                </button>
+                <button
+                class="myRecipies__boxItemButton myRecipies__boxItemButton--delete"
+                (click)="deleteRecipe(recipe.recipe_id)">
+                Izbriši
+                </button>
+          </div>
+        </div>
+      </div>
+      
+</div>

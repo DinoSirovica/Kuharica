@@ -44,3 +44,7 @@ img{
     height: 30rem;
     object-fit: cover;
 }
+
+.recipeDetails__ingredients{
+    list-style: none;
+}
