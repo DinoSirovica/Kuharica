@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { ApiServiceService } from '../api-service.service';
 import { ActiveUserService } from '../active-user.service';
 
@@ -12,7 +12,8 @@ export class EditRecipeComponent implements OnInit {
   activeUser: any;
   recipeId!: number;
   recipe: any = {};
-  ingredientsList: { id: number, quantity: string }[] = [];
+  ingredientsList: { id: string, quantity: string }[] = [];
+  selectedFile: string | ArrayBuffer = "";
 
   ingredients: any[] = [];
   categories: any[] = [];
@@ -20,7 +21,8 @@ export class EditRecipeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiServiceService,
-    private activeUserService: ActiveUserService
+    private activeUserService: ActiveUserService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +69,7 @@ export class EditRecipeComponent implements OnInit {
   }
 
   addIngredientRow() {
-    this.ingredientsList.push({ id: 0, quantity: '' });
+    this.ingredientsList.push({ id: "0", quantity: '' });
   }
 
   removeIngredientRow(index: number) {
@@ -75,8 +77,33 @@ export class EditRecipeComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('onSubmit', this, this.recipe);
+
+    this.apiService.updateRecipe(this.recipeId, this.recipe.slika_id, this.selectedFile, this.recipe.naslov, this.recipe.upute, this.recipe.kategorija_id)
+      .subscribe((response: any) => {
+        console.log('Recept uspješno ažuriran:', response);
+        const recipeId = response.recipe_id;
+
+        // First delete ingredients, then save new ones
+        this.apiService.deleteRecipeIngredients(recipeId).subscribe(() => {
+          this.apiService.saveRecipeIngredients(recipeId, this.ingredientsList).subscribe(() => {
+            alert('Recept uspješno ažuriran!');
+            this.router.navigate(['/profil/moji-recepti']);
+          });
+        });
+      });
   }
 
   onFileSelected(event: any) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.result) {
+          this.selectedFile = reader.result;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }

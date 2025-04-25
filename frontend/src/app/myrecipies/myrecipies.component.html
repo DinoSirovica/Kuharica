@@ -2,10 +2,12 @@
     <a routerLink="../">Natrag na detalje ← </a>
     <h1>Moji recepti</h1>
     <div class="myRecipies__box">
-        <div class="myRecipies__boxItem" *ngFor="let recipe of userRecipes">
-            <img [src]="recipe.image_data" alt="{{ recipe.title }}" />
+        <div class="myRecipies__boxItem" *ngFor="let recipe of userRecipes" >
+          <a [routerLink]="['/recept/detalji', recipe.recipe_id]">
+            <img [src]="recipe.image_data" alt="{{ recipe.title }}"/>
             <span>{{ recipe.username }}</span>
             <h5>{{ recipe.title }}</h5>
+          </a>
             <div class="myRecipies__boxItemButtons">
                 <button
                 class="myRecipies__boxItemButton myRecipies__boxItemButton--edit"
@@ -20,5 +22,5 @@
           </div>
         </div>
       </div>
-      
+
 </div>
