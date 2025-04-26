@@ -8,7 +8,9 @@ h2{
 }
 
 .homepagebox__recipe img{
-    width: 100%;
+    width: 12.375rem;
+    height: 12.375rem;
+    object-fit: cover;
 }
 
 .homepagebox__recipe {

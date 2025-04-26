@@ -1,0 +1,130 @@
+h1 {
+  color: #f58f29;
+  text-align: center;
+  margin: 4rem 0 7rem 0;
+}
+
+.search__box {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.search__boxItem img {
+  width: 12.375rem;
+  height: 12.375rem;
+  object-fit: cover;
+}
+
+.search__boxItem {
+  width: 200px;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 2.75rem;
+}
+
+h5 {
+  text-align: center;
+  margin: 3% 0 2% 0;
+}
+
+span {
+  font-size: 0.89rem;
+  margin-top: 0;
+}
+
+.search__form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.search__inputsRowOne {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
+
+.search__inputsRowOne input {
+  width: 40%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 3rem;
+  border: none;
+  background-color: #e5e8df;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.search__inputsRowTwo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search__categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-evenly;
+}
+
+.search__categories button {
+  padding: 0.5rem 1.2rem;
+  background-color: #e5e8df;
+  border: none;
+  border-radius: 3rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search__categories button.selected {
+  background-color: #748067;
+  color: white;
+}
+
+.search__categories button:hover {
+  background-color: #748067;
+  color: white;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.search__inputsRowTwo select {
+  padding: 0.5rem 1.2rem;
+  border-radius: 3rem;
+  border: none;
+  background-color: #e5e8df;
+  font-size: 1rem;
+  font-family: inherit;
+  min-width: 200px;
+  width: 37%;
+  cursor: pointer;
+}
+
+.search__inputsRowThree {
+  display: flex;
+  justify-content: center;
+}
+
+.search__submit {
+  background-color: #e5e8df;
+  font-weight: bold;
+  color: #660f00;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 3rem;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.search__submit:hover {
+  background-color: #dcded3;
+  transform: scale(1.05);
+}
