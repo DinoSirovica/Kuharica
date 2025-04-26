@@ -1,1 +1,41 @@
-<p>search works!</p>
+<div class="search">
+    <div class="search__form">
+        <div class="search__form" onSubmit="searchRecipes()">
+            <div class="search__inputs">
+
+                <div class="search__inputsRowOne">
+                    <input type="text" placeholder="Pretraži po nazivu" [(ngModel)]="searchName" name="searchName"/>
+                </div>
+        
+                <div class="search__inputsRowTwo">
+                    <div class="search__categories">
+                        <button type="button" *ngFor="let category of allCategories" [class.selected]="selectedCategory == category.id">
+                          {{ category.ime }}
+                        </button>
+                      </div>
+                      <select [(ngModel)]="selectedUser" name="searchUser">
+                        <option value="">Filtriraj po korisniku</option>
+                        <option *ngFor="let user of allUsers" [value]="user.username">
+                          {{ user.username }}
+                        </option>
+                      </select>
+                </div>
+
+                <div class="search__inputsRowThree">
+                    <button type="submit" class="search__submit">
+                        Pretraži
+                    </button>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="search__box">
+        <div class="search__boxItem" *ngFor="let recipe of allRecipes" >
+          <a [routerLink]="['/recept/detalji', recipe.recipe_id]">
+            <img [src]="recipe.image_data" alt="{{ recipe.title }}"/>
+            <span>{{ recipe.username }}</span>
+            <h5>{{ recipe.title }}</h5>
+          </a>
+        </div>
+      </div>
+</div>

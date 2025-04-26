@@ -4,6 +4,10 @@ h1{
     margin: 4rem 0 7rem 0;
 }
 
+h2{
+  color: #748067;
+}
+
 .myRecipies__box{
     display: flex;
     justify-content: space-between;
@@ -11,7 +15,9 @@ h1{
 }
 
 .myRecipies__boxItem img{
-    width: 100%;
+  width: 12.375rem;
+  height: 12.375rem;
+  object-fit: cover;
 }
 
 .myRecipies__boxItem {
@@ -60,3 +66,12 @@ span{
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
   }
   
+  .no_favourites{
+    text-align: center;
+    margin-top: 10%;
+    margin-bottom: 15%;
+  }
+  
+  .no_favourites *{
+    width: 100%;
+  }

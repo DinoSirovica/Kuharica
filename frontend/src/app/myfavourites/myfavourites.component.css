@@ -5,7 +5,7 @@ h1{
 }
 
 h2{
-  color: #F58F29;
+  color: #748067;
 }
 
 .homepagebox__recipes{
@@ -14,7 +14,9 @@ h2{
 }
 
 .homepagebox__recipe img{
-  width: 100%;
+  width: 12.375rem;
+  height: 12.375rem;
+  object-fit: cover;
 }
 
 .no_favourites{

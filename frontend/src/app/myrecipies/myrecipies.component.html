@@ -1,7 +1,8 @@
 <div class="myRecipies">  <!--*ngIf="activeUser" -> osigurava da se stranica prikaže samo ako je korisnik ulogiran -->
     <a routerLink="../">Natrag na detalje ← </a>
     <h1>Moji recepti</h1>
-    <div class="myRecipies__box">
+
+    <div class="myRecipies__box" *ngIf="userRecipes.length > 0">
         <div class="myRecipies__boxItem" *ngFor="let recipe of userRecipes" >
           <a [routerLink]="['/recept/detalji', recipe.recipe_id]">
             <img [src]="recipe.image_data" alt="{{ recipe.title }}"/>
@@ -22,5 +23,4 @@
           </div>
         </div>
       </div>
-
 </div>
