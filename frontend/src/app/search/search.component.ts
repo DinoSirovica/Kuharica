@@ -21,7 +21,7 @@ export class SearchComponent implements OnInit{
 
   constructor(
     private apiService: ApiServiceService,
-    private router: Router 
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +41,32 @@ export class SearchComponent implements OnInit{
   }
 
   searchRecipes(){
+    this.filteredRecipes = this.allRecipes;
+    if(this.searchName.length > 0){
+      this.filteredRecipes = this.allRecipes.filter((recipe: any) => {
+        return recipe.title.toLowerCase().trim().includes(this.searchName.toLowerCase().trim());
+      });
+    }
 
+    if(this.selectedCategory){
+      this.filteredRecipes = this.filteredRecipes.filter((recipe: any) => {
+        console.log(recipe.category_id);
+        console.log(this.selectedCategory);
+        return recipe.category_id == this.selectedCategory;
+      });
+    }
+
+    if(this.selectedUser.length > 0){
+      this.filteredRecipes = this.filteredRecipes.filter((recipe: any) => {
+        return recipe.user_id == this.selectedUser;
+      });
+    }
+
+    console.log(this.filteredRecipes);
+
+    this.searchName = '';
+    this.selectedCategory = '';
+    this.selectedUser = '';
   }
 
 }

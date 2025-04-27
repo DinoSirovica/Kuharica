@@ -6,23 +6,25 @@
                 <div class="search__inputsRowOne">
                     <input type="text" placeholder="Pretraži po nazivu" [(ngModel)]="searchName" name="searchName"/>
                 </div>
-        
+
                 <div class="search__inputsRowTwo">
                     <div class="search__categories">
-                        <button type="button" *ngFor="let category of allCategories" [class.selected]="selectedCategory == category.id">
+                      <div>
+                        <button type="button" *ngFor="let category of allCategories" [class.selected]="selectedCategory == category.id" (click)="selectedCategory = category.id">
                           {{ category.ime }}
                         </button>
                       </div>
+                      </div>
                       <select [(ngModel)]="selectedUser" name="searchUser">
                         <option value="">Filtriraj po korisniku</option>
-                        <option *ngFor="let user of allUsers" [value]="user.username">
+                        <option *ngFor="let user of allUsers" [value]="user.user_id">
                           {{ user.username }}
                         </option>
                       </select>
                 </div>
 
                 <div class="search__inputsRowThree">
-                    <button type="submit" class="search__submit">
+                    <button type="submit" class="search__submit" (click)="searchRecipes()">
                         Pretraži
                     </button>
                 </div>
@@ -30,7 +32,7 @@
         </div>
     </div>
     <div class="search__box">
-        <div class="search__boxItem" *ngFor="let recipe of allRecipes" >
+        <div class="search__boxItem" *ngFor="let recipe of filteredRecipes" >
           <a [routerLink]="['/recept/detalji', recipe.recipe_id]">
             <img [src]="recipe.image_data" alt="{{ recipe.title }}"/>
             <span>{{ recipe.username }}</span>
