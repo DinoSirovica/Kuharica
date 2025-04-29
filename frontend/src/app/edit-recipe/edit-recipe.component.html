@@ -1,4 +1,4 @@
-<div class="editRecipe"> <!--*ngIf="activeUser" -> osigurava da se stranica prikaže samo ako je korisnik ulogiran -->
+<div class="editRecipe" *ngIf="activeUser" > <!--*ngIf="activeUser" -> osigurava da se stranica prikaže samo ako je korisnik ulogiran -->
     <a routerLink="/profil/moji-recepti">Natrag na pregled mojih recepata ←</a>
     <h1>Uređivanje recepta</h1>
     <div class="editRecipe__form">

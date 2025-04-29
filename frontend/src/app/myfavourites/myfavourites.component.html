@@ -1,4 +1,4 @@
-<div class="favourites">
+<div class="favourites" *ngIf="activeUser" >
   <a routerLink="../">Natrag na detalje ← </a>
   <h1>Moji favoriti</h1>
     <span *ngIf="getFavourites.length == 0" class="homepagebox__recipes no_favourites">
