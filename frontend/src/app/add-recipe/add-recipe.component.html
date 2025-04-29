@@ -1,4 +1,4 @@
-<div class="newRecipe">
+<div class="newRecipe" *ngIf="activeUser" >
   <!--*ngIf="activeUser" -> osigurava da se stranica prikaže samo ako je korisnik ulogiran -->
   <a routerLink="/profil">Natrag na detalje ← </a>
   <h1>Dodaj novi recept</h1>

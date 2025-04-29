@@ -23,7 +23,7 @@ module.exports = function(express, pool) {
       const totalRecords = countResults[0].total;
       const baseUrl = 'http://localhost:8081/api'; // Corrected spelling of "beginning"
 
-      pool.query("SELECT recept.id, recept.naslov, recept.korisnik_id, recept.opis, recept.kategorija_id, recept.slika_id, korisnik.korisnik_ime, slika.data FROM recept INNER JOIN korisnik ON recept.korisnik_id = korisnik.id LEFT JOIN slika ON recept.slika_id = slika.id", (error, results) => {
+      pool.query("SELECT recept.id, recept.naslov, recept.korisnik_id, recept.upute, recept.kategorija_id, recept.slika_id, korisnik.korisnik_ime, slika.data FROM recept INNER JOIN korisnik ON recept.korisnik_id = korisnik.id LEFT JOIN slika ON recept.slika_id = slika.id", (error, results) => {
         if (error) {
           return res.status(500).json({ error: error.message });
         } else {
@@ -32,7 +32,7 @@ module.exports = function(express, pool) {
             title: recipe.naslov,
             user_id: recipe.korisnik_id,
             username: recipe.korisnik_ime,
-            description: recipe.opis,
+            description: recipe.upute,
             category_id: recipe.kategorija_id,
             image_id: recipe.slika_id,
             image_data: recipe.data, // Include image_data in the response

@@ -77,6 +77,7 @@ export class RecipeDetaisComponent implements OnInit {
   loadImage(imageId: any): void {
     this.apiService.getImage(imageId).subscribe(data => {
       this.image=data.image.data;
+      console.log(this.image)
     })
   }
 
