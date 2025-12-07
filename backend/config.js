@@ -8,8 +8,9 @@ module.exports = {
       database: 'kuharica',
       debug: false
     },
-    // Google OAuth Configuration
+    // Google OAuth Configuration - uses environment variables
     google: {
-      clientId: '674358194368-0areh3ol22h7qpci7hci7aeeoqochotp.apps.googleusercontent.com',
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
     }
 };

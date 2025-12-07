@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, switchMap} from 'rxjs';
 
-declare var google: any;
-
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +22,6 @@ export class ApiServiceService {
   }
 
   updateUserProfile(userId:number, username:string, password: string, email: string): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = {
       username: username,
       password_hash: password,
@@ -34,7 +31,6 @@ export class ApiServiceService {
   }
 
   updateFavourites(userId:number, favourites: string): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = {
       favourites: favourites,
     };
@@ -47,8 +43,8 @@ export class ApiServiceService {
     return this.http.post(`${this.baseUrl}/users`, user, { headers });
   }
 
-  // Google authentication
-  googleLogin(googleData: { google_id: string; email: string; name: string }): Observable<any> {
+  // Google authentication - sends credential token to backend for verification
+  googleLogin(googleData: { credential: string }): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(`${this.baseUrl}/auth/google`, googleData, { headers });
   }
@@ -172,3 +168,4 @@ export class ApiServiceService {
     return this.http.delete(`${this.baseUrl}/recipes/${recipeId}`); //http://localhost:8081/api/recipes/:id
   }
 }
+

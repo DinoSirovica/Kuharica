@@ -24,8 +24,9 @@ export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
 
-  // Replace with your actual Google Client ID from Google Cloud Console
   private googleClientId = '674358194368-0areh3ol22h7qpci7hci7aeeoqochotp.apps.googleusercontent.com';
+  private googleInitRetryCount = 0;
+  private readonly maxGoogleInitRetries = 50; // Max 5 seconds (50 * 100ms)
 
   ngOnInit(): void {
 
@@ -50,37 +51,41 @@ export class LoginComponent implements OnInit {
         callback: (response: any) => this.handleGoogleCredentialResponse(response)
       });
 
-      google.accounts.id.renderButton(
-        document.getElementById('google-signin-button'),
-        {
-          theme: 'outline',
-          size: 'large',
-          text: 'signin_with',
-          shape: 'rectangular',
-          width: 300
-        }
-      );
+      // Check if the DOM element exists before rendering the button
+      const googleSignInButton = document.getElementById('google-signin-button');
+      if (googleSignInButton) {
+        google.accounts.id.renderButton(
+          googleSignInButton,
+          {
+            theme: 'outline',
+            size: 'large',
+            text: 'signin_with',
+            shape: 'rectangular',
+            width: 300
+          }
+        );
+      } else {
+        console.warn('Google Sign-In button element not found in DOM.');
+      }
     } else {
-      // Retry after a short delay if Google API hasn't loaded yet
-      setTimeout(() => this.initializeGoogleSignIn(), 100);
+      // Retry after a short delay if Google API hasn't loaded yet (with max retries)
+      this.googleInitRetryCount++;
+      if (this.googleInitRetryCount < this.maxGoogleInitRetries) {
+        setTimeout(() => this.initializeGoogleSignIn(), 100);
+      } else {
+        console.error('Failed to load Google Sign-In API after maximum retries.');
+      }
     }
   }
 
   handleGoogleCredentialResponse(response: any): void {
-    // Decode the JWT token from Google
+    // Send the credential token to backend for verification
     const credential = response.credential;
-    const payload = this.decodeJwtToken(credential);
 
-    console.log('Google user info:', payload);
+    console.log('Google credential received, sending to backend for verification');
 
-    const googleData = {
-      google_id: payload.sub,
-      email: payload.email,
-      name: payload.name
-    };
-
-    // Send to backend for authentication/registration
-    this.apiService.googleLogin(googleData).subscribe(
+    // Send credential to backend - backend will verify and decode
+    this.apiService.googleLogin({ credential }).subscribe(
       (result: any) => {
         console.log('Google login successful:', result);
 
@@ -89,7 +94,6 @@ export class LoginComponent implements OnInit {
           this.activeUserService.setActiveUser({
             user_id: result.user.user_id,
             username: result.user.username,
-            password: result.user.password_hash,
             email: result.user.email,
             favourites: result.user.favourites || ''
           });
@@ -103,18 +107,6 @@ export class LoginComponent implements OnInit {
         alert('Greška pri prijavi putem Google računa. Pokušajte ponovo.');
       }
     );
-  }
-
-  decodeJwtToken(token: string): any {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
-    );
-    return JSON.parse(jsonPayload);
   }
 
   togglePasswordVisibility() {
