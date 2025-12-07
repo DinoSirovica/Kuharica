@@ -265,6 +265,117 @@ module.exports = function(express, pool) {
     });
   });
 
+  // Google authentication endpoint
+  router.post('/auth/google', (req, res) => {
+    const { google_id, email, name } = req.body;
+
+    if (!google_id || !email) {
+      return res.status(400).json({ error: 'Missing required fields: google_id and email' });
+    }
+
+    // First, check if user exists by google_id
+    pool.query('SELECT * FROM korisnik WHERE google_id = ?', [google_id], (error, results) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+
+      if (results.length > 0) {
+        // User exists, return user data
+        const user = results[0];
+        return res.json({
+          message: 'Login successful',
+          user: {
+            user_id: user.id,
+            username: user.korisnik_ime,
+            email: user.email,
+            password_hash: user.lozinka,
+            favourites: user.omiljeni_recepti,
+            google_id: user.google_id
+          }
+        });
+      }
+
+      // Check if user exists by email (maybe they registered with email before)
+      pool.query('SELECT * FROM korisnik WHERE email = ?', [email], (emailError, emailResults) => {
+        if (emailError) {
+          return res.status(500).json({ error: emailError.message });
+        }
+
+        if (emailResults.length > 0) {
+          // User exists with this email, link Google account
+          const existingUser = emailResults[0];
+          pool.query('UPDATE korisnik SET google_id = ? WHERE id = ?', [google_id, existingUser.id], (updateError) => {
+            if (updateError) {
+              return res.status(500).json({ error: updateError.message });
+            }
+            return res.json({
+              message: 'Google account linked successfully',
+              user: {
+                user_id: existingUser.id,
+                username: existingUser.korisnik_ime,
+                email: existingUser.email,
+                password_hash: existingUser.lozinka,
+                favourites: existingUser.omiljeni_recepti,
+                google_id: google_id
+              }
+            });
+          });
+        } else {
+          // Create new user with Google data
+          const username = name || email.split('@')[0];
+          const randomPassword = 'google_auth_' + Math.random().toString(36).substring(2, 15);
+
+          pool.query(
+            'INSERT INTO korisnik (korisnik_ime, email, lozinka, google_id) VALUES (?, ?, ?, ?)',
+            [username, email, randomPassword, google_id],
+            (insertError, insertResults) => {
+              if (insertError) {
+                // Handle duplicate username
+                if (insertError.code === 'ER_DUP_ENTRY') {
+                  const uniqueUsername = username + '_' + Math.random().toString(36).substring(2, 6);
+                  pool.query(
+                    'INSERT INTO korisnik (korisnik_ime, email, lozinka, google_id) VALUES (?, ?, ?, ?)',
+                    [uniqueUsername, email, randomPassword, google_id],
+                    (retryError, retryResults) => {
+                      if (retryError) {
+                        return res.status(500).json({ error: retryError.message });
+                      }
+                      return res.status(201).json({
+                        message: 'User created successfully',
+                        user: {
+                          user_id: retryResults.insertId,
+                          username: uniqueUsername,
+                          email: email,
+                          password_hash: randomPassword,
+                          favourites: null,
+                          google_id: google_id
+                        }
+                      });
+                    }
+                  );
+                } else {
+                  return res.status(500).json({ error: insertError.message });
+                }
+              } else {
+                return res.status(201).json({
+                  message: 'User created successfully',
+                  user: {
+                    user_id: insertResults.insertId,
+                    username: username,
+                    email: email,
+                    password_hash: randomPassword,
+                    favourites: null,
+                    google_id: google_id
+                  }
+                });
+              }
+            }
+          );
+        }
+      });
+    });
+  });
+
   router.get('/users/:id', (req, res) => {
     const userId = req.params.id;
     pool.query('SELECT * FROM korisnik WHERE id = ?', [userId], (error, results) => {
