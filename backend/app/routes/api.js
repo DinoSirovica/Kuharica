@@ -1,5 +1,34 @@
+const { OAuth2Client } = require('google-auth-library');
+const config = require('../../config');
+
 module.exports = function(express, pool) {
   const router = express.Router();
+
+  // Initialize Google OAuth client for token verification
+  const googleClient = new OAuth2Client(config.google.clientId);
+
+  // Helper function to promisify pool.query
+  const query = (sql, params) => {
+    return new Promise((resolve, reject) => {
+      pool.query(sql, params, (error, results) => {
+        if (error) reject(error);
+        else resolve(results);
+      });
+    });
+  };
+
+  // Helper function to verify Google token
+  async function verifyGoogleToken(credential) {
+    try {
+      const ticket = await googleClient.verifyIdToken({
+        idToken: credential,
+        audience: config.google.clientId
+      });
+      return ticket.getPayload();
+    } catch (error) {
+      throw new Error('Invalid Google token');
+    }
+  }
 
   router.get('/', (req, res) => {
     const apiLinks = {
@@ -265,6 +294,108 @@ module.exports = function(express, pool) {
     });
   });
 
+  // Google authentication endpoint - with token verification and async/await
+  router.post('/auth/google', async (req, res) => {
+    const { credential } = req.body;
+
+    if (!credential) {
+      return res.status(400).json({ error: 'Missing required field: credential' });
+    }
+
+    try {
+      // Verify the Google token server-side
+      const payload = await verifyGoogleToken(credential);
+      const google_id = payload.sub;
+      const email = payload.email;
+      const name = payload.name;
+
+      // Check if user exists by google_id
+      const existingUserByGoogleId = await query('SELECT * FROM korisnik WHERE google_id = ?', [google_id]);
+
+      if (existingUserByGoogleId.length > 0) {
+        const user = existingUserByGoogleId[0];
+        return res.json({
+          message: 'Login successful',
+          user: {
+            user_id: user.id,
+            username: user.korisnik_ime,
+            email: user.email,
+            favourites: user.omiljeni_recepti,
+            google_id: user.google_id
+          }
+        });
+      }
+
+      // Check if user exists by email (maybe they registered with email before)
+      const existingUserByEmail = await query('SELECT * FROM korisnik WHERE email = ?', [email]);
+
+      if (existingUserByEmail.length > 0) {
+        const existingUser = existingUserByEmail[0];
+        // Link Google account to existing user
+        await query('UPDATE korisnik SET google_id = ? WHERE id = ?', [google_id, existingUser.id]);
+        return res.json({
+          message: 'Google account linked successfully',
+          user: {
+            user_id: existingUser.id,
+            username: existingUser.korisnik_ime,
+            email: existingUser.email,
+            favourites: existingUser.omiljeni_recepti,
+            google_id: google_id
+          }
+        });
+      }
+
+      // Create new user with Google data
+      const username = name || email.split('@')[0];
+      const randomPassword = 'google_auth_' + Math.random().toString(36).substring(2, 15);
+
+      // Try to insert with unique username (with retry logic)
+      let insertedUser = null;
+      let finalUsername = username;
+      const maxAttempts = 5;
+
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        try {
+          const insertResult = await query(
+            'INSERT INTO korisnik (korisnik_ime, email, lozinka, google_id) VALUES (?, ?, ?, ?)',
+            [finalUsername, email, randomPassword, google_id]
+          );
+          insertedUser = { insertId: insertResult.insertId, username: finalUsername };
+          break;
+        } catch (insertError) {
+          if (insertError.code === 'ER_DUP_ENTRY' && attempt < maxAttempts - 1) {
+            // Generate a more unique username with timestamp
+            finalUsername = username + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 4);
+          } else {
+            throw insertError;
+          }
+        }
+      }
+
+      if (!insertedUser) {
+        return res.status(500).json({ error: 'Could not create user with unique username' });
+      }
+
+      return res.status(201).json({
+        message: 'User created successfully',
+        user: {
+          user_id: insertedUser.insertId,
+          username: insertedUser.username,
+          email: email,
+          favourites: null,
+          google_id: google_id
+        }
+      });
+
+    } catch (error) {
+      console.error('Google authentication error:', error);
+      if (error.message === 'Invalid Google token') {
+        return res.status(401).json({ error: 'Invalid Google token' });
+      }
+      return res.status(500).json({ error: error.message });
+    }
+  });
+
   router.get('/users/:id', (req, res) => {
     const userId = req.params.id;
     pool.query('SELECT * FROM korisnik WHERE id = ?', [userId], (error, results) => {
@@ -445,7 +576,6 @@ module.exports = function(express, pool) {
             return res.status(500).json({ error: `Failed to delete ingredients for recipe with id ${recipeId}` });
           }
 
-
           const deleteRecipeQuery = 'DELETE FROM recept WHERE id = ?';
           pool.query(deleteRecipeQuery, [recipeId], (error) => {
             if (error) {
@@ -453,11 +583,11 @@ module.exports = function(express, pool) {
               return res.status(500).json({ error: `Failed to delete recipe with id ${recipeId}` });
             }
 
-            return res.status(200).json({ message: `Recipe with id ${recipeId} and related data deleted successfully` });
+            res.status(204).end();
           });
         });
+      });
     });
-  });
 
   return router;
 };

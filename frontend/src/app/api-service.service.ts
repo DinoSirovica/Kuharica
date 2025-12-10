@@ -22,7 +22,6 @@ export class ApiServiceService {
   }
 
   updateUserProfile(userId:number, username:string, password: string, email: string): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = {
       username: username,
       password_hash: password,
@@ -32,7 +31,6 @@ export class ApiServiceService {
   }
 
   updateFavourites(userId:number, favourites: string): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = {
       favourites: favourites,
     };
@@ -43,6 +41,12 @@ export class ApiServiceService {
   addUser(user: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(`${this.baseUrl}/users`, user, { headers });
+  }
+
+  // Google authentication - sends credential token to backend for verification
+  googleLogin(googleData: { credential: string }): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.baseUrl}/auth/google`, googleData, { headers });
   }
 
   getAuthor(userId: number) {

@@ -90,3 +90,24 @@ ng serve
 ```
 
 Open your browser and navigate to http://localhost:4200. 
+
+### Quick: Enable Google Sign-in (simple)
+1. Create OAuth credentials
+   - Go to Google Cloud Console → APIs & Services → Credentials.
+   - Create an OAuth 2.0 Client ID (Web application).
+   - Add Authorized JavaScript origin: http://localhost:4200
+   - Copy the Client ID (xxxxx.apps.googleusercontent.com).
+
+2. Frontend
+   - Open frontend/src/app/login/login.component.ts and replace the googleClientId value with your Client ID.
+   - The Google Identity script is already included in frontend/src/index.html.
+
+3. Backend
+   - In backend, create a .env file (or copy backend/.env.example) and set:
+     GOOGLE_CLIENT_ID=your-client-id
+     GOOGLE_CLIENT_SECRET=your-client-secret
+   - backend/server.js already loads dotenv; restart the backend after creating .env.
+
+4. Start and test
+   - Start backend (cd backend && npm start) and frontend (cd frontend && ng serve).
+   - Open http://localhost:4200 → Login page; the Google button should appear.
