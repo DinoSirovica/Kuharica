@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActiveUserService } from '../active-user.service';
 import { ApiServiceService } from '../api-service.service';
-import { HashService } from '../hash.service';
 
 @Component({
   selector: 'app-editprofile',
@@ -23,8 +22,7 @@ export class EditprofileComponent implements OnInit{
   constructor(
     private ActiveUserService: ActiveUserService,
     private router: Router,
-    private apiService: ApiServiceService,
-    private hashService: HashService
+    private apiService: ApiServiceService
   ) {}
 
   togglePasswordVisibility() {
@@ -47,7 +45,7 @@ export class EditprofileComponent implements OnInit{
     });
   }
 
-  async onSubmit(){
+  onSubmit(){
     console.log("Korisničko ime: " + this.username);
     console.log("ID: " + this.id);
     console.log("mail: " + this.email);
@@ -57,10 +55,8 @@ export class EditprofileComponent implements OnInit{
       return;
     }
 
-    // Hash the password before sending to the backend
-    const hashedPassword = await this.hashService.hashPassword(this.password);
-
-    this.apiService.updateUserProfile(this.id, this.username, hashedPassword, this.email).subscribe(
+    // Send plaintext password over HTTPS - server will hash with bcrypt
+    this.apiService.updateUserProfile(this.id, this.username, this.password, this.email).subscribe(
       response => {
         this.ActiveUserService.setActiveUser({
           user_id: this.id,

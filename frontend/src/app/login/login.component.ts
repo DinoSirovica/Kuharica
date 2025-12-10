@@ -2,7 +2,6 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { ApiServiceService } from '../api-service.service';
 import { Router } from '@angular/router';
 import { ActiveUserService } from '../active-user.service';
-import { HashService } from '../hash.service';
 
 declare var google: any;
 
@@ -17,8 +16,7 @@ export class LoginComponent implements OnInit {
     private apiService: ApiServiceService,
     private router: Router,
     private activeUserService: ActiveUserService,
-    private ngZone: NgZone,
-    private hashService: HashService
+    private ngZone: NgZone
   ) { }
 
   isPasswordVisible: boolean = false;
@@ -97,13 +95,11 @@ export class LoginComponent implements OnInit {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  async onSubmit() {
+  onSubmit() {
     console.log('Username:', this.username);
 
-    // Hash the password before sending to the backend
-    const hashedPassword = await this.hashService.hashPassword(this.password);
-
-    this.apiService.login(this.username, hashedPassword).subscribe(
+    // Send plaintext password over HTTPS - server will hash with bcrypt
+    this.apiService.login(this.username, this.password).subscribe(
       (result: any) => {
         console.log('Login successful! Redirecting...');
         this.activeUserService.setActiveUser({

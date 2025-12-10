@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ApiServiceService } from '../api-service.service';
-import { HashService } from '../hash.service';
 
 @Component({
   selector: 'app-signup',
@@ -14,28 +13,22 @@ export class SignupComponent {
   email: string = '';
   passwordRepeat: string = '';
 
-  constructor(
-    private apiService: ApiServiceService,
-    private hashService: HashService
-  ) {}
+  constructor(private apiService: ApiServiceService) {}
 
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  async onSubmit() {
+  onSubmit() {
     if (this.password !== this.passwordRepeat) {
       alert('Lozinke nisu jednake!');
       return;
     }
 
-    // Hash the password before sending to the backend
-    const hashedPassword = await this.hashService.hashPassword(this.password);
-
     const newUser = {
       username: this.username,
       email: this.email,
-      password: hashedPassword
+      password: this.password
     };
 
     this.apiService.addUser(newUser).subscribe(

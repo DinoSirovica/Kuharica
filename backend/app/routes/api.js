@@ -323,7 +323,7 @@ module.exports = function(express, pool) {
 
       const user = users[0];
 
-      // Compare the hashed password from frontend with the bcrypt hash in database
+      // Compare the plaintext password from frontend with the bcrypt hash in database
       const isPasswordValid = await bcrypt.compare(password, user.lozinka);
 
       if (!isPasswordValid) {
@@ -647,4 +647,3 @@ module.exports = function(express, pool) {
 
   return router;
 };
-
