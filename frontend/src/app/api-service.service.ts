@@ -21,6 +21,13 @@ export class ApiServiceService {
     return this.http.get(`${this.baseUrl}/users`); //http://localhost:8081/api/users
   }
 
+  // Login with hashed password - server-side verification
+  login(username: string, hashedPassword: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = { username, password: hashedPassword };
+    return this.http.post(`${this.baseUrl}/auth/login`, body, { headers });
+  }
+
   updateUserProfile(userId:number, username:string, password: string, email: string): Observable<any> {
     const body = {
       username: username,
@@ -168,4 +175,3 @@ export class ApiServiceService {
     return this.http.delete(`${this.baseUrl}/recipes/${recipeId}`); //http://localhost:8081/api/recipes/:id
   }
 }
-

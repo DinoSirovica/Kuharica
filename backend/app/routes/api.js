@@ -1,5 +1,8 @@
 const { OAuth2Client } = require('google-auth-library');
 const config = require('../../config');
+const bcrypt = require('bcrypt');
+
+const SALT_ROUNDS = 10;
 
 module.exports = function(express, pool) {
   const router = express.Router();
@@ -50,7 +53,7 @@ module.exports = function(express, pool) {
       }
 
       const totalRecords = countResults[0].total;
-      const baseUrl = 'http://localhost:8081/api'; // Corrected spelling of "beginning"
+      const baseUrl = 'http://localhost:8081/api';
 
       pool.query("SELECT recept.id, recept.naslov, recept.korisnik_id, recept.upute, recept.kategorija_id, recept.slika_id, korisnik.korisnik_ime, slika.data FROM recept INNER JOIN korisnik ON recept.korisnik_id = korisnik.id LEFT JOIN slika ON recept.slika_id = slika.id", (error, results) => {
         if (error) {
@@ -64,7 +67,7 @@ module.exports = function(express, pool) {
             description: recipe.upute,
             category_id: recipe.kategorija_id,
             image_id: recipe.slika_id,
-            image_data: recipe.data, // Include image_data in the response
+            image_data: recipe.data,
             details: `${baseUrl}/recipes/${recipe.id}`
           }));
 
@@ -214,8 +217,8 @@ module.exports = function(express, pool) {
 
   router.get('/ingredients-by-recipe/:id', (req, res) => {
     const recipeId = req.params.id;
-    const query = " SELECT recept.id, recept.naslov, recpt_sastojak.recept_id, recpt_sastojak.sastojak_id, sastojak.id, sastojak.ime, recpt_sastojak.kolicina FROM recept JOIN recpt_sastojak ON recept.id = recpt_sastojak.recept_id JOIN sastojak ON recpt_sastojak.sastojak_id = sastojak.id WHERE recept.id = ?";
-    pool.query(query, [recipeId], (error, results) => {
+    const queryStr = " SELECT recept.id, recept.naslov, recpt_sastojak.recept_id, recpt_sastojak.sastojak_id, sastojak.id, sastojak.ime, recpt_sastojak.kolicina FROM recept JOIN recpt_sastojak ON recept.id = recpt_sastojak.recept_id JOIN sastojak ON recpt_sastojak.sastojak_id = sastojak.id WHERE recept.id = ?";
+    pool.query(queryStr, [recipeId], (error, results) => {
       if (error) {
         return res.status(500).json({ error: error.message });
       } else if (results.length === 0) {
@@ -283,15 +286,63 @@ module.exports = function(express, pool) {
     });
   });
 
-  router.post('/users', (req, res) => {
+  // Register new user - hash password with bcrypt before storing
+  router.post('/users', async (req, res) => {
     const { username, email, password, favourites } = req.body;
 
-    pool.query('INSERT INTO korisnik (korisnik_ime, email, lozinka, omiljeni_recepti) VALUES (?, ?, ?, ?)', [username, email, password, favourites], (error, results) => {
-      if (error) {
-        return res.status(500).json({ error: error.message });
+    try {
+      // Hash the password with bcrypt before storing
+      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+      pool.query('INSERT INTO korisnik (korisnik_ime, email, lozinka, omiljeni_recepti) VALUES (?, ?, ?, ?)', [username, email, hashedPassword, favourites], (error, results) => {
+        if (error) {
+          return res.status(500).json({ error: error.message });
+        }
+        res.status(201).json({ message: 'User added successfully', userId: results.insertId });
+      });
+    } catch (error) {
+      console.error('Error hashing password:', error);
+      return res.status(500).json({ error: 'Failed to create user' });
+    }
+  });
+
+  // Login endpoint - verifies credentials server-side
+  router.post('/auth/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password are required' });
+    }
+
+    try {
+      const users = await query('SELECT * FROM korisnik WHERE korisnik_ime = ?', [username]);
+
+      if (users.length === 0) {
+        return res.status(401).json({ error: 'Invalid username or password' });
       }
-      res.status(201).json({ message: 'User added successfully', userId: results.insertId });
-    });
+
+      const user = users[0];
+
+      // Compare the plaintext password from frontend with the bcrypt hash in database
+      const isPasswordValid = await bcrypt.compare(password, user.lozinka);
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: 'Invalid username or password' });
+      }
+
+      return res.json({
+        message: 'Login successful',
+        user: {
+          user_id: user.id,
+          username: user.korisnik_ime,
+          email: user.email,
+          favourites: user.omiljeni_recepti
+        }
+      });
+    } catch (error) {
+      console.error('Login error:', error);
+      return res.status(500).json({ error: 'Login failed' });
+    }
   });
 
   // Google authentication endpoint - with token verification and async/await
@@ -413,21 +464,29 @@ module.exports = function(express, pool) {
     });
   });
 
-  router.put('/users/:id', (req, res) => {
+  // Update user profile - hash password with bcrypt before storing
+  router.put('/users/:id', async (req, res) => {
     const userId = req.params.id;
     const { username, email, password_hash } = req.body;
 
-    const updateUserQuery ='UPDATE korisnik SET korisnik_ime = ?, email = ?, lozinka = ? WHERE id = ?';
+    try {
+      // Hash the password with bcrypt before storing
+      const hashedPassword = await bcrypt.hash(password_hash, SALT_ROUNDS);
 
-    pool.query(updateUserQuery, [username, email, password_hash, userId], (error, results) => {
-      if (error) {
-        console.error('Error updating user:', error);
-        res.status(500).send('Error updating user');
-      } else {
-        res.status(200).end();
-        res.status(204).end();
-      }
-    });
+      const updateUserQuery = 'UPDATE korisnik SET korisnik_ime = ?, email = ?, lozinka = ? WHERE id = ?';
+
+      pool.query(updateUserQuery, [username, email, hashedPassword, userId], (error, results) => {
+        if (error) {
+          console.error('Error updating user:', error);
+          res.status(500).send('Error updating user');
+        } else {
+          res.status(200).json({ message: 'User updated successfully' });
+        }
+      });
+    } catch (error) {
+      console.error('Error hashing password:', error);
+      res.status(500).send('Error updating user');
+    }
   });
 
   router.put('/users/:id/favourites', (req, res) => {
@@ -442,8 +501,7 @@ module.exports = function(express, pool) {
         res.status(500).send('Error updating user');
       } else {
         console.log('User updated successfully');
-        res.status(200).end();
-        res.status(204).end();
+        res.status(200).json({ message: 'Favourites updated successfully' });
       }
     });
   });
@@ -466,7 +524,7 @@ module.exports = function(express, pool) {
   });
 
   router.post('/images', (req, res) => {
-    const imageData = req.body.image_data; // Assuming the base64-encoded image data is sent in the request body
+    const imageData = req.body.image_data;
     const insertImageQuery = 'INSERT INTO slika (data) VALUES (?)';
 
     pool.query(insertImageQuery, [imageData], (error, results) => {
@@ -490,7 +548,6 @@ module.exports = function(express, pool) {
         console.error('Error updating image:', error);
         res.status(500).json({ error: 'Failed to insert image' });
       } else {
-        const imageId = results.insertId;
         res.status(201).json({ message: 'Image added successfully', image_id: imageId });
       }
     });
@@ -516,9 +573,9 @@ module.exports = function(express, pool) {
   });
 
   router.get('/categories', (req, res) => {
-    const query = 'SELECT * FROM kategorija';
+    const queryStr = 'SELECT * FROM kategorija';
 
-    pool.query(query, (err, results) => {
+    pool.query(queryStr, (err, results) => {
       if (err) {
         console.error('Error fetching categories:', err);
         res.status(500).send('Server error');
@@ -530,9 +587,9 @@ module.exports = function(express, pool) {
 
   router.get('/categories/:id', (req, res) => {
     const categoryId = req.params.id;
-    const query = 'SELECT * FROM kategorija WHERE id = ?';
+    const queryStr = 'SELECT * FROM kategorija WHERE id = ?';
 
-    pool.query(query, [categoryId], (err, results) => {
+    pool.query(queryStr, [categoryId], (err, results) => {
       if (err) {
         console.error('Error fetching category:', err);
         res.status(500).send('Server error');
@@ -559,35 +616,34 @@ module.exports = function(express, pool) {
       const imageId = results[0]?.slika_id;
 
       if (imageId) {
-
-      const deleteImageQuery = 'DELETE FROM slika WHERE id = ?';
-      pool.query(deleteImageQuery, [imageId], (error) => {
-        if (error) {
-          console.error(`Error deleting image with id ${imageId}:`, error);
-          return res.status(500).json({ error: `Failed to delete image with id ${imageId}` });
-        }
+        const deleteImageQuery = 'DELETE FROM slika WHERE id = ?';
+        pool.query(deleteImageQuery, [imageId], (error) => {
+          if (error) {
+            console.error(`Error deleting image with id ${imageId}:`, error);
+            return res.status(500).json({ error: `Failed to delete image with id ${imageId}` });
+          }
         })
       }
 
-        const deleteIngredientsQuery = 'DELETE FROM recpt_sastojak WHERE recept_id = ?';
-        pool.query(deleteIngredientsQuery, [recipeId], (error) => {
+      const deleteIngredientsQuery = 'DELETE FROM recpt_sastojak WHERE recept_id = ?';
+      pool.query(deleteIngredientsQuery, [recipeId], (error) => {
+        if (error) {
+          console.error(`Error deleting ingredients for recipe with id ${recipeId}:`, error);
+          return res.status(500).json({ error: `Failed to delete ingredients for recipe with id ${recipeId}` });
+        }
+
+        const deleteRecipeQuery = 'DELETE FROM recept WHERE id = ?';
+        pool.query(deleteRecipeQuery, [recipeId], (error) => {
           if (error) {
-            console.error(`Error deleting ingredients for recipe with id ${recipeId}:`, error);
-            return res.status(500).json({ error: `Failed to delete ingredients for recipe with id ${recipeId}` });
+            console.error(`Error deleting recipe with id ${recipeId}:`, error);
+            return res.status(500).json({ error: `Failed to delete recipe with id ${recipeId}` });
           }
 
-          const deleteRecipeQuery = 'DELETE FROM recept WHERE id = ?';
-          pool.query(deleteRecipeQuery, [recipeId], (error) => {
-            if (error) {
-              console.error(`Error deleting recipe with id ${recipeId}:`, error);
-              return res.status(500).json({ error: `Failed to delete recipe with id ${recipeId}` });
-            }
-
-            res.status(204).end();
-          });
+          res.status(204).end();
         });
       });
     });
+  });
 
   return router;
 };
