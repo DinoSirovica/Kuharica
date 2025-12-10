@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActiveUserService } from '../active-user.service';
 import { ApiServiceService } from '../api-service.service';
+import { HashService } from '../hash.service';
 
 @Component({
   selector: 'app-editprofile',
@@ -22,7 +23,8 @@ export class EditprofileComponent implements OnInit{
   constructor(
     private ActiveUserService: ActiveUserService,
     private router: Router,
-    private apiService: ApiServiceService
+    private apiService: ApiServiceService,
+    private hashService: HashService
   ) {}
 
   togglePasswordVisibility() {
@@ -39,34 +41,35 @@ export class EditprofileComponent implements OnInit{
       this.id = this.activeUser.user_id;
       this.username=this.activeUser.username;
       this.email=this.activeUser.email;
-      this.password=this.activeUser.password;
-      this.passwordRepeat=this.activeUser.password;
+      // Don't pre-fill password - user should enter new password
+      this.password = '';
+      this.passwordRepeat = '';
     });
   }
 
-  onSubmit(){
+  async onSubmit(){
     console.log("Korisničko ime: " + this.username);
     console.log("ID: " + this.id);
     console.log("mail: " + this.email);
-    console.log("Lozinka: " + this.password);
-    console.log("Ponovljena lozinka: " + this.passwordRepeat);
 
     if(this.password != this.passwordRepeat){
-      alert("Lozinka i ponovljena lozinka nisu jednake.")
+      alert("Lozinka i ponovljena lozinka nisu jednake.");
+      return;
     }
 
-    this.router.navigate(['/profil']);
-    this.apiService.updateUserProfile(this.id, this.username, this.password, this.email).subscribe(
+    // Hash the password before sending to the backend
+    const hashedPassword = await this.hashService.hashPassword(this.password);
+
+    this.apiService.updateUserProfile(this.id, this.username, hashedPassword, this.email).subscribe(
       response => {
         this.ActiveUserService.setActiveUser({
           user_id: this.id,
           username: this.username,
-          email: this.email,
-          password: this.password
+          email: this.email
         });
         console.log('User updated successfully');
-        alert("Korisnički podatci su uspiješno promijenjeni.")
-        this.router.navigate(['/']);
+        alert("Korisnički podatci su uspiješno promijenjeni.");
+        this.router.navigate(['/profil']);
       },
       error => {
         console.error('Error updating user', error);
