@@ -45,17 +45,31 @@ export class EditprofileComponent implements OnInit{
     });
   }
 
-  onSubmit(){
+  async onSubmit(){
     console.log("Korisničko ime: " + this.username);
     console.log("ID: " + this.id);
     console.log("mail: " + this.email);
 
-    if(this.password != this.passwordRepeat){
-      alert("Lozinka i ponovljena lozinka nisu jednake.");
+    // Validate username and email are filled
+    if (!this.username || !this.email) {
+      alert("Molimo unesite korisničko ime i email.");
       return;
     }
 
-    // Send plaintext password over HTTPS - server will hash with bcrypt
+    // If user is updating password, validate it
+    if (this.password || this.passwordRepeat) {
+      if (!this.password || !this.passwordRepeat) {
+        alert("Molimo unesite obje lozinke ako želite promijeniti lozinku.");
+        return;
+      }
+
+      if (this.password !== this.passwordRepeat) {
+        alert("Lozinka i ponovljena lozinka nisu jednake.");
+        return;
+      }
+    }
+
+    // Do NOT hash on the client. Send password over HTTPS and let the server hash with bcrypt.
     this.apiService.updateUserProfile(this.id, this.username, this.password, this.email).subscribe(
       response => {
         this.ActiveUserService.setActiveUser({
@@ -69,6 +83,7 @@ export class EditprofileComponent implements OnInit{
       },
       error => {
         console.error('Error updating user', error);
+        alert("Greška pri ažuriranju korisničkih podataka.");
       }
     );
   }

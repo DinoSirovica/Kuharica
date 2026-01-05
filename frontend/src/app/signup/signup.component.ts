@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiServiceService } from '../api-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -13,18 +14,27 @@ export class SignupComponent {
   email: string = '';
   passwordRepeat: string = '';
 
-  constructor(private apiService: ApiServiceService) {}
+  constructor(
+    private apiService: ApiServiceService,
+    private router: Router
+  ) {}
 
-  togglePasswordVisibility() {
+  togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  onSubmit() {
-    if (this.password !== this.passwordRepeat) {
-      alert('Lozinke nisu jednake!');
+  onSubmit(): void {
+    if (!this.username || !this.email || !this.password) {
+      alert('Please fill in all required fields.');
       return;
     }
 
+    if (this.password !== this.passwordRepeat) {
+      alert('Passwords do not match.');
+      return;
+    }
+
+    // Do NOT hash on the client. Send password over HTTPS and let the server hash with bcrypt.
     const newUser = {
       username: this.username,
       email: this.email,
@@ -34,7 +44,8 @@ export class SignupComponent {
     this.apiService.addUser(newUser).subscribe(
       response => {
         console.log('User added successfully:', response);
-        alert('Registracija uspješna');
+        alert('Registracija uspješna! Sada se možete prijaviti.');
+        this.router.navigate(['/profil/prijava']);
       },
       error => {
         console.error('Error adding user:', error);
