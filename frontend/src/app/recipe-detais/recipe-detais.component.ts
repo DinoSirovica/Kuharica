@@ -28,7 +28,7 @@ export class RecipeDetaisComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private apiService: ApiServiceService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe(params => {
@@ -58,17 +58,17 @@ export class RecipeDetaisComponent implements OnInit {
       this.loadCategory(this.recipe.kategorija_id);
       this.loadIngredients(this.recipe.id);
 
-      if(this.activeUser.favourites == null || this.activeUser.favourites == ''){
+      if (this.activeUser.favourites == null || this.activeUser.favourites == '') {
         this.isFavourite = false;
       }
-      else{
-        let favs : string = this.activeUser.favourites;
+      else {
+        let favs: string = this.activeUser.favourites;
         this.isFavourite = favs.split(',').some((favourite: any) => favourite == this.recipeId);
       }
     });
   }
 
-  loadAuthor(userId: any){
+  loadAuthor(userId: any) {
     this.apiService.getAuthor(userId).subscribe(data => {
       this.author = data;
     })
@@ -76,26 +76,26 @@ export class RecipeDetaisComponent implements OnInit {
 
   loadImage(imageId: any): void {
     this.apiService.getImage(imageId).subscribe(data => {
-      this.image=data.image.data;
+      this.image = data.image.data;
       console.log(this.image)
     })
   }
 
   loadCategory(categoryId: any): void {
     this.apiService.getCategory(categoryId).subscribe(data => {
-      this.category=data;
+      this.category = data;
     })
   }
 
   loadIngredients(recipeId: any): void {
     this.apiService.getIngredientsbyRecipe().subscribe(recipeData => {
       const allRelations = recipeData.data;
-  
+
       const filteredRelations = allRelations.filter((rel: any) => rel.recept_id === +recipeId);
-  
+
       this.apiService.getIngredients().subscribe(ingredientData => {
         const allIngredients = ingredientData.data;
-  
+
         this.ingredients = filteredRelations.map((rel: any) => {
           const sastojak = allIngredients.find((ing: any) => ing.id === rel.sastojak_id);
           return {
@@ -106,25 +106,25 @@ export class RecipeDetaisComponent implements OnInit {
       });
     });
   }
-  
+
 
   toggleFavourite(): void {
 
     if (this.isFavourite) {
-      // Remove from favourites
-      let favs : string = this.activeUser.favourites;
+
+      let favs: string = this.activeUser.favourites;
       let favsArray = favs.split(',');
       favsArray = favsArray.filter((favourite: any) => favourite != this.recipeId);
       this.activeUser.favourites = favsArray.join(',');
-      if(this.activeUser.favourites == ''){
+      if (this.activeUser.favourites == '') {
         this.activeUser.favourites = null;
       }
     } else {
-      // Add to favourites
-      if(this.activeUser.favourites == null || this.activeUser.favourites == ''){
+
+      if (this.activeUser.favourites == null || this.activeUser.favourites == '') {
         this.activeUser.favourites = this.recipeId;
       }
-      else{
+      else {
         this.activeUser.favourites += ',' + this.recipeId;
       }
     }
