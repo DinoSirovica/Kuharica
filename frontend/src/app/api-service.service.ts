@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable, switchMap} from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,39 +10,34 @@ export class ApiServiceService {
   private baseUrl = 'http://localhost:8081/api';
   constructor(private http: HttpClient) { }
 
-  // recipes	"http://localhost:8081/api/recipes"
-  // categories	"http://localhost:8081/api/categories"
-  // recipeIngredients	"http://localhost:8081/api/recipe-ingredients"
-  // ingredients	"http://localhost:8081/api/ingredients"
-  // users	"http://localhost:8081/api/users"
-  // images	"http://localhost:8081/api/images"
+
 
   getUsers(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/users`); //http://localhost:8081/api/users
+    return this.http.get(`${this.baseUrl}/users`);
   }
 
-  // Login with hashed password - server-side verification
+
   login(username: string, hashedPassword: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { username, password: hashedPassword };
     return this.http.post(`${this.baseUrl}/auth/login`, body, { headers });
   }
 
-  updateUserProfile(userId:number, username:string, password: string, email: string): Observable<any> {
+  updateUserProfile(userId: number, username: string, password: string, email: string): Observable<any> {
     const body = {
       username: username,
       password_hash: password,
       email: email
     };
-    return this.http.put(`${this.baseUrl}/users/${userId}`, body); //http://localhost:8081/api/users
+    return this.http.put(`${this.baseUrl}/users/${userId}`, body);
   }
 
-  updateFavourites(userId:number, favourites: string): Observable<any> {
+  updateFavourites(userId: number, favourites: string): Observable<any> {
     const body = {
       favourites: favourites,
     };
     console.log('body', body);
-    return this.http.put(`${this.baseUrl}/users/${userId}/favourites`, body); //http://localhost:8081/api/users
+    return this.http.put(`${this.baseUrl}/users/${userId}/favourites`, body);
   }
 
   addUser(user: any): Observable<any> {
@@ -50,42 +45,42 @@ export class ApiServiceService {
     return this.http.post(`${this.baseUrl}/users`, user, { headers });
   }
 
-  // Google authentication - sends credential token to backend for verification
+
   googleLogin(googleData: { credential: string }): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(`${this.baseUrl}/auth/google`, googleData, { headers });
   }
 
   getAuthor(userId: number) {
-    return this.http.get(`${this.baseUrl}/users/${userId}`); //http://localhost:8081/api/users/:id
+    return this.http.get(`${this.baseUrl}/users/${userId}`);
   }
 
   getRecipes(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/recipes`); //http://localhost:8081/api/recipes
+    return this.http.get(`${this.baseUrl}/recipes`);
   }
 
   getRecipe(recipeId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/recipes/${recipeId}`); //http://localhost:8081/api/recipes/:id
+    return this.http.get(`${this.baseUrl}/recipes/${recipeId}`);
   }
 
   getCategories(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/categories`); //http://localhost:8081/api/categories
+    return this.http.get(`${this.baseUrl}/categories`);
   }
 
   getCategory(categoryId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/categories/${categoryId}`); //http://localhost:8081/api/categories/:id
+    return this.http.get(`${this.baseUrl}/categories/${categoryId}`);
   }
 
   getIngredients(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/ingredients`); //http://localhost:8081/api/ingredients
+    return this.http.get(`${this.baseUrl}/ingredients`);
   }
 
   getIngredientsbyRecipe(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/recipe-ingredients`); //http://localhost:8081/api/recipe-ingredients
+    return this.http.get(`${this.baseUrl}/recipe-ingredients`);
   }
 
-  getImage(imageId: number):Observable<any>{
-    return this.http.get(`${this.baseUrl}/images/${imageId}`); //http://localhost:8081/api/images/:imageId
+  getImage(imageId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/images/${imageId}`);
   }
 
   saveRecipe(
@@ -99,7 +94,7 @@ export class ApiServiceService {
     if (imageData) {
       return this.http.post(`${this.baseUrl}/images/`, { image_data: imageData }, { headers }).pipe(
         switchMap((response: any) => {
-          console.log('Image uploaded successfully:', response);
+
           const body = {
             title: title,
             instructions: instructions,
@@ -122,16 +117,16 @@ export class ApiServiceService {
   }
 
   updateRecipe(
-    recipeId:number,
-    imageId:number,
+    recipeId: number,
+    imageId: number,
     imageData: ArrayBuffer | string,
     title: string,
     instructions: string,
     category_id: string
   )/*: Observable<any>*/ {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     if (imageData) {
-      return this.http.put(`${this.baseUrl}/images/${imageId}`, {image_data: imageData}, {headers}).pipe(
+      return this.http.put(`${this.baseUrl}/images/${imageId}`, { image_data: imageData }, { headers }).pipe(
         switchMap((response: any) => {
           const body = {
             title: title,
@@ -139,7 +134,7 @@ export class ApiServiceService {
             image_id: response.image_id,
             category_id: category_id
           };
-          return this.http.put(`${this.baseUrl}/recipes/${recipeId}`, body, {headers});
+          return this.http.put(`${this.baseUrl}/recipes/${recipeId}`, body, { headers });
         })
       );
     } else {
@@ -148,12 +143,12 @@ export class ApiServiceService {
         instructions: instructions,
         category_id: category_id
       };
-      return this.http.put(`${this.baseUrl}/recipes/${recipeId}`, body, {headers});
+      return this.http.put(`${this.baseUrl}/recipes/${recipeId}`, body, { headers });
     }
   }
 
   saveRecipeIngredients(
-    recipeId:number, ingredientList:{ id: string, quantity: string }[]
+    recipeId: number, ingredientList: { id: string, quantity: string }[]
   ): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = {
@@ -165,13 +160,41 @@ export class ApiServiceService {
   }
 
   deleteRecipeIngredients(
-    recipeId:number
+    recipeId: number
   ) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return  this.http.delete(`${this.baseUrl}/recipe-ingredients/${recipeId}`, { headers })
+    return this.http.delete(`${this.baseUrl}/recipe-ingredients/${recipeId}`, { headers })
   }
 
   deleteRecipe(recipeId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/recipes/${recipeId}`); //http://localhost:8081/api/recipes/:id
+    return this.http.delete(`${this.baseUrl}/recipes/${recipeId}`);
+  }
+
+  getComments(recipeId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/comments/${recipeId}`);
+  }
+
+  addComment(recipeId: number, userId: number, text: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = {
+      recipe_id: recipeId,
+      user_id: userId,
+      text: text
+    };
+    return this.http.post(`${this.baseUrl}/comments`, body, { headers });
+  }
+
+  updateComment(commentId: number, userId: number, text: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = {
+      user_id: userId,
+      text: text
+    };
+    return this.http.put(`${this.baseUrl}/comments/${commentId}`, body, { headers });
+  }
+
+  deleteComment(commentId: number, userId: number): Observable<any> {
+
+    return this.http.delete(`${this.baseUrl}/comments/${commentId}?user_id=${userId}`);
   }
 }

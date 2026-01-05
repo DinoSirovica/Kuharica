@@ -4,13 +4,11 @@ const bcrypt = require('bcrypt');
 
 const SALT_ROUNDS = 10;
 
-module.exports = function(express, pool) {
+module.exports = function (express, pool) {
   const router = express.Router();
 
-  // Initialize Google OAuth client for token verification
   const googleClient = new OAuth2Client(config.google.clientId);
 
-  // Helper function to promisify pool.query
   const query = (sql, params) => {
     return new Promise((resolve, reject) => {
       pool.query(sql, params, (error, results) => {
@@ -20,7 +18,6 @@ module.exports = function(express, pool) {
     });
   };
 
-  // Helper function to verify Google token
   async function verifyGoogleToken(credential) {
     try {
       const ticket = await googleClient.verifyIdToken({
@@ -123,10 +120,10 @@ module.exports = function(express, pool) {
     const updateRecipeQuery = 'UPDATE recept SET naslov = ?,  upute = ?, kategorija_id = ? WHERE id = ?';
 
     pool.query(updateRecipeQuery, [title, instructions, category_id, recipeId], (error, results) => {
-      if(error){
-        return res.status(500).json({error: error.message});
+      if (error) {
+        return res.status(500).json({ error: error.message });
       } else if (results.affectedRows === 0) {
-        return res.status(404).json({ error: 'Recipe not found'});
+        return res.status(404).json({ error: 'Recipe not found' });
       } else {
         res.status(200).json({ message: 'Recipe added successfully', recipe_id: recipeId })
       }
@@ -147,7 +144,7 @@ module.exports = function(express, pool) {
         } else {
           const benigining = `http://localhost:8081/api`;
           res.json({
-            back : benigining,
+            back: benigining,
             totalRecords: totalRecords,
             data: results
           });
@@ -184,10 +181,10 @@ module.exports = function(express, pool) {
     pool.query(deleteIngredientsQuery, [recipeId], (error) => {
       if (error) {
         console.error(`Error deleting ingredients for recipe with id ${recipeId}:`, error);
-        return res.status(500).json({error: `Failed to delete ingredients for recipe with id ${recipeId}`});
+        return res.status(500).json({ error: `Failed to delete ingredients for recipe with id ${recipeId}` });
       }
 
-      res.status(201).json({message: 'Ingredients deleted successfully'});
+      res.status(201).json({ message: 'Ingredients deleted successfully' });
     });
   });
 
@@ -206,7 +203,7 @@ module.exports = function(express, pool) {
           const benigining = 'http://localhost:8081/api';
 
           res.json({
-            back : benigining,
+            back: benigining,
             totalRecords: totalRecords,
             data: results
           });
@@ -277,7 +274,7 @@ module.exports = function(express, pool) {
           const benigining = 'http://localhost:8081/api';
 
           res.json({
-            back : benigining,
+            back: benigining,
             totalRecords: totalRecords,
             data: usersWithDetails
           });
@@ -286,12 +283,10 @@ module.exports = function(express, pool) {
     });
   });
 
-  // Register new user - hash password with bcrypt before storing
   router.post('/users', async (req, res) => {
     const { username, email, password, favourites } = req.body;
 
     try {
-      // Hash the password with bcrypt before storing
       const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
       pool.query('INSERT INTO korisnik (korisnik_ime, email, lozinka, omiljeni_recepti) VALUES (?, ?, ?, ?)', [username, email, hashedPassword, favourites], (error, results) => {
@@ -306,7 +301,6 @@ module.exports = function(express, pool) {
     }
   });
 
-  // Login endpoint - verifies credentials server-side
   router.post('/auth/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -323,7 +317,6 @@ module.exports = function(express, pool) {
 
       const user = users[0];
 
-      // Compare the plaintext password from frontend with the bcrypt hash in database
       const isPasswordValid = await bcrypt.compare(password, user.lozinka);
 
       if (!isPasswordValid) {
@@ -345,7 +338,6 @@ module.exports = function(express, pool) {
     }
   });
 
-  // Google authentication endpoint - with token verification and async/await
   router.post('/auth/google', async (req, res) => {
     const { credential } = req.body;
 
@@ -354,13 +346,11 @@ module.exports = function(express, pool) {
     }
 
     try {
-      // Verify the Google token server-side
       const payload = await verifyGoogleToken(credential);
       const google_id = payload.sub;
       const email = payload.email;
       const name = payload.name;
 
-      // Check if user exists by google_id
       const existingUserByGoogleId = await query('SELECT * FROM korisnik WHERE google_id = ?', [google_id]);
 
       if (existingUserByGoogleId.length > 0) {
@@ -377,12 +367,10 @@ module.exports = function(express, pool) {
         });
       }
 
-      // Check if user exists by email (maybe they registered with email before)
       const existingUserByEmail = await query('SELECT * FROM korisnik WHERE email = ?', [email]);
 
       if (existingUserByEmail.length > 0) {
         const existingUser = existingUserByEmail[0];
-        // Link Google account to existing user
         await query('UPDATE korisnik SET google_id = ? WHERE id = ?', [google_id, existingUser.id]);
         return res.json({
           message: 'Google account linked successfully',
@@ -396,11 +384,9 @@ module.exports = function(express, pool) {
         });
       }
 
-      // Create new user with Google data
       const username = name || email.split('@')[0];
       const randomPassword = 'google_auth_' + Math.random().toString(36).substring(2, 15);
 
-      // Try to insert with unique username (with retry logic)
       let insertedUser = null;
       let finalUsername = username;
       const maxAttempts = 5;
@@ -415,7 +401,6 @@ module.exports = function(express, pool) {
           break;
         } catch (insertError) {
           if (insertError.code === 'ER_DUP_ENTRY' && attempt < maxAttempts - 1) {
-            // Generate a more unique username with timestamp
             finalUsername = username + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 4);
           } else {
             throw insertError;
@@ -464,13 +449,11 @@ module.exports = function(express, pool) {
     });
   });
 
-  // Update user profile - hash password with bcrypt before storing
   router.put('/users/:id', async (req, res) => {
     const userId = req.params.id;
     const { username, email, password_hash } = req.body;
 
     try {
-      // Hash the password with bcrypt before storing
       const hashedPassword = await bcrypt.hash(password_hash, SALT_ROUNDS);
 
       const updateUserQuery = 'UPDATE korisnik SET korisnik_ime = ?, email = ?, lozinka = ? WHERE id = ?';
@@ -492,8 +475,8 @@ module.exports = function(express, pool) {
   router.put('/users/:id/favourites', (req, res) => {
     const userId = req.params.id;
     const { favourites } = req.body;
-    console.log('testing update',userId, favourites);
-    const updateUserQuery ='UPDATE korisnik SET omiljeni_recepti = ? WHERE id = ?';
+    console.log('testing update', userId, favourites);
+    const updateUserQuery = 'UPDATE korisnik SET omiljeni_recepti = ? WHERE id = ?';
 
     pool.query(updateUserQuery, [favourites, userId], (error, results) => {
       if (error) {
@@ -641,6 +624,122 @@ module.exports = function(express, pool) {
 
           res.status(204).end();
         });
+      });
+    });
+  });
+
+  router.get('/comments/:recipeId', (req, res) => {
+    const recipeId = req.params.recipeId;
+    const queryStr = `
+      SELECT k.id, k.tekst, k.datum, u.korisnik_ime, u.id as korisnik_id
+      FROM komentar k
+      JOIN korisnik u ON k.korisnik_id = u.id
+      WHERE k.recept_id = ?
+      ORDER BY k.datum DESC
+    `;
+
+    pool.query(queryStr, [recipeId], (error, results) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+      res.json(results);
+    });
+  });
+
+  router.post('/comments', (req, res) => {
+    const { recipe_id, user_id, text } = req.body;
+
+    if (!text || !user_id || !recipe_id) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const insertQuery = 'INSERT INTO komentar (recept_id, korisnik_id, tekst) VALUES (?, ?, ?)';
+
+    pool.query(insertQuery, [recipe_id, user_id, text], (error, results) => {
+      if (error) {
+        console.error('Error inserting comment:', error);
+        return res.status(500).json({ error: 'Failed to add comment' });
+      }
+
+      const newCommentId = results.insertId;
+      const selectQuery = `
+        SELECT k.id, k.tekst, k.datum, u.korisnik_ime, u.id as korisnik_id
+        FROM komentar k
+        JOIN korisnik u ON k.korisnik_id = u.id
+        WHERE k.id = ?
+      `;
+
+      pool.query(selectQuery, [newCommentId], (err, newCommentResults) => {
+        if (err) {
+          return res.status(201).json({ message: 'Comment added', commentId: newCommentId });
+        }
+        res.status(201).json(newCommentResults[0]);
+      });
+    });
+  });
+
+  router.put('/comments/:id', (req, res) => {
+    const commentId = req.params.id;
+    const { text, user_id } = req.body;
+
+    pool.query('SELECT korisnik_id FROM komentar WHERE id = ?', [commentId], (error, results) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+      if (results.length === 0) {
+        return res.status(404).json({ error: 'Comment not found' });
+      }
+      if (results[0].korisnik_id !== user_id) {
+        return res.status(403).json({ error: 'Unauthorized' });
+      }
+
+      const updateQuery = 'UPDATE komentar SET tekst = ? WHERE id = ?';
+      pool.query(updateQuery, [text, commentId], (err, updateResults) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        res.json({ message: 'Comment updated', id: commentId, text });
+      });
+    });
+  });
+
+  router.delete('/comments/:id', (req, res) => {
+    const commentId = req.params.id;
+    const { user_id } = req.body;
+    const userId = req.query.user_id || req.body.user_id;
+
+    console.log(`[DELETE] Request received for comment ${commentId}. Provided UserID: ${userId}`);
+
+    if (!userId) {
+      console.error('[DELETE] Failed: No user ID provided');
+      return res.status(400).json({ error: "User ID required for deletion verification" });
+    }
+
+    pool.query('SELECT korisnik_id FROM komentar WHERE id = ?', [commentId], (error, results) => {
+      if (error) {
+        console.error('[DELETE] Database error fetching comment:', error);
+        return res.status(500).json({ error: error.message });
+      }
+      if (results.length === 0) {
+        console.error(`[DELETE] Failed: Comment ${commentId} not found`);
+        return res.status(404).json({ error: 'Comment not found' });
+      }
+
+      console.log(`[DELETE] Comment found. Owner in DB: ${results[0].korisnik_id}, Requesting User: ${userId}`);
+
+      if (parseInt(results[0].korisnik_id) !== parseInt(userId)) {
+        console.error('[DELETE] Failed: Unauthorized mismatch');
+        return res.status(403).json({ error: 'Unauthorized function' });
+      }
+
+      const deleteQuery = 'DELETE FROM komentar WHERE id = ?';
+      pool.query(deleteQuery, [commentId], (err, deleteResults) => {
+        if (err) {
+          console.error('[DELETE] Database error executing delete:', err);
+          return res.status(500).json({ error: err.message });
+        }
+        console.log(`[DELETE] Successfully deleted comment ${commentId}`);
+        res.json({ message: 'Comment deleted' });
       });
     });
   });

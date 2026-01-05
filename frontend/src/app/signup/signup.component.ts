@@ -34,7 +34,6 @@ export class SignupComponent {
       return;
     }
 
-    // Do NOT hash on the client. Send password over HTTPS and let the server hash with bcrypt.
     const newUser = {
       username: this.username,
       email: this.email,

@@ -51,14 +51,14 @@ export class LoginComponent implements OnInit {
           }
         );
       } else {
-        console.warn('Google Sign-In button element not found in DOM.');
+
       }
     } else {
       this.googleInitRetryCount++;
       if (this.googleInitRetryCount < this.maxGoogleInitRetries) {
         setTimeout(() => this.initializeGoogleSignIn(), 100);
       } else {
-        console.error('Failed to load Google Sign-In API after maximum retries.');
+
       }
     }
   }
@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
   handleGoogleCredentialResponse(response: any): void {
     const credential = response.credential;
 
-    console.log('Google credential received, sending to backend for verification');
+
 
     this.apiService.googleLogin({ credential }).subscribe(
       (result: any) => {
@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     console.log('Username:', this.username);
 
-    // Send plaintext password over HTTPS - server will hash with bcrypt
+
     this.apiService.login(this.username, this.password).subscribe(
       (result: any) => {
         console.log('Login successful! Redirecting...');

@@ -39,7 +39,6 @@ export class EditprofileComponent implements OnInit{
       this.id = this.activeUser.user_id;
       this.username=this.activeUser.username;
       this.email=this.activeUser.email;
-      // Don't pre-fill password - user should enter new password
       this.password = '';
       this.passwordRepeat = '';
     });
@@ -50,13 +49,11 @@ export class EditprofileComponent implements OnInit{
     console.log("ID: " + this.id);
     console.log("mail: " + this.email);
 
-    // Validate username and email are filled
     if (!this.username || !this.email) {
       alert("Molimo unesite korisničko ime i email.");
       return;
     }
 
-    // If user is updating password, validate it
     if (this.password || this.passwordRepeat) {
       if (!this.password || !this.passwordRepeat) {
         alert("Molimo unesite obje lozinke ako želite promijeniti lozinku.");
@@ -69,7 +66,6 @@ export class EditprofileComponent implements OnInit{
       }
     }
 
-    // Do NOT hash on the client. Send password over HTTPS and let the server hash with bcrypt.
     this.apiService.updateUserProfile(this.id, this.username, this.password, this.email).subscribe(
       response => {
         this.ActiveUserService.setActiveUser({
