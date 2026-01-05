@@ -52,7 +52,6 @@ export class RecipeDetaisComponent implements OnInit {
   loadRecipe(): void {
     this.apiService.getRecipe(this.recipeId).subscribe(data => {
       this.recipe = data;
-      console.log(this.recipe);
       this.loadImage(this.recipe.slika_id);
       this.loadAuthor(this.recipe.korisnik_id);
       this.loadCategory(this.recipe.kategorija_id);

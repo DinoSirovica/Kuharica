@@ -51,22 +51,20 @@ export class LoginComponent implements OnInit {
           }
         );
       } else {
-
+        console.warn('Google Sign-In button element not found in DOM.');
       }
     } else {
       this.googleInitRetryCount++;
       if (this.googleInitRetryCount < this.maxGoogleInitRetries) {
         setTimeout(() => this.initializeGoogleSignIn(), 100);
       } else {
-
+        console.error('Failed to load Google Sign-In API after maximum retries.');
       }
     }
   }
 
   handleGoogleCredentialResponse(response: any): void {
     const credential = response.credential;
-
-
 
     this.apiService.googleLogin({ credential }).subscribe(
       (result: any) => {
@@ -96,9 +94,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Username:', this.username);
-
-
     this.apiService.login(this.username, this.password).subscribe(
       (result: any) => {
         console.log('Login successful! Redirecting...');

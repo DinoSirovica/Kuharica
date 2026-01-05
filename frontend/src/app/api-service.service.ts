@@ -10,7 +10,12 @@ export class ApiServiceService {
   private baseUrl = 'http://localhost:8081/api';
   constructor(private http: HttpClient) { }
 
-
+  // recipes	"http://localhost:8081/api/recipes"
+  // categories	"http://localhost:8081/api/categories"
+  // recipeIngredients	"http://localhost:8081/api/recipe-ingredients"
+  // ingredients	"http://localhost:8081/api/ingredients"
+  // users	"http://localhost:8081/api/users"
+  // images	"http://localhost:8081/api/images"
 
   getUsers(): Observable<any> {
     return this.http.get(`${this.baseUrl}/users`);
