@@ -17,14 +17,14 @@ const routes: Routes = [
   { path: 'profil', component: ProfileComponent },
   { path: 'profil/prijava', component: LoginComponent },
   { path: 'profil/registracija', component: SignupComponent },
-  { path: 'profil/uredivanje-profila', component: EditprofileComponent },  
+  { path: 'profil/uredivanje-profila', component: EditprofileComponent },
   { path: 'profil/moji-recepti', component: MyrecipiesComponent },
   { path: 'profil/moji-recepti/uredivanje-recepta/:id', component: EditRecipeComponent },
   { path: 'profil/novi-recept', component: AddRecipeComponent },
   { path: 'profil/moji-favoriti', component: MyfavouritesComponent },
   { path: 'recept/detalji/:id', component: RecipeDetaisComponent },
   { path: 'pretrazivanje', component: SearchComponent },
-  { path: '', component: HomepageComponent},
+  { path: '', component: HomepageComponent },
   { path: '**', component: PagenotfoundComponent }
 ]
 

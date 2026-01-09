@@ -1,41 +1,41 @@
- <div class="container">
+<div class="container">
   <nav class="navigation">
-      <div class="navigation home mainTile">
-        <a routerLink="/">
-          <img src="../assets/media/Logo.png" alt="Logo"/>
-          Kuharica
-        </a>
-      </div>
+    <div class="navigation home mainTile">
+      <a routerLink="/">
+        <img src="../assets/media/Logo.png" alt="Logo" />
+        Kuharica
+      </a>
+    </div>
 
-      <!-- navigacija koja se prikazuje ukoliko je korisnik ulogiran -->
-      <ng-container *ngIf="activeUser; else noUser">
-        <div class="navigation secondary">
-          <div class="navigation search">
-            <span><a routerLink="pretrazivanje">Pretraži recepte</a></span>
-          </div>
-          <div class="navigation profile">
-            <span><a routerLink="profil">Moj profil</a></span>
-          </div>
-          <div class="navigation search">
-            <span><a (click)="logoutUser()">Odjava</a></span>
-          </div>
+    <!-- navigacija koja se prikazuje ukoliko je korisnik ulogiran -->
+    <ng-container *ngIf="activeUser; else noUser">
+      <div class="navigation secondary">
+        <div class="navigation search">
+          <span><a routerLink="pretrazivanje">Pretraži recepte</a></span>
         </div>
-      </ng-container>
-      
-      <!-- navigacija koja se prikazuje ukoliko korisnik nije ulogian -->
-      <ng-template #noUser>
-        <div class="navigation secondary">
-          <div class="navigation search">
-            <span><a routerLink="pretrazivanje">Pretraži recepte</a></span>
-          </div>
-          <div class="navigation profile">
-            <span><a routerLink="profil/prijava">Prijava</a></span>
-          </div>
-          <div class="navigation search">
-            <span><a routerLink="profil/registracija">Registracija</a></span>
-          </div>
+        <div class="navigation profile">
+          <span><a routerLink="profil">Moj profil</a></span>
         </div>
-      </ng-template>
+        <div class="navigation search">
+          <span><a (click)="logoutUser()">Odjava</a></span>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- navigacija koja se prikazuje ukoliko korisnik nije ulogian -->
+    <ng-template #noUser>
+      <div class="navigation secondary">
+        <div class="navigation search">
+          <span><a routerLink="pretrazivanje">Pretraži recepte</a></span>
+        </div>
+        <div class="navigation profile">
+          <span><a routerLink="profil/prijava">Prijava</a></span>
+        </div>
+        <div class="navigation search">
+          <span><a routerLink="profil/registracija">Registracija</a></span>
+        </div>
+      </div>
+    </ng-template>
 
   </nav>
 </div>
@@ -43,9 +43,9 @@
   <router-outlet></router-outlet>
 </div>
 <footer>
-    <div class="container">
-      <h4>Kuharica</h4>
-      <p>Svi recepti na jednom mjestu</p>
-      <p>Copyright &#64; Tim 11 - Sirovica, Vignjević, Janeš, Ivanišević</p>
-    </div>
+  <div class="container">
+    <h4>Kuharica</h4>
+    <p>Svi recepti na jednom mjestu</p>
+    <p>Copyright &#64; Tim 11 - Sirovica, Vignjević, Janeš, Ivanišević</p>
+  </div>
 </footer>

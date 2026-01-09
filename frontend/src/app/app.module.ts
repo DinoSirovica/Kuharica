@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'profil/moji-favoriti', component: MyfavouritesComponent },
   { path: 'recept/detalji', component: RecipeDetaisComponent },
   { path: 'pretrazivanje', component: SearchComponent },
-  { path: '', component: HomepageComponent},
+  { path: '', component: HomepageComponent },
   { path: '**', component: PagenotfoundComponent }
 ];
 
@@ -57,7 +57,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule ,
+    FormsModule,
     HttpClientModule,
     NgToastModule
   ],
