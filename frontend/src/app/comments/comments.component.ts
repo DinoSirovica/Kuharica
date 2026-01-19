@@ -45,8 +45,12 @@ export class CommentsComponent implements OnInit {
     }
   }
 
-  isAuthor(comment: any): boolean {
+  canEdit(comment: any): boolean {
     return this.activeUser && this.activeUser.user_id === comment.korisnik_id;
+  }
+
+  canDelete(comment: any): boolean {
+    return this.activeUser && (this.activeUser.user_id === comment.korisnik_id || this.activeUser.role === 'admin');
   }
 
   startEdit(comment: any) {

@@ -40,7 +40,8 @@ CREATE TABLE `korisnik` (
 
 LOCK TABLES `korisnik` WRITE;
 /*!40000 ALTER TABLE `korisnik` DISABLE KEYS */;
-INSERT INTO `korisnik` VALUES (1,'foodie123','foodie123@example.com','hashed_password_2',NULL),(2,'bakerqueen','bakerqueen@example.com','hashed_password_3','1'),(3,'souschef','souschef@example.com','hashed_password_4',NULL),(4,'chefmaster','chefmaster@example.com','hashed_password',NULL),(5,'adminMaster','admin@email.com','adminpass',NULL),(6,'MajaV','maja1vignjevic@gmail.com','majapass','1');
+INSERT INTO korisnik (korisnik_ime, email, lozinka, rola) 
+VALUES ('admin', 'admin@kuharica.hr', '$2b$10$zMEGDvixK6HZCEiF.m.USe3VVnS.bRA3WjeMxdExSv83oDZUie26K', 'admin');
 /*!40000 ALTER TABLE `korisnik` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

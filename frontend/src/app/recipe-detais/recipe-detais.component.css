@@ -49,3 +49,12 @@ img{
     list-style: none;
 }
 
+
+.delete-icon {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.delete-icon:hover {
+    transform: scale(1.1);
+}

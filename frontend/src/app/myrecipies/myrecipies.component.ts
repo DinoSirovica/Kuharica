@@ -8,15 +8,15 @@ import { ActiveUserService } from '../active-user.service';
   templateUrl: './myrecipies.component.html',
   styleUrl: './myrecipies.component.css'
 })
-export class MyrecipiesComponent implements OnInit{
+export class MyrecipiesComponent implements OnInit {
   userRecipes: any = [];
-  activeUser: any ;
+  activeUser: any;
 
   constructor(
     private router: Router,
     private apiService: ApiServiceService,
     private activeUserService: ActiveUserService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.activeUser = this.activeUserService.getActiveUser();
@@ -39,8 +39,8 @@ export class MyrecipiesComponent implements OnInit{
     this.router.navigate([`/profil/moji-recepti/uredivanje-recepta`, recipeId]);
   }
 
-  deleteRecipe(recipeId: number){
-    this.apiService.deleteRecipe(recipeId).subscribe((response: any) => {
+  deleteRecipe(recipeId: number) {
+    this.apiService.deleteRecipe(recipeId, this.activeUser.user_id).subscribe((response: any) => {
       this.ngOnInit();
     }, (error: any) => {
       console.error("Greška prilikom brisanja recepta:", error);

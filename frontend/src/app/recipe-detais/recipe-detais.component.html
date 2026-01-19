@@ -6,14 +6,22 @@
       <br>
       Kategorija: <span>{{category.ime}}</span>
     </p>
-    <svg (click)="toggleFavourite()" *ngIf="activeUser" [ngClass]="{ 'filled': isFavourite }"
-      xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-      stroke-width="2" class="star-icon">
-      <path *ngIf="!isFavourite" stroke-linecap="round" stroke-linejoin="round"
-        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.121 6.507h6.396c.969 0 1.371 1.24.588 1.81l-5.18 3.764 1.963 6.507c.287.952-.755 1.745-1.54 1.158L12 18.347l-5.3 3.326c-.784.587-1.826-.206-1.54-1.158l1.964-6.507-5.181-3.764c-.782-.57-.38-1.81.588-1.81h6.396l2.122-6.507z" />
-      <path *ngIf="isFavourite" fill="#F58F29"
-        d="M12 .587l3.668 7.568L24 9.423l-6 5.847 1.416 8.263L12 18.896 4.584 23.533 6 15.27 0 9.423l8.332-1.268z" />
-    </svg> <!---->
+    <div class="recipeDetails__icons" style="display: flex; align-items: center;">
+      <svg *ngIf="canDelete()" (click)="deleteRecipe()" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+        fill="none" viewBox="0 0 24 24" stroke="red" stroke-width="2" class="delete-icon" style="margin-right: 10px;">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+      </svg>
+
+      <svg (click)="toggleFavourite()" *ngIf="activeUser" [ngClass]="{ 'filled': isFavourite }"
+        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2" class="star-icon">
+        <path *ngIf="!isFavourite" stroke-linecap="round" stroke-linejoin="round"
+          d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.121 6.507h6.396c.969 0 1.371 1.24.588 1.81l-5.18 3.764 1.963 6.507c.287.952-.755 1.745-1.54 1.158L12 18.347l-5.3 3.326c-.784.587-1.826-.206-1.54-1.158l1.964-6.507-5.181-3.764c-.782-.57-.38-1.81.588-1.81h6.396l2.122-6.507z" />
+        <path *ngIf="isFavourite" fill="#F58F29"
+          d="M12 .587l3.668 7.568L24 9.423l-6 5.847 1.416 8.263L12 18.896 4.584 23.533 6 15.27 0 9.423l8.332-1.268z" />
+      </svg> <!---->
+    </div>
   </div>
 
   <!--ne pitaj kako ne pitaj zašto samo znam da funkcionira-->

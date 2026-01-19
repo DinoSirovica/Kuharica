@@ -1,6 +1,7 @@
 const { OAuth2Client } = require('google-auth-library');
 const config = require('../../config');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const SALT_ROUNDS = 10;
 
@@ -17,6 +18,19 @@ module.exports = function (express, pool) {
       });
     });
   };
+
+  function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, config.jwtSecret, (err, user) => {
+      if (err) return res.sendStatus(403);
+      req.user = user;
+      next();
+    });
+  }
 
   async function verifyGoogleToken(credential) {
     try {
@@ -268,7 +282,8 @@ module.exports = function (express, pool) {
             username: user.korisnik_ime,
             email: user.email,
             password_hash: user.lozinka,
-            favourites: user.omiljeni_recepti
+            favourites: user.omiljeni_recepti,
+            role: user.rola
           }));
 
           const benigining = 'http://localhost:8081/api';
@@ -323,19 +338,47 @@ module.exports = function (express, pool) {
         return res.status(401).json({ error: 'Invalid username or password' });
       }
 
+      const token = jwt.sign(
+        { user_id: user.id, role: user.rola },
+        config.jwtSecret,
+        { expiresIn: '2h' }
+      );
+
       return res.json({
         message: 'Login successful',
+        token: token,
         user: {
           user_id: user.id,
           username: user.korisnik_ime,
           email: user.email,
-          favourites: user.omiljeni_recepti
+          favourites: user.omiljeni_recepti,
+          role: user.rola
         }
       });
     } catch (error) {
       console.error('Login error:', error);
       return res.status(500).json({ error: 'Login failed' });
     }
+  });
+
+  router.get('/auth/me', authenticateToken, (req, res) => {
+    const userId = req.user.user_id;
+
+    pool.query('SELECT * FROM korisnik WHERE id = ?', [userId], (error, results) => {
+      if (error) return res.status(500).json({ error: error.message });
+      if (results.length === 0) return res.status(404).json({ error: 'User not found' });
+
+      const user = results[0];
+      return res.json({
+        user: {
+          user_id: user.id,
+          username: user.korisnik_ime,
+          email: user.email,
+          favourites: user.omiljeni_recepti,
+          role: user.rola
+        }
+      });
+    });
   });
 
   router.post('/auth/google', async (req, res) => {
@@ -355,14 +398,22 @@ module.exports = function (express, pool) {
 
       if (existingUserByGoogleId.length > 0) {
         const user = existingUserByGoogleId[0];
+        const token = jwt.sign(
+          { user_id: user.id, role: user.rola },
+          config.jwtSecret,
+          { expiresIn: '2h' }
+        );
+
         return res.json({
           message: 'Login successful',
+          token: token,
           user: {
             user_id: user.id,
             username: user.korisnik_ime,
             email: user.email,
             favourites: user.omiljeni_recepti,
-            google_id: user.google_id
+            google_id: user.google_id,
+            role: user.rola
           }
         });
       }
@@ -372,14 +423,23 @@ module.exports = function (express, pool) {
       if (existingUserByEmail.length > 0) {
         const existingUser = existingUserByEmail[0];
         await query('UPDATE korisnik SET google_id = ? WHERE id = ?', [google_id, existingUser.id]);
+
+        const token = jwt.sign(
+          { user_id: existingUser.id, role: existingUser.rola },
+          config.jwtSecret,
+          { expiresIn: '2h' }
+        );
+
         return res.json({
           message: 'Google account linked successfully',
+          token: token,
           user: {
             user_id: existingUser.id,
             username: existingUser.korisnik_ime,
             email: existingUser.email,
             favourites: existingUser.omiljeni_recepti,
-            google_id: google_id
+            google_id: google_id,
+            role: existingUser.rola
           }
         });
       }
@@ -412,14 +472,22 @@ module.exports = function (express, pool) {
         return res.status(500).json({ error: 'Could not create user with unique username' });
       }
 
+      const token = jwt.sign(
+        { user_id: insertedUser.insertId, role: 'korisnik' },
+        config.jwtSecret,
+        { expiresIn: '2h' }
+      );
+
       return res.status(201).json({
         message: 'User created successfully',
+        token: token,
         user: {
           user_id: insertedUser.insertId,
           username: insertedUser.username,
           email: email,
           favourites: null,
-          google_id: google_id
+          google_id: google_id,
+          role: 'korisnik'
         }
       });
 
@@ -586,43 +654,67 @@ module.exports = function (express, pool) {
     });
   });
 
-  router.delete('/recipes/:id', (req, res) => {
+  router.delete('/recipes/:id', authenticateToken, (req, res) => {
     const recipeId = req.params.id;
-    console.log('Deleting recipe with ID:', recipeId);
-    const fetchImageIdQuery = 'SELECT slika_id FROM recept WHERE id = ?';
-    pool.query(fetchImageIdQuery, [recipeId], (error, results) => {
-      if (error) {
-        console.error(`Error fetching image_id for recipe with id ${recipeId}:`, error);
-        return res.status(500).json({ error: `Failed to fetch image_id for recipe with id ${recipeId}` });
+    const userId = req.user.user_id; // Securely obtained from token
+
+    console.log('Deleting recipe with ID:', recipeId, 'User:', userId);
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID required' });
+    }
+
+    const checkQuery = `
+      SELECT r.korisnik_id AS owner_id, u.rola 
+      FROM recept r 
+      JOIN korisnik u ON u.id = ? 
+      WHERE r.id = ?`;
+
+    pool.query(checkQuery, [userId, recipeId], (checkError, checkResults) => {
+      if (checkError) return res.status(500).json({ error: checkError.message });
+      if (checkResults.length === 0) return res.status(404).json({ error: 'Recipe or user not found' });
+
+      const { owner_id, rola } = checkResults[0];
+
+      if (rola !== 'admin' && parseInt(owner_id) !== parseInt(userId)) {
+        return res.status(403).json({ error: 'Unauthorized' });
       }
 
-      const imageId = results[0]?.slika_id;
-
-      if (imageId) {
-        const deleteImageQuery = 'DELETE FROM slika WHERE id = ?';
-        pool.query(deleteImageQuery, [imageId], (error) => {
-          if (error) {
-            console.error(`Error deleting image with id ${imageId}:`, error);
-            return res.status(500).json({ error: `Failed to delete image with id ${imageId}` });
-          }
-        })
-      }
-
-      const deleteIngredientsQuery = 'DELETE FROM recpt_sastojak WHERE recept_id = ?';
-      pool.query(deleteIngredientsQuery, [recipeId], (error) => {
+      const fetchImageIdQuery = 'SELECT slika_id FROM recept WHERE id = ?';
+      pool.query(fetchImageIdQuery, [recipeId], (error, results) => {
         if (error) {
-          console.error(`Error deleting ingredients for recipe with id ${recipeId}:`, error);
-          return res.status(500).json({ error: `Failed to delete ingredients for recipe with id ${recipeId}` });
+          console.error(`Error fetching image_id for recipe with id ${recipeId}:`, error);
+          return res.status(500).json({ error: `Failed to fetch image_id for recipe with id ${recipeId}` });
         }
 
-        const deleteRecipeQuery = 'DELETE FROM recept WHERE id = ?';
-        pool.query(deleteRecipeQuery, [recipeId], (error) => {
+        const imageId = results[0]?.slika_id;
+
+        if (imageId) {
+          const deleteImageQuery = 'DELETE FROM slika WHERE id = ?';
+          pool.query(deleteImageQuery, [imageId], (error) => {
+            if (error) {
+              console.error(`Error deleting image with id ${imageId}:`, error);
+              return res.status(500).json({ error: `Failed to delete image with id ${imageId}` });
+            }
+          })
+        }
+
+        const deleteIngredientsQuery = 'DELETE FROM recpt_sastojak WHERE recept_id = ?';
+        pool.query(deleteIngredientsQuery, [recipeId], (error) => {
           if (error) {
-            console.error(`Error deleting recipe with id ${recipeId}:`, error);
-            return res.status(500).json({ error: `Failed to delete recipe with id ${recipeId}` });
+            console.error(`Error deleting ingredients for recipe with id ${recipeId}:`, error);
+            return res.status(500).json({ error: `Failed to delete ingredients for recipe with id ${recipeId}` });
           }
 
-          res.status(204).end();
+          const deleteRecipeQuery = 'DELETE FROM recept WHERE id = ?';
+          pool.query(deleteRecipeQuery, [recipeId], (error) => {
+            if (error) {
+              console.error(`Error deleting recipe with id ${recipeId}:`, error);
+              return res.status(500).json({ error: `Failed to delete recipe with id ${recipeId}` });
+            }
+
+            res.status(204).end();
+          });
         });
       });
     });
@@ -703,10 +795,9 @@ module.exports = function (express, pool) {
     });
   });
 
-  router.delete('/comments/:id', (req, res) => {
+  router.delete('/comments/:id', authenticateToken, (req, res) => {
     const commentId = req.params.id;
-    const { user_id } = req.body;
-    const userId = req.query.user_id || req.body.user_id;
+    const userId = req.user.user_id; // Securely obtained from token
 
     console.log(`[DELETE] Request received for comment ${commentId}. Provided UserID: ${userId}`);
 
@@ -727,19 +818,25 @@ module.exports = function (express, pool) {
 
       console.log(`[DELETE] Comment found. Owner in DB: ${results[0].korisnik_id}, Requesting User: ${userId}`);
 
-      if (parseInt(results[0].korisnik_id) !== parseInt(userId)) {
-        console.error('[DELETE] Failed: Unauthorized mismatch');
-        return res.status(403).json({ error: 'Unauthorized function' });
-      }
+      pool.query('SELECT rola FROM korisnik WHERE id = ?', [userId], (roleError, roleResults) => {
+        if (roleError) return res.status(500).json({ error: roleError.message });
 
-      const deleteQuery = 'DELETE FROM komentar WHERE id = ?';
-      pool.query(deleteQuery, [commentId], (err, deleteResults) => {
-        if (err) {
-          console.error('[DELETE] Database error executing delete:', err);
-          return res.status(500).json({ error: err.message });
+        const userRole = roleResults[0]?.rola;
+
+        if (userRole !== 'admin' && parseInt(results[0].korisnik_id) !== parseInt(userId)) {
+          console.error('[DELETE] Failed: Unauthorized mismatch');
+          return res.status(403).json({ error: 'Unauthorized function' });
         }
-        console.log(`[DELETE] Successfully deleted comment ${commentId}`);
-        res.json({ message: 'Comment deleted' });
+
+        const deleteQuery = 'DELETE FROM komentar WHERE id = ?';
+        pool.query(deleteQuery, [commentId], (err, deleteResults) => {
+          if (err) {
+            console.error('[DELETE] Database error executing delete:', err);
+            return res.status(500).json({ error: err.message });
+          }
+          console.log(`[DELETE] Successfully deleted comment ${commentId}`);
+          res.json({ message: 'Comment deleted' });
+        });
       });
     });
   });

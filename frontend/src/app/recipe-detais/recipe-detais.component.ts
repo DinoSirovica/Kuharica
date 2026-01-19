@@ -134,4 +134,25 @@ export class RecipeDetaisComponent implements OnInit {
     })
 
   }
+
+  deleteRecipe() {
+    if (!this.activeUser) return;
+
+    if (confirm('Jeste li sigurni da želite obrisati ovaj recept?')) {
+      this.apiService.deleteRecipe(this.recipeId, this.activeUser.user_id).subscribe({
+        next: () => {
+          alert('Recept obrisan.');
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error("Greška pri brisanju recepta:", err);
+          alert('Greška pri brisanju recepta.');
+        }
+      });
+    }
+  }
+
+  canDelete(): boolean {
+    return this.activeUser && this.recipe && (this.activeUser.role === 'admin' || this.activeUser.user_id === this.recipe.korisnik_id);
+  }
 }

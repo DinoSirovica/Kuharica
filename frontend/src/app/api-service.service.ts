@@ -50,6 +50,9 @@ export class ApiServiceService {
     return this.http.post(`${this.baseUrl}/users`, user, { headers });
   }
 
+  getMe(): Observable<any> {
+    return this.http.get(this.baseUrl + '/auth/me'); // Headers handled by interceptor
+  }
 
   googleLogin(googleData: { credential: string }): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -171,8 +174,8 @@ export class ApiServiceService {
     return this.http.delete(`${this.baseUrl}/recipe-ingredients/${recipeId}`, { headers })
   }
 
-  deleteRecipe(recipeId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/recipes/${recipeId}`);
+  deleteRecipe(recipeId: number, userId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/recipes/${recipeId}?user_id=${userId}`);
   }
 
   getComments(recipeId: number): Observable<any> {

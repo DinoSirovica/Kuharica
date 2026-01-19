@@ -8,27 +8,28 @@ import { ApiServiceService } from '../api-service.service';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent implements OnInit{
-    constructor(
-      private apiService: ApiServiceService,
-      private router: Router,
-      private activeUserService: ActiveUserService
-    ) { }
+export class ProfileComponent implements OnInit {
+  constructor(
+    private apiService: ApiServiceService,
+    private router: Router,
+    private activeUserService: ActiveUserService
+  ) { }
 
-    activeUser: any;
-    username = "";
-    email = "";
+  activeUser: any;
+  username = "";
+  email = "";
 
-    ngOnInit(): void {
-      this.activeUserService.activeUser$.subscribe(user => {
+  ngOnInit(): void {
+    this.activeUserService.activeUser$.subscribe(user => {
+      if (user) {
         this.activeUser = user;
-      });
+        this.username = this.activeUser.username;
+        this.email = this.activeUser.email;
+      }
+    });
+  }
 
-      this.username = this.activeUser.username;
-      this.email = this.activeUser.email
-    }
 
 
 
-    
 }

@@ -6,7 +6,8 @@
         <button (click)="addComment()" [disabled]="!newCommentText.trim()">Objavi komentar</button>
     </div>
     <ng-template #loginPrompt>
-        <p class="login-prompt">Morate biti <a routerLink="/profil/prijava">prijavljeni</a> da biste ostavili komentar.</p>
+        <p class="login-prompt">Morate biti <a routerLink="/profil/prijava">prijavljeni</a> da biste ostavili komentar.
+        </p>
     </ng-template>
 
     <div class="comments-list">
@@ -18,9 +19,11 @@
 
             <div *ngIf="!comment.isEditing">
                 <p class="comment-text">{{ comment.tekst }}</p>
-                <div class="comment-actions" *ngIf="isAuthor(comment)">
-                    <button class="action-btn edit-btn" (click)="startEdit(comment)">Uredi</button>
-                    <button class="action-btn delete-btn" (click)="deleteComment(comment)">Obriši</button>
+                <div class="comment-actions">
+                    <button class="action-btn edit-btn" *ngIf="canEdit(comment)"
+                        (click)="startEdit(comment)">Uredi</button>
+                    <button class="action-btn delete-btn" *ngIf="canDelete(comment)"
+                        (click)="deleteComment(comment)">Obriši</button>
                 </div>
             </div>
 
