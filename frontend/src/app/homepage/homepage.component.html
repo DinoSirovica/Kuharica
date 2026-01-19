@@ -1,64 +1,160 @@
 <div class="homepage">
-    <div class="homepagebox">
-        <h2>Salate</h2>
-        <div class="homepagebox__recipes">
-            <a *ngFor="let recipe of getSalads" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
-              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
-              <div class="homepagebox__recipeInfo">
-                <span>{{ recipe.username }}</span>
-                <h5>{{ recipe.title }}</h5>
-              </div>
-            </a>
-          </div>
-        <h2>Juhe</h2>
-        <div class="homepagebox__recipes">
-            <a *ngFor="let recipe of getSoups" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
-              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
-              <div class="homepagebox__recipeInfo">
-                <span>{{ recipe.username }}</span>
-                <h5>{{ recipe.title }}</h5>
-              </div>
-            </a>
+  <div class="homepagebox">
+    <h2>Salate</h2>
+    <swiper-container
+      class="homepage-swiper"
+      [slides-per-view]="swiperConfig.slidesPerView"
+      [space-between]="swiperConfig.spaceBetween"
+      [navigation]="swiperConfig.navigation"
+      [breakpoints]="swiperConfig.breakpoints"
+      [style.--swiper-navigation-color]="
+        swiperConfig.styles['--swiper-navigation-color']
+      "
+    >
+      <swiper-slide
+        *ngFor="let recipe of getSalads"
+        [routerLink]="['/recept/detalji', recipe.recipe_id]"
+        class="homepagebox__recipe"
+      >
+        <img
+          [src]="recipe.image_data || 'assets/media/default.png'"
+          alt="{{ recipe.title }}"
+        />
+        <div class="homepagebox__recipeInfo">
+          <span>{{ recipe.username }}</span>
+          <h5>{{ recipe.title }}</h5>
         </div>
-        <h2>Predjela</h2>
-        <div class="homepagebox__recipes">
-            <a *ngFor="let recipe of getAppetizers" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
-              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
-              <div class="homepagebox__recipeInfo">
-                <span>{{ recipe.username }}</span>
-                <h5>{{ recipe.title }}</h5>
-              </div>
-            </a>
+      </swiper-slide>
+    </swiper-container>
+    <h2>Juhe</h2>
+    <swiper-container
+      class="homepage-swiper"
+      [slides-per-view]="swiperConfig.slidesPerView"
+      [space-between]="swiperConfig.spaceBetween"
+      [navigation]="swiperConfig.navigation"
+      [breakpoints]="swiperConfig.breakpoints"
+      [style.--swiper-navigation-color]="
+        swiperConfig.styles['--swiper-navigation-color']
+      "
+    >
+      <swiper-slide
+        *ngFor="let recipe of getSoups"
+        [routerLink]="['/recept/detalji', recipe.recipe_id]"
+        class="homepagebox__recipe"
+      >
+        <img
+          [src]="recipe.image_data || 'assets/media/default.png'"
+          alt="{{ recipe.title }}"
+        />
+        <div class="homepagebox__recipeInfo">
+          <span>{{ recipe.username }}</span>
+          <h5>{{ recipe.title }}</h5>
         </div>
-        <h2>Glavna jela</h2>
-        <div class="homepagebox__recipes">
-            <a *ngFor="let recipe of getMain" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
-              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
-              <div class="homepagebox__recipeInfo">
-                <span>{{ recipe.username }}</span>
-                <h5>{{ recipe.title }}</h5>
-              </div>
-            </a>
+      </swiper-slide>
+    </swiper-container>
+    <h2>Predjela</h2>
+    <swiper-container
+      class="homepage-swiper"
+      [slides-per-view]="swiperConfig.slidesPerView"
+      [space-between]="swiperConfig.spaceBetween"
+      [navigation]="swiperConfig.navigation"
+      [breakpoints]="swiperConfig.breakpoints"
+      [style.--swiper-navigation-color]="
+        swiperConfig.styles['--swiper-navigation-color']
+      "
+    >
+      <swiper-slide
+        *ngFor="let recipe of getAppetizers"
+        [routerLink]="['/recept/detalji', recipe.recipe_id]"
+        class="homepagebox__recipe"
+      >
+        <img
+          [src]="recipe.image_data || 'assets/media/default.png'"
+          alt="{{ recipe.title }}"
+        />
+        <div class="homepagebox__recipeInfo">
+          <span>{{ recipe.username }}</span>
+          <h5>{{ recipe.title }}</h5>
         </div>
-        <h2>Deserti</h2>
-        <div class="homepagebox__recipes">
-            <a *ngFor="let recipe of getDesserts" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
-              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
-              <div class="homepagebox__recipeInfo">
-                <span>{{ recipe.username }}</span>
-                <h5>{{ recipe.title }}</h5>
-              </div>
-            </a>
+      </swiper-slide>
+    </swiper-container>
+    <h2>Glavna jela</h2>
+    <swiper-container
+      class="homepage-swiper"
+      [slides-per-view]="swiperConfig.slidesPerView"
+      [space-between]="swiperConfig.spaceBetween"
+      [navigation]="swiperConfig.navigation"
+      [breakpoints]="swiperConfig.breakpoints"
+      [style.--swiper-navigation-color]="
+        swiperConfig.styles['--swiper-navigation-color']
+      "
+    >
+      <swiper-slide
+        *ngFor="let recipe of getMain"
+        [routerLink]="['/recept/detalji', recipe.recipe_id]"
+        class="homepagebox__recipe"
+      >
+        <img
+          [src]="recipe.image_data || 'assets/media/default.png'"
+          alt="{{ recipe.title }}"
+        />
+        <div class="homepagebox__recipeInfo">
+          <span>{{ recipe.username }}</span>
+          <h5>{{ recipe.title }}</h5>
         </div>
-        <h2>Pića</h2>
-        <div class="homepagebox__recipes">
-            <a *ngFor="let recipe of getDrinks" [routerLink]="['/recept/detalji', recipe.recipe_id]" class="homepagebox__recipe">
-              <img [src]="recipe.image_data || 'assets/media/default.png'" alt="{{ recipe.title }}">
-              <div class="homepagebox__recipeInfo">
-                <span>{{ recipe.username }}</span>
-                <h5>{{ recipe.title }}</h5>
-              </div>
-            </a>
+      </swiper-slide>
+    </swiper-container>
+    <h2>Deserti</h2>
+    <swiper-container
+      class="homepage-swiper"
+      [slides-per-view]="swiperConfig.slidesPerView"
+      [space-between]="swiperConfig.spaceBetween"
+      [navigation]="swiperConfig.navigation"
+      [breakpoints]="swiperConfig.breakpoints"
+      [style.--swiper-navigation-color]="
+        swiperConfig.styles['--swiper-navigation-color']
+      "
+    >
+      <swiper-slide
+        *ngFor="let recipe of getDesserts"
+        [routerLink]="['/recept/detalji', recipe.recipe_id]"
+        class="homepagebox__recipe"
+      >
+        <img
+          [src]="recipe.image_data || 'assets/media/default.png'"
+          alt="{{ recipe.title }}"
+        />
+        <div class="homepagebox__recipeInfo">
+          <span>{{ recipe.username }}</span>
+          <h5>{{ recipe.title }}</h5>
         </div>
-    </div>
+      </swiper-slide>
+    </swiper-container>
+    <h2>Pića</h2>
+    <swiper-container
+      class="homepage-swiper"
+      [slides-per-view]="swiperConfig.slidesPerView"
+      [space-between]="swiperConfig.spaceBetween"
+      [navigation]="swiperConfig.navigation"
+      [breakpoints]="swiperConfig.breakpoints"
+      [style.--swiper-navigation-color]="
+        swiperConfig.styles['--swiper-navigation-color']
+      "
+    >
+      <swiper-slide
+        *ngFor="let recipe of getDrinks"
+        [routerLink]="['/recept/detalji', recipe.recipe_id]"
+        class="homepagebox__recipe"
+      >
+        <img
+          [src]="recipe.image_data || 'assets/media/default.png'"
+          alt="{{ recipe.title }}"
+        />
+        <div class="homepagebox__recipeInfo">
+          <span>{{ recipe.username }}</span>
+          <h5>{{ recipe.title }}</h5>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  </div>
 </div>

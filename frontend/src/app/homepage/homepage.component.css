@@ -34,3 +34,9 @@ span{
     font-size: 0.89rem;
     margin-top: 0;
 }
+
+.homepage-swiper {
+  --swiper-navigation-color: #748067;
+  --swiper-scrollbar-drag-bg-color: #748067;
+  --swiper-scrollbar-bg-color: #e0e0e0;
+}
