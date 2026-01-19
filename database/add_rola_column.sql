@@ -1,0 +1,1 @@
+ALTER TABLE korisnik ADD COLUMN rola VARCHAR(50) DEFAULT 'korisnik';
