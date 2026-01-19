@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
 
-  private googleClientId = '674358194368-0areh3ol22h7qpci7hci7aeeoqochotp.apps.googleusercontent.com';
+  private googleClientId = '856981549467-aol874fo3tae1am4chv4vtrkq1go4p5f.apps.googleusercontent.com';
   private googleInitRetryCount = 0;
   private readonly maxGoogleInitRetries = 50;
 

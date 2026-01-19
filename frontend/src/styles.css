@@ -97,7 +97,6 @@ button{
     background-color: unset;
     border: 1px solid var(--Red);
     border-radius: 5%;
-
 }
 
 @media (max-width: 1144px){
