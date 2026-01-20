@@ -42,7 +42,7 @@ export class HomepageComponent implements OnInit {
 
   swiperConfig = {
     slidesPerView: 5,
-    spaceBetween: 20,
+    spaceBetween: 40,
     navigation: true,
     breakpoints: {
       0: { slidesPerView: 1 },

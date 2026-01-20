@@ -1,38 +1,39 @@
-h2{
-    color: #F58F29;
+h2 {
+  color: #f58f29;
 }
 
-.homepagebox__recipes{
-    display: flex;
-    justify-content: space-between;
-}
-
-.homepagebox__recipe img{
-    width: 12.375rem;
-    height: 12.375rem;
-    object-fit: cover;
+.homepagebox__recipe img {
+  height: 12.375rem;
+  width: 90%;
+  object-fit: cover;
 }
 
 .homepagebox__recipe {
-    width: 200px;
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .homepagebox__recipe:hover {
-    transform: scale(1.03);
-    transition: 0.3s;
-    cursor: pointer;
-  }
-
-h5{
-    text-align: center;
-    margin-top: 5%;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-span{
-    font-size: 0.89rem;
-    margin-top: 0;
+.homepagebox__recipe:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.homepagebox__recipeInfo {
+  width: 90%;
+}
+
+h5 {
+  text-align: center;
+  margin-top: 5%;
+}
+
+span {
+  font-size: 0.89rem;
+  margin-top: 0;
 }
 
 .homepage-swiper {
