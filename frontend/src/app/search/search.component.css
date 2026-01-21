@@ -5,32 +5,34 @@ h1 {
 }
 
 .search__box {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
 }
 
 .search__boxItem img {
-  width: 12.375rem;
   height: 12.375rem;
+  width: 90%;
   object-fit: cover;
 }
 
 .search__boxItem {
-  width: 200px;
   text-decoration: none;
   color: inherit;
-  margin-bottom: 2.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h5 {
   text-align: center;
   margin: 3% 0 2% 0;
+  width: 90%;
 }
 
 span {
   font-size: 0.89rem;
   margin-top: 0;
+  width: 90%;
 }
 
 .search__form {
@@ -59,18 +61,25 @@ span {
 
 .search__inputsRowTwo {
   display: flex;
-  flex-wrap: wrap;
   gap: 2rem;
   justify-content: flex-start;
-  align-items: center;
   margin-bottom: 1rem;
 }
 
+.search__user{
+  padding: 0.5rem 1.2rem;
+  border-radius: 3rem;
+  border: none;
+  background-color: #e5e8df;
+  font-size: 1rem;
+  font-family: inherit;
+  width: 41%;
+  cursor: pointer;
+}
+
 .search__categories {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
 }
 
 .search__categories button {
@@ -81,6 +90,7 @@ span {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 0 0.4rem 0 0;
 }
 
 .search__categories button.selected {
@@ -92,18 +102,6 @@ span {
   background-color: #748067;
   color: white;
   transform: scale(1.05);
-  cursor: pointer;
-}
-
-.search__inputsRowTwo select {
-  padding: 0.5rem 1.2rem;
-  border-radius: 3rem;
-  border: none;
-  background-color: #e5e8df;
-  font-size: 1rem;
-  font-family: inherit;
-  min-width: 200px;
-  width: 37%;
   cursor: pointer;
 }
 
@@ -127,4 +125,44 @@ span {
 .search__submit:hover {
   background-color: #dcded3;
   transform: scale(1.05);
+}
+
+@media (max-width: 1144px) {
+  .search__box {
+    grid-template-columns: auto auto auto auto;
+  }
+
+  .search__inputsRowTwo{
+    flex-direction: column;
+  }
+
+  .search__user, .search__inputsRowOne, .search__inputsRowOne input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .search__box {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .search__box {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .search__box {
+    grid-template-columns: auto;
+  }
+
+  .search__categories{
+    grid-template-columns: auto auto auto;
+  }
+
+  .search__categories button{
+    margin: 0.4rem 0.4rem 0 0;
+  }
 }

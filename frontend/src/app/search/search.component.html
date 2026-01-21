@@ -9,13 +9,11 @@
 
                 <div class="search__inputsRowTwo">
                     <div class="search__categories">
-                      <div>
                         <button type="button" *ngFor="let category of allCategories" [class.selected]="selectedCategory == category.id" (click)="selectedCategory = category.id">
                           {{ category.ime }}
                         </button>
                       </div>
-                      </div>
-                      <select [(ngModel)]="selectedUser" name="searchUser">
+                      <select [(ngModel)]="selectedUser" name="searchUser" class="search__user">
                         <option value="">Filtriraj po korisniku</option>
                         <option *ngFor="let user of allUsers" [value]="user.user_id">
                           {{ user.username }}

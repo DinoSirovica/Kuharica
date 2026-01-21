@@ -41,3 +41,9 @@ span {
   --swiper-scrollbar-drag-bg-color: #748067;
   --swiper-scrollbar-bg-color: #e0e0e0;
 }
+
+@media (max-width: 600px) {
+  .homepagebox__recipe img {
+    height: 20rem;
+  }
+}
