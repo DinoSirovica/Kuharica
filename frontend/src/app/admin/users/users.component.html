@@ -1,0 +1,48 @@
+<div class="admin-container">
+    <h2>Upravljanje korisnicima</h2>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Pretraži korisnike po imenu ili emailu..." [(ngModel)]="searchTerm"
+            (ngModelChange)="filterUsers()">
+    </div>
+
+    <div class="table-responsive">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Korisničko ime</th>
+                    <th>Email</th>
+                    <th>Uloga</th>
+                    <th>Status</th>
+                    <th>Akcije</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of filteredUsers" [class.blocked-row]="user.is_blocked">
+                    <td>{{ user.user_id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <span class="status-badge" [ngClass]="{'blocked': user.is_blocked, 'active': !user.is_blocked}">
+                            {{ user.is_blocked ? 'Blokiran' : 'Aktivan' }}
+                        </span>
+                    </td>
+                    <td class="actions">
+                        <button class="btn-block" [ngClass]="{'unblock': user.is_blocked}"
+                            (click)="toggleBlockUser(user)" *ngIf="user.role !== 'admin'">
+                            {{ user.is_blocked ? 'Odblokiraj' : 'Blokiraj' }}
+                        </button>
+                        <button class="btn-delete" (click)="deleteUser(user)" *ngIf="user.role !== 'admin'">
+                            Obriši
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="filteredUsers.length === 0" class="no-results">
+            Nema pronađenih korisnika.
+        </div>
+    </div>
+</div>
