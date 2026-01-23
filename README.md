@@ -91,23 +91,57 @@ ng serve
 
 Open your browser and navigate to http://localhost:4200. 
 
-### Quick: Enable Google Sign-in (simple)
-1. Create OAuth credentials
-   - Go to Google Cloud Console → APIs & Services → Credentials.
-   - Create an OAuth 2.0 Client ID (Web application).
-   - Add Authorized JavaScript origin: http://localhost:4200
-   - Copy the Client ID (xxxxx.apps.googleusercontent.com).
+---
 
-2. Frontend
-   - Open frontend/src/app/login/login.component.ts and replace the googleClientId value with your Client ID.
-   - The Google Identity script is already included in frontend/src/index.html.
+## Google Sign-In Setup
 
-3. Backend
-   - In backend, create a .env file (or copy backend/.env.example) and set:
-     GOOGLE_CLIENT_ID=your-client-id
-     GOOGLE_CLIENT_SECRET=your-client-secret
-   - backend/server.js already loads dotenv; restart the backend after creating .env.
+To enable Google OAuth authentication, follow these steps:
 
-4. Start and test
-   - Start backend (cd backend && npm start) and frontend (cd frontend && ng serve).
-   - Open http://localhost:4200 → Login page; the Google button should appear.
+### 1. Create Google OAuth Credentials
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Navigate to **APIs & Services** → **Credentials**
+4. Click **Create Credentials** → **OAuth 2.0 Client ID**
+5. Select **Web application** as the application type
+6. Configure the following:
+   - **Name**: Kuharica (or any name you prefer)
+   - **Authorized JavaScript origins**: 
+     - `http://localhost:4200`
+   - **Authorized redirect URIs**:
+     - `http://localhost:4200` 
+7. Click **Create** and copy the **Client ID** and **Client Secret**
+
+### 2. Backend Configuration
+
+Create a `.env` file in the `backend/` directory with your Google credentials:
+
+```env
+GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+JWT_SECRET=your-jwt-secret-key
+```
+
+> **Note**: Never commit your `.env` file to version control. It's already included in `.gitignore`.
+
+### 3. Frontend Configuration
+
+Update the environment file at `frontend/src/environments/environment.ts`:
+
+```typescript
+export const environment = {
+  googleClientId: 'your-google-client-id.apps.googleusercontent.com'
+};
+```
+
+### 4. Database Migration
+
+Run the following SQL to add Google authentication support to your database:
+
+```sql
+ALTER TABLE `korisnik`
+    ADD COLUMN `google_id` VARCHAR(255) DEFAULT NULL,
+    ADD UNIQUE KEY `google_id` (`google_id`);
+```
+
+---

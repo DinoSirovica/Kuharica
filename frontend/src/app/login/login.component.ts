@@ -3,8 +3,9 @@ import { ApiServiceService } from '../api-service.service';
 import { Router } from '@angular/router';
 import { ActiveUserService } from '../active-user.service';
 import { StorageService } from '../storage.service';
+import { environment } from '../../environments/environment';
 
-declare var google: any;
+declare const google: any;
 
 @Component({
   selector: 'app-login',
@@ -25,10 +26,6 @@ export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
 
-  private googleClientId = '856981549467-aol874fo3tae1am4chv4vtrkq1go4p5f.apps.googleusercontent.com';
-  private googleInitRetryCount = 0;
-  private readonly maxGoogleInitRetries = 50;
-
   ngOnInit(): void {
     this.initializeGoogleSignIn();
   }
@@ -36,64 +33,55 @@ export class LoginComponent implements OnInit {
   initializeGoogleSignIn(): void {
     if (typeof google !== 'undefined' && google.accounts) {
       google.accounts.id.initialize({
-        client_id: this.googleClientId,
-        callback: (response: any) => this.handleGoogleCredentialResponse(response)
+        client_id: environment.googleClientId,
+        callback: (response: any) => this.handleGoogleSignIn(response),
+        auto_select: false,
+        cancel_on_tap_outside: true
       });
 
-      const googleSignInButton = document.getElementById('google-signin-button');
-      if (googleSignInButton) {
-        google.accounts.id.renderButton(
-          googleSignInButton,
-          {
-            theme: 'outline',
-            size: 'large',
-            text: 'signin_with',
-            shape: 'rectangular',
-            width: 300
-          }
-        );
-      } else {
-        console.warn('Google Sign-In button element not found in DOM.');
-      }
+      google.accounts.id.renderButton(
+        document.getElementById('google-signin-button'),
+        {
+          theme: 'outline',
+          size: 'large',
+          width: '100%',
+          text: 'signin_with',
+          shape: 'rectangular',
+          logo_alignment: 'left'
+        }
+      );
     } else {
-      this.googleInitRetryCount++;
-      if (this.googleInitRetryCount < this.maxGoogleInitRetries) {
-        setTimeout(() => this.initializeGoogleSignIn(), 100);
-      } else {
-        console.error('Failed to load Google Sign-In API after maximum retries.');
-      }
+      // Retry after a short delay if Google script hasn't loaded yet
+      setTimeout(() => this.initializeGoogleSignIn(), 100);
     }
   }
 
-  handleGoogleCredentialResponse(response: any): void {
-    const credential = response.credential;
+  handleGoogleSignIn(response: any): void {
+    if (response.credential) {
+      this.ngZone.run(() => {
+        this.apiService.loginWithGoogle(response.credential).subscribe(
+          (result: any) => {
 
-    this.apiService.googleLogin({ credential }).subscribe(
-      (result: any) => {
-        console.log('Google login successful:', result);
+            if (result.token) {
+              this.storageService.saveToken(result.token);
+            }
 
-        if (result.token) {
-          this.storageService.saveToken(result.token);
-        }
-
-        this.ngZone.run(() => {
-          this.activeUserService.setActiveUser({
-            user_id: result.user.user_id,
-            username: result.user.username,
-            email: result.user.email,
-            favourites: result.user.favourites || '',
-            role: result.user.role
-          });
-
-          console.log('Active user set:', this.activeUserService.getActiveUser());
-          this.router.navigate(['/profil']);
-        });
-      },
-      (error: any) => {
-        console.error('Google login error:', error);
-        alert('Greška pri prijavi putem Google računa. Pokušajte ponovo.');
-      }
-    );
+            this.activeUserService.setActiveUser({
+              user_id: result.user.user_id,
+              username: result.user.username,
+              email: result.user.email,
+              favourites: result.user.favourites || '',
+              role: result.user.role
+            });
+            this.router.navigate(['/profil']);
+          },
+          (error: any) => {
+            console.error('Google login failed:', error);
+            alert('Neuspješna Google prijava. Pokušajte ponovo.');
+          }
+        );
+      });
+    }
   }
 
   togglePasswordVisibility() {
