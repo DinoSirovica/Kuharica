@@ -60,8 +60,7 @@ button {
   color: #748067;
   font-weight: 400;
   font-size: 1rem;
-  padding: 5px;
-  width: 120px;
+  padding: 0.5rem 0.8rem;
   border-color: #748067;
   border-radius: 9px;
   cursor: pointer;
@@ -119,11 +118,17 @@ button:hover {
   .formDiv{
     width: 60%;
   }
+  .user-box {
+    width: 450px;
+  }
 }
 
 @media (max-width: 900px) {
   .formDiv{
     width: 60%;
+  }
+  .user-box {
+    width: 400px;
   }
 }
 
@@ -131,10 +136,16 @@ button:hover {
   .formDiv{
     width: 90%;
   }
+  .user-box {
+    width: 350px;
+  }
 }
 
 @media (max-width: 400px) {
   .formDiv{
     width: 95%;
+  }
+  .user-box {
+    width: 300px;
   }
 }

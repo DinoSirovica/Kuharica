@@ -1,160 +1,169 @@
 @font-face {
-    font-family: 'Merienda-ExtraBold';
-    src: url('assets/fonts/Merienda/static/Merienda-ExtraBold.ttf') format('truetype');
-    font-weight: 800;
-    font-style: normal;
+  font-family: "Merienda-ExtraBold";
+  src: url("assets/fonts/Merienda/static/Merienda-ExtraBold.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'InclusiveSans-Regular';
-    src: url('assets/fonts/Inclusive_Sans/static/InclusiveSans-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
+  font-family: "InclusiveSans-Regular";
+  src: url("assets/fonts/Inclusive_Sans/static/InclusiveSans-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
 }
 
 :root {
-    --White: #FFFFFB;
-    --Green: #748067;
-    --Orange: #F58F29;
-    --Red: #660F00;
-    --Black: #111517;
+  --White: #fffffb;
+  --Green: #748067;
+  --Orange: #f58f29;
+  --Red: #660f00;
+  --Black: #111517;
 }
 
-body{
-    margin: 0 auto;
-    padding: 0px;
-    font-family: 'InclusiveSans-Regular';
-    font-size: 18px;
-    background-color: var(--White);
-    color: var(--Black);
+html,
+body {
+  margin: 0 auto;
+  padding: 0px;
+  font-family: "InclusiveSans-Regular";
+  font-size: 18px;
+  background-color: var(--White);
+  color: var(--Black);
 }
 
-h1{
-    font-size: 2rem;
-    font-family: 'Merienda-ExtraBold';
-    font-weight: 800;
+h1 {
+  font-size: 2rem;
+  font-family: "Merienda-ExtraBold";
+  font-weight: 800;
 }
 
-h2{
-    font-size: 1.72rem;
-    font-family: 'Merienda-ExtraBold';
-    font-weight: 800;
+h2 {
+  font-size: 1.72rem;
+  font-family: "Merienda-ExtraBold";
+  font-weight: 800;
 }
 
-h3{
-    font-size: 1.5rem;
-    font-family: 'Merienda-ExtraBold';
-    font-weight: 800;
+h3 {
+  font-size: 1.5rem;
+  font-family: "Merienda-ExtraBold";
+  font-weight: 800;
 }
 
-h4{
-    font-size: 1.33rem;
-    font-family: 'Merienda-ExtraBold';
-    font-weight: 800;
+h4 {
+  font-size: 1.33rem;
+  font-family: "Merienda-ExtraBold";
+  font-weight: 800;
 }
 
-h5{
-    font-size: 1.16rem;
-    font-family: 'Merienda-ExtraBold';
-    font-weight: 800;
+h5 {
+  font-size: 1.16rem;
+  font-family: "Merienda-ExtraBold";
+  font-weight: 800;
 }
 
-h6{
-    font-size: 1rem;
-    font-family: 'Merienda-ExtraBold';
-    font-weight: 800;
+h6 {
+  font-size: 1rem;
+  font-family: "Merienda-ExtraBold";
+  font-weight: 800;
 }
 
-p{
-    font-family: 'InclusiveSans-Regular';
-    font-size: 18px;
+p {
+  font-family: "InclusiveSans-Regular";
+  font-size: 1rem;
 }
 
 a:link,
 a:visited {
-    color: var(--Red);
-    text-decoration: none;
-    transition: color 150ms ease-in-out, font-weight 150ms ease-in-out;
+  color: var(--Red);
+  text-decoration: none;
+  transition:
+    color 150ms ease-in-out,
+    font-weight 150ms ease-in-out;
 }
 
 a:hover {
-    color: #111517;
-    font-weight: 600;
+  color: #111517;
+  font-weight: 600;
 }
 
-.container{
-    width: 1144px;
+.container {
+  width: 1144px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+li {
+  margin: 0.5rem 0;
+  padding: 0 0;
+}
+
+button {
+  background-color: unset;
+  border: 1px solid var(--Red);
+  border-radius: 5%;
+}
+
+@media (max-width: 1144px) {
+  html,
+  body {
+    margin: 0 auto;
+    padding: 0px;
+    font-family: "InclusiveSans-Regular";
+    font-size: 17px;
+  }
+
+  .container {
+    width: 80%;
     margin: 0 auto;
     padding: 0;
-}
-
-li{
-    margin: 0.5rem 0;
-    padding: 0 0;
-}
-
-button{
-    background-color: unset;
-    border: 1px solid var(--Red);
-    border-radius: 5%;
-}
-
-@media (max-width: 1144px){
-    body{
-        margin: 0 auto;
-        padding: 0px;
-        font-family: 'InclusiveSans-Regular';
-        font-size: 17px;
-    }
-
-    .container{
-        width: 80%;
-        margin: 0 auto;
-        padding: 0;
-    }   
+  }
 }
 
 @media (max-width: 900px) {
-    body{
-        margin: 0 auto;
-        padding: 0px;
-        font-family: 'InclusiveSans-Regular';
-        font-size: 16px;
-    }
+  html,
+  body {
+    margin: 0 auto;
+    padding: 0px;
+    font-family: "InclusiveSans-Regular";
+    font-size: 15px;
+  }
 
-    .container{
-        width: 80%;
-        margin: 0 auto;
-        padding: 0;
-    }   
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 0;
+  }
 }
 
 @media (max-width: 600px) {
-    body{
-        margin: 0 auto;
-        padding: 0px;
-        font-family: 'InclusiveSans-Regular';
-        font-size: 14px;
-    }
+  html,
+  body {
+    margin: 0 auto;
+    padding: 0px;
+    font-family: "InclusiveSans-Regular";
+    font-size: 12px;
+  }
 
-    .container{
-        width: 85%;
-        margin: 0 auto;
-        padding: 0;
-    }   
+  .container {
+    width: 85%;
+    margin: 0 auto;
+    padding: 0;
+  }
 }
 
 @media (max-width: 400px) {
-    body{
-        margin: 0 auto;
-        padding: 0px;
-        font-family: 'InclusiveSans-Regular';
-        font-size: 14px;
-    }
+  html,
+  body {
+    margin: 0 auto;
+    padding: 0px;
+    font-family: "InclusiveSans-Regular";
+    font-size: 10px !important;
+  }
 
-    .container{
-        width: 90%;
-        margin: 0 auto;
-        padding: 0;
-    }   
+  .container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 0;
+  }
 }
