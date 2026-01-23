@@ -12,8 +12,11 @@ import { EditprofileComponent } from './editprofile/editprofile.component';
 import { MyfavouritesComponent } from './myfavourites/myfavourites.component';
 import { MyrecipiesComponent } from './myrecipies/myrecipies.component';
 import { RecipeDetaisComponent } from './recipe-detais/recipe-detais.component';
+import { AdminUsersComponent } from './admin/users/users.component';
+import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
+  { path: 'admin/users', component: AdminUsersComponent, canActivate: [AdminGuard] },
   { path: 'profil', component: ProfileComponent },
   { path: 'profil/prijava', component: LoginComponent },
   { path: 'profil/registracija', component: SignupComponent },

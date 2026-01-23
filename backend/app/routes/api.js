@@ -270,7 +270,8 @@ module.exports = function (express, pool) {
             email: user.email,
             password_hash: user.lozinka,
             favourites: user.omiljeni_recepti,
-            role: user.rola
+            role: user.rola,
+            is_blocked: user.blokiran
           }));
 
           const benigining = 'http://localhost:8081/api';
@@ -323,6 +324,10 @@ module.exports = function (express, pool) {
 
       if (!isPasswordValid) {
         return res.status(401).json({ error: 'Invalid username or password' });
+      }
+
+      if (user.blokiran) {
+        return res.status(403).json({ error: 'Account is blocked' });
       }
 
       const token = jwt.sign(
@@ -401,6 +406,10 @@ module.exports = function (express, pool) {
 
       if (existingUsers.length > 0) {
         user = existingUsers[0];
+
+          if (user.blokiran) {
+              return res.status(403).json({ error: 'Account is blocked' });
+          }
 
         if (!user.google_id) {
           await query('UPDATE korisnik SET google_id = ? WHERE id = ?', [googleId, user.id]);
@@ -492,6 +501,80 @@ module.exports = function (express, pool) {
         console.log('User updated successfully');
         res.status(200).json({ message: 'Favourites updated successfully' });
       }
+    });
+  });
+
+  router.put('/users/:id/block', authenticateToken, (req, res) => {
+    const userId = req.params.id;
+    const { blocked } = req.body;
+
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    const updateQuery = 'UPDATE korisnik SET blokiran = ? WHERE id = ?';
+    pool.query(updateQuery, [blocked, userId], (error, results) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+      res.json({ message: `User ${blocked ? 'blocked' : 'unblocked'} successfully` });
+    });
+  });
+
+  router.delete('/users/:id', authenticateToken, (req, res) => {
+    const userId = req.params.id;
+
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    // First delete all recipes and their dependencies
+    const getUserRecipesQuery = 'SELECT id, slika_id FROM recept WHERE korisnik_id = ?';
+
+    pool.query(getUserRecipesQuery, [userId], (error, recipes) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+
+      const deleteRecipePromises = recipes.map(recipe => {
+        return new Promise((resolve, reject) => {
+          // Delete ingredients
+          pool.query('DELETE FROM recpt_sastojak WHERE recept_id = ?', [recipe.id], (err) => {
+            if (err) {
+              return reject(err);
+            }
+
+            // Delete recipe image if exists
+            if (recipe.slika_id) {
+              pool.query('DELETE FROM slika WHERE id = ?', [recipe.slika_id], (err) => {
+                if (err) console.error(`[DELETE USER] Error deleting image ${recipe.slika_id}:`, err);
+              });
+            }
+
+            // Delete recipe (comments cascade deleted)
+            pool.query('DELETE FROM recept WHERE id = ?', [recipe.id], (err) => {
+              if (err) {
+                return reject(err);
+              }
+              resolve();
+            });
+          });
+        });
+      });
+
+      Promise.all(deleteRecipePromises)
+        .then(() => {
+          // Finally delete the user
+          pool.query('DELETE FROM korisnik WHERE id = ?', [userId], (err) => {
+            if (err) {
+              return res.status(500).json({ error: err.message });
+            }
+            res.json({ message: 'User deleted successfully' });
+          });
+        })
+        .catch(err => {
+          res.status(500).json({ error: 'Failed to delete user recipes or dependencies' });
+        });
     });
   });
 

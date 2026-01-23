@@ -16,6 +16,9 @@
         <div class="navigation profile">
           <span><a routerLink="profil">Moj profil</a></span>
         </div>
+        <div class="navigation user" *ngIf="activeUser.role === 'admin'">
+          <span><a routerLink="admin/users">Upravljanje korisnicima</a></span>
+        </div>
         <div class="navigation search">
           <span><a (click)="logoutUser()">Odjava</a></span>
         </div>

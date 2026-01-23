@@ -205,4 +205,14 @@ export class ApiServiceService {
 
     return this.http.delete(`${this.baseUrl}/comments/${commentId}?user_id=${userId}`);
   }
+
+  blockUser(userId: number, blocked: boolean): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = { blocked: blocked };
+    return this.http.put(`${this.baseUrl}/users/${userId}/block`, body, { headers });
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/users/${userId}`);
+  }
 }

@@ -21,6 +21,7 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { RecipeDetaisComponent } from './recipe-detais/recipe-detais.component';
 import { CommentsComponent } from './comments/comments.component';
+import { AdminUsersComponent } from './admin/users/users.component';
 
 const routes: Routes = [
   { path: 'profil', component: ProfileComponent },
@@ -53,7 +54,9 @@ const routes: Routes = [
     AddRecipeComponent,
     RecipeDetaisComponent,
     MyfavouritesComponent,
-    CommentsComponent
+    MyfavouritesComponent,
+    CommentsComponent,
+    AdminUsersComponent
   ],
   imports: [
     BrowserModule,
