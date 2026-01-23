@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
   port: 8081,
   pool: {
@@ -8,10 +10,9 @@ module.exports = {
     database: 'kuharica',
     debug: false
   },
-  // Google OAuth Configuration - uses environment variables
+  jwtSecret: process.env.JWT_SECRET || 'super_secret_key_change_in_production',
   google: {
-    clientId: process.env.GOOGLE_CLIENT_ID || '',
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
-  },
-  jwtSecret: process.env.JWT_SECRET || 'your_super_secret_key_change_in_production'
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET
+  }
 };

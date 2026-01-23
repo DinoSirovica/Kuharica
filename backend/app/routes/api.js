@@ -1,14 +1,13 @@
-const { OAuth2Client } = require('google-auth-library');
 const config = require('../../config');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 
 const SALT_ROUNDS = 10;
+const googleClient = new OAuth2Client(config.google.clientId);
 
 module.exports = function (express, pool) {
   const router = express.Router();
-
-  const googleClient = new OAuth2Client(config.google.clientId);
 
   const query = (sql, params) => {
     return new Promise((resolve, reject) => {
@@ -30,20 +29,6 @@ module.exports = function (express, pool) {
       req.user = user;
       next();
     });
-  }
-
-  async function verifyGoogleToken(credential) {
-    try {
-      console.log("credential", credential);
-      console.log("clientId", config.google.clientId);
-      const ticket = await googleClient.verifyIdToken({
-        idToken: credential,
-        audience: config.google.clientId
-      });
-      return ticket.getPayload();
-    } catch (error) {
-      throw new Error('Invalid Google token');
-    }
   }
 
   router.get('/', (req, res) => {
@@ -284,7 +269,6 @@ module.exports = function (express, pool) {
             username: user.korisnik_ime,
             email: user.email,
             password_hash: user.lozinka,
-            password_hash: user.lozinka,
             favourites: user.omiljeni_recepti,
             role: user.rola,
             is_blocked: user.blokiran
@@ -393,127 +377,73 @@ module.exports = function (express, pool) {
     const { credential } = req.body;
 
     if (!credential) {
-      return res.status(400).json({ error: 'Missing required field: credential' });
+      return res.status(400).json({ error: 'Google credential is required' });
     }
 
     try {
-      const payload = await verifyGoogleToken(credential);
-      const google_id = payload.sub;
-      const email = payload.email;
-      const name = payload.name;
+      // Verify  token
+      const ticket = await googleClient.verifyIdToken({
+        idToken: credential,
+        audience: config.google.clientId
+      });
 
-      const existingUserByGoogleId = await query('SELECT * FROM korisnik WHERE google_id = ?', [google_id]);
+      const payload = ticket.getPayload();
+      const googleId = payload['sub'];
+      const email = payload['email'];
+      const name = payload['name'] || email.split('@')[0];
+      const emailVerified = payload['email_verified'];
 
-      if (existingUserByGoogleId.length > 0) {
-        const user = existingUserByGoogleId[0];
+      if (!emailVerified) {
+        return res.status(401).json({ error: 'Google email not verified' });
+      }
 
-        if (user.blokiran) {
-          return res.status(403).json({ error: 'Account is blocked' });
+      const existingUsers = await query(
+        'SELECT * FROM korisnik WHERE google_id = ? OR email = ?',
+        [googleId, email]
+      );
+
+      let user;
+
+      if (existingUsers.length > 0) {
+        user = existingUsers[0];
+
+          if (user.blokiran) {
+              return res.status(403).json({ error: 'Account is blocked' });
+          }
+
+        if (!user.google_id) {
+          await query('UPDATE korisnik SET google_id = ? WHERE id = ?', [googleId, user.id]);
         }
-        const token = jwt.sign(
-          { user_id: user.id, role: user.rola },
-          config.jwtSecret,
-          { expiresIn: '2h' }
+      } else {
+        const result = await query(
+          'INSERT INTO korisnik (korisnik_ime, email, google_id, lozinka) VALUES (?, ?, ?, ?)',
+          [name, email, googleId, '']
         );
 
-        return res.json({
-          message: 'Login successful',
-          token: token,
-          user: {
-            user_id: user.id,
-            username: user.korisnik_ime,
-            email: user.email,
-            favourites: user.omiljeni_recepti,
-            google_id: user.google_id,
-            role: user.rola
-          }
-        });
-      }
-
-      const existingUserByEmail = await query('SELECT * FROM korisnik WHERE email = ?', [email]);
-
-      if (existingUserByEmail.length > 0) {
-        const existingUser = existingUserByEmail[0];
-
-        if (existingUser.blokiran) {
-          return res.status(403).json({ error: 'Account is blocked' });
-        }
-
-        await query('UPDATE korisnik SET google_id = ? WHERE id = ?', [google_id, existingUser.id]);
-
-        const token = jwt.sign(
-          { user_id: existingUser.id, role: existingUser.rola },
-          config.jwtSecret,
-          { expiresIn: '2h' }
-        );
-
-        return res.json({
-          message: 'Google account linked successfully',
-          token: token,
-          user: {
-            user_id: existingUser.id,
-            username: existingUser.korisnik_ime,
-            email: existingUser.email,
-            favourites: existingUser.omiljeni_recepti,
-            google_id: google_id,
-            role: existingUser.rola
-          }
-        });
-      }
-
-      const username = name || email.split('@')[0];
-      const randomPassword = 'google_auth_' + Math.random().toString(36).substring(2, 15);
-
-      let insertedUser = null;
-      let finalUsername = username;
-      const maxAttempts = 5;
-
-      for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        try {
-          const insertResult = await query(
-            'INSERT INTO korisnik (korisnik_ime, email, lozinka, google_id) VALUES (?, ?, ?, ?)',
-            [finalUsername, email, randomPassword, google_id]
-          );
-          insertedUser = { insertId: insertResult.insertId, username: finalUsername };
-          break;
-        } catch (insertError) {
-          if (insertError.code === 'ER_DUP_ENTRY' && attempt < maxAttempts - 1) {
-            finalUsername = username + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 4);
-          } else {
-            throw insertError;
-          }
-        }
-      }
-
-      if (!insertedUser) {
-        return res.status(500).json({ error: 'Could not create user with unique username' });
+        const newUsers = await query('SELECT * FROM korisnik WHERE id = ?', [result.insertId]);
+        user = newUsers[0];
       }
 
       const token = jwt.sign(
-        { user_id: insertedUser.insertId, role: 'korisnik' },
+        { user_id: user.id, role: user.rola },
         config.jwtSecret,
         { expiresIn: '2h' }
       );
 
-      return res.status(201).json({
-        message: 'User created successfully',
+      return res.json({
+        message: 'Google login successful',
         token: token,
         user: {
-          user_id: insertedUser.insertId,
-          username: insertedUser.username,
-          email: email,
-          favourites: null,
-          google_id: google_id,
-          role: 'korisnik'
+          user_id: user.id,
+          username: user.korisnik_ime,
+          email: user.email,
+          favourites: user.omiljeni_recepti || '',
+          role: user.rola
         }
       });
-
     } catch (error) {
       console.error('Google authentication error:', error);
-      if (error.message === 'Invalid Google token') {
-        return res.status(401).json({ error: 'Invalid Google token' });
-      }
-      return res.status(500).json({ error: error.message });
+      return res.status(401).json({ error: 'Invalid Google credential' });
     }
   });
 

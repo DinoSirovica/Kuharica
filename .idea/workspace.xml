@@ -4,11 +4,83 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6abb37a8-4151-478b-a9ef-ced4d4f0749c" name="Changes" comment="" />
+    <list default="true" id="6abb37a8-4151-478b-a9ef-ced4d4f0749c" name="Changes" comment="Implement Google login functionality with JWT authentication">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.angular/cache/17.3.8/frontend/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.angular/cache/17.3.8/frontend/.tsbuildinfo" afterDir="false" />
+    </list>
+    <list id="b62ee0df-d959-43de-a675-fff3bb78e7e1" name="Ignore" comment="Ignore">
+      <change afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/opslevel.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/lib/data-stream.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/lib/sign-stream.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/lib/tostring.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/lib/verify-stream.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/opslevel.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/opslevel.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/lib/data-stream.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/lib/sign-stream.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/lib/tostring.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/lib/verify-stream.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/opslevel.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/decode.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/decode.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/JsonWebTokenError.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/JsonWebTokenError.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/NotBeforeError.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/NotBeforeError.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/TokenExpiredError.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/TokenExpiredError.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/asymmetricKeyDetailsSupported.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/asymmetricKeyDetailsSupported.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/psSupported.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/psSupported.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/rsaPssKeyDetailsSupported.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/rsaPssKeyDetailsSupported.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/timespan.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/timespan.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/validateAsymmetricKey.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/validateAsymmetricKey.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/sign.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/sign.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/verify.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/verify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jwa/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jwa/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jwa/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jwa/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jwa/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jwa/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jwa/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jwa/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/lib/data-stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/lib/data-stream.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/lib/sign-stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/lib/sign-stream.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/lib/tostring.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/lib/tostring.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/lib/verify-stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/lib/verify-stream.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/readme.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -18,15 +90,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\DINO\\AppData\\Local\\JetBrains\\Toolbox\\cache\\backup\\IDEA-U-241.15989.150-5047267794550841814\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Downloads_D/Projects/Kuharica",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "terminal",
+    "ts.external.directory.path": "D:\\Downloads_D\\Projects\\Kuharica\\frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Kuharica" />
@@ -62,9 +137,53 @@
       <workItem from="1768835090553" duration="44000" />
       <workItem from="1768835143442" duration="284000" />
     </task>
+    <task id="LOCAL−00001" summary="Implement user management features with block/unblock functionality">
+      <option name="closed" value="true" />
+      <created>1769195676526</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1769195676526</updated>
+    </task>
+    <task id="LOCAL−00002" summary="Remove Google login functionality and related configurations">
+      <option name="closed" value="true" />
+      <created>1769196087757</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1769196087757</updated>
+    </task>
+    <task id="LOCAL−00003" summary="Implement Google login functionality with JWT authentication">
+      <option name="closed" value="true" />
+      <created>1769197118323</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1769197118323</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Implement user management features with block/unblock functionality" />
+    <MESSAGE value="Remove Google login functionality and related configurations" />
+    <MESSAGE value="Ignore" />
+    <MESSAGE value="Implement Google login functionality with JWT authentication" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement Google login functionality with JWT authentication" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
