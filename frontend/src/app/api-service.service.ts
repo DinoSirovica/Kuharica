@@ -54,11 +54,6 @@ export class ApiServiceService {
     return this.http.get(this.baseUrl + '/auth/me'); // Headers handled by interceptor
   }
 
-  googleLogin(googleData: { credential: string }): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.baseUrl}/auth/google`, googleData, { headers });
-  }
-
   getAuthor(userId: number) {
     return this.http.get(`${this.baseUrl}/users/${userId}`);
   }

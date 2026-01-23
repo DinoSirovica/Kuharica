@@ -78,42 +78,6 @@ button:hover {
   margin: 44px 0 100px 0;
 }
 
-/* Divider styles */
-.divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 30px 0;
-  width: 100%;
-  max-width: 500px;
-}
-
-.divider::before,
-.divider::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid #ccc;
-}
-
-.divider span {
-  padding: 0 15px;
-  color: #666;
-  font-size: 14px;
-}
-
-/* Google Sign-In button container */
-.google-signin-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-  width: 100%;
-}
-
-#google-signin-button {
-  display: flex;
-  justify-content: center;
-}
-
 @media (max-width: 1144px) {
   .formDiv{
     width: 60%;
