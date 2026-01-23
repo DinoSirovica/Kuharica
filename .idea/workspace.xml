@@ -5,71 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6abb37a8-4151-478b-a9ef-ced4d4f0749c" name="Changes" comment="Implement Google login functionality with JWT authentication">
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/environments/environment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/routes/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routes/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/.angular/cache/17.3.8/frontend/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.angular/cache/17.3.8/frontend/.tsbuildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.angular/cache/17.3.8/vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.angular/cache/17.3.8/vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/api-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/api-service.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/login/login.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/login/login.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tsconfig.app.json" afterDir="false" />
     </list>
-    <list id="b62ee0df-d959-43de-a675-fff3bb78e7e1" name="Ignore" comment="Ignore">
-      <change afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/opslevel.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jwa/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/CHANGELOG.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/lib/data-stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/lib/sign-stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/lib/tostring.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/lib/verify-stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/opslevel.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/google-auth-library/node_modules/jws/readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/opslevel.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jwa/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/CHANGELOG.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/lib/data-stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/lib/sign-stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/lib/tostring.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/lib/verify-stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/opslevel.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/gtoken/node_modules/jws/readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/decode.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/decode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/JsonWebTokenError.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/JsonWebTokenError.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/NotBeforeError.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/NotBeforeError.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/TokenExpiredError.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/TokenExpiredError.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/asymmetricKeyDetailsSupported.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/asymmetricKeyDetailsSupported.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/psSupported.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/psSupported.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/rsaPssKeyDetailsSupported.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/rsaPssKeyDetailsSupported.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/timespan.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/timespan.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/validateAsymmetricKey.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/lib/validateAsymmetricKey.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/sign.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/sign.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/verify.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jsonwebtoken/verify.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jwa/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jwa/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jwa/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jwa/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jwa/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jwa/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jwa/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jwa/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/lib/data-stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/lib/data-stream.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/lib/sign-stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/lib/sign-stream.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/lib/tostring.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/lib/tostring.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/lib/verify-stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/lib/verify-stream.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node_modules/jws/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/jws/readme.md" afterDir="false" />
-    </list>
+    <list id="b62ee0df-d959-43de-a675-fff3bb78e7e1" name="Ignore" comment="Ignore" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,6 +34,10 @@
       </map>
     </option>
   </component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -90,33 +46,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Downloads_D/Projects/Kuharica",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "terminal",
-    "ts.external.directory.path": "D:\\Downloads_D\\Projects\\Kuharica\\frontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Downloads_D/Projects/Kuharica&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\Downloads_D\\Projects\\Kuharica\\frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="Kuharica" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="Kuharica" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
