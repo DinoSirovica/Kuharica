@@ -73,6 +73,40 @@ button:hover {
   font-weight: 600;
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+  width: 500px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.divider span {
+  padding: 0 15px;
+  color: #666;
+  font-size: 14px;
+}
+
+.google-signin-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  width: 500px;
+}
+
+#google-signin-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .login__redirect{
   text-align: center;
   margin: 44px 0 100px 0;
@@ -82,7 +116,9 @@ button:hover {
   .formDiv{
     width: 60%;
   }
-  .user-box {
+  .user-box,
+  .divider,
+  .google-signin-container {
     width: 450px;
   }
 }
@@ -91,7 +127,9 @@ button:hover {
   .formDiv{
     width: 60%;
   }
-  .user-box {
+  .user-box,
+  .divider,
+  .google-signin-container {
     width: 400px;
   }
 }
@@ -100,8 +138,10 @@ button:hover {
   .formDiv{
     width: 90%;
   }
-  .user-box {
-    width: 350px;
+  .user-box,
+  .divider,
+  .google-signin-container {
+    width: 100%;
   }
 }
 

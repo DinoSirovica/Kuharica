@@ -1,8 +1,10 @@
 const config = require('../../config');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 
 const SALT_ROUNDS = 10;
+const googleClient = new OAuth2Client(config.google.clientId);
 
 module.exports = function (express, pool) {
   const router = express.Router();
@@ -364,6 +366,76 @@ module.exports = function (express, pool) {
         }
       });
     });
+  });
+
+  router.post('/auth/google', async (req, res) => {
+    const { credential } = req.body;
+
+    if (!credential) {
+      return res.status(400).json({ error: 'Google credential is required' });
+    }
+
+    try {
+      // Verify  token
+      const ticket = await googleClient.verifyIdToken({
+        idToken: credential,
+        audience: config.google.clientId
+      });
+
+      const payload = ticket.getPayload();
+      const googleId = payload['sub'];
+      const email = payload['email'];
+      const name = payload['name'] || email.split('@')[0];
+      const emailVerified = payload['email_verified'];
+
+      if (!emailVerified) {
+        return res.status(401).json({ error: 'Google email not verified' });
+      }
+
+      const existingUsers = await query(
+        'SELECT * FROM korisnik WHERE google_id = ? OR email = ?',
+        [googleId, email]
+      );
+
+      let user;
+
+      if (existingUsers.length > 0) {
+        user = existingUsers[0];
+
+        if (!user.google_id) {
+          await query('UPDATE korisnik SET google_id = ? WHERE id = ?', [googleId, user.id]);
+        }
+      } else {
+        const result = await query(
+          'INSERT INTO korisnik (korisnik_ime, email, google_id, lozinka) VALUES (?, ?, ?, ?)',
+          [name, email, googleId, '']
+        );
+
+        const newUsers = await query('SELECT * FROM korisnik WHERE id = ?', [result.insertId]);
+        user = newUsers[0];
+      }
+
+      const token = jwt.sign(
+        { user_id: user.id, role: user.rola },
+        config.jwtSecret,
+        { expiresIn: '2h' }
+      );
+
+      return res.json({
+        message: 'Google login successful',
+        token: token,
+        user: {
+          user_id: user.id,
+          username: user.korisnik_ime,
+          email: user.email,
+          favourites: user.omiljeni_recepti || '',
+          role: user.rola
+        }
+      });
+    } catch (error) {
+      console.error('Google authentication error:', error);
+      return res.status(401).json({ error: 'Invalid Google credential' });
+    }
   });
 
   router.get('/users/:id', (req, res) => {

@@ -28,6 +28,11 @@ export class ApiServiceService {
     return this.http.post(`${this.baseUrl}/auth/login`, body, { headers });
   }
 
+  loginWithGoogle(credential: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.baseUrl}/auth/google`, { credential }, { headers });
+  }
+
   updateUserProfile(userId: number, username: string, password: string, email: string): Observable<any> {
     const body = {
       username: username,
