@@ -135,9 +135,8 @@ button:hover {
 }
 
 @media (max-width: 600px) {
-  .formDiv{
-    width: 90%;
-  }
+  form,
+  .formDiv,
   .user-box,
   .divider,
   .google-signin-container {
