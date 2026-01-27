@@ -14,14 +14,17 @@
         <input [type]="isPasswordVisible ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" required />
         <label>Lozinka</label>
         <span class="password-toggle-icon" (click)="togglePasswordVisibility()">
-          <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"
+             [matTooltip]="isPasswordVisible ? 'Sakrij lozinku' : 'Prikaži lozinku'" matTooltipPosition="above"></i>
         </span>
       </div>
       <div class="user-box">
-        <input [type]="isPasswordVisible ? 'text' : 'password'" id="passwordRepeat" [(ngModel)]="passwordRepeat" name="passwordRepeat" required />
+        <input [type]="isRepeatPasswordVisible ? 'text' : 'password'" id="passwordRepeat" [(ngModel)]="passwordRepeat" name="passwordRepeat" required />
         <label>Ponovite lozinku</label>
-        <span class="password-toggle-icon" (click)="togglePasswordVisibility()">
-          <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+        <span class="password-toggle-icon" (click)="toggleRepeatPasswordVisibility()">
+          <i [ngClass]="isRepeatPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"
+             [matTooltip]="isRepeatPasswordVisible ? 'Sakrij lozinku' : 'Prikaži lozinku'" matTooltipPosition="above"></i>
+
         </span>
       </div>
       <button type="submit">

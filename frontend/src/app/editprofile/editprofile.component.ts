@@ -18,6 +18,7 @@ export class EditprofileComponent implements OnInit{
   passwordRepeat = "";
   isPasswordVisible: boolean = false;
   isRepeatPasswordVisible: boolean = false;
+  isGoogleUser: boolean = false;
 
   constructor(
     private ActiveUserService: ActiveUserService,
@@ -35,12 +36,28 @@ export class EditprofileComponent implements OnInit{
 
   ngOnInit(): void {
     this.ActiveUserService.activeUser$.subscribe(user => {
+      if (!user) {
+        this.activeUser = null;
+        this.id = 0;
+        this.username = '';
+        this.email = '';
+        this.isGoogleUser = false;
+        return;
+      }
+
       this.activeUser = user;
       this.id = this.activeUser.user_id;
-      this.username=this.activeUser.username;
-      this.email=this.activeUser.email;
+      this.username = this.activeUser.username || '';
+      this.email = this.activeUser.email || '';
       this.password = '';
       this.passwordRepeat = '';
+
+      this.isGoogleUser = !!(
+        this.activeUser?.isGoogleUser ||
+        this.activeUser?.google_id ||
+        this.activeUser?.googleId ||
+        this.activeUser?.provider === 'google'
+      );
     });
   }
 
@@ -66,12 +83,17 @@ export class EditprofileComponent implements OnInit{
       }
     }
 
-    this.apiService.updateUserProfile(this.id, this.username, this.password, this.email).subscribe(
-      response => {
+    // If Google user, do not send password changes
+    const passwordToSend = this.isGoogleUser ? '' : this.password;
+
+    this.apiService.updateUserProfile(this.id, this.username, passwordToSend, this.email).subscribe(
+      _ => {
         this.ActiveUserService.setActiveUser({
           user_id: this.id,
           username: this.username,
-          email: this.email
+          email: this.email,
+          // preserve isGoogleUser flag so other components can react
+          isGoogleUser: this.isGoogleUser
         });
         console.log('User updated successfully');
         alert("Korisnički podatci su uspiješno promijenjeni.");

@@ -71,7 +71,8 @@ export class LoginComponent implements OnInit {
               username: result.user.username,
               email: result.user.email,
               favourites: result.user.favourites || '',
-              role: result.user.role
+              role: result.user.role,
+              isGoogleUser: true
             });
             this.router.navigate(['/profil']);
           },
@@ -102,7 +103,8 @@ export class LoginComponent implements OnInit {
           username: result.user.username,
           email: result.user.email,
           favourites: result.user.favourites || '',
-          role: result.user.role
+          role: result.user.role,
+          isGoogleUser: false
         });
         this.router.navigate(['/profil']);
         console.log('Active user set:', this.activeUserService.getActiveUser());
