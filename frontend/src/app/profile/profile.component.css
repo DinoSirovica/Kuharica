@@ -1,66 +1,105 @@
-h1{
-    text-align: center;
-    margin: 5rem 0 7rem 0;
-    color: #F58F29;
+h1 {
+  text-align: center;
+  margin: 5rem 0 7rem 0;
+  color: #f58f29;
 }
 
-h2{
-    color: #748067;
-    margin: 4rem 0 3rem 0;
+h2 {
+  color: #748067;
+  margin: 4rem 0 3rem 0;
 }
 
-table, tr{
-    width: 100%;
-}
-
-td{
-    width: 35%;
+.profile__info-grid{
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-row-gap: 2rem;
 }
 
 .user-box {
-    position: relative;
-    margin-bottom: 50px;
-    width: 500px;
+  position: relative;
+  margin-bottom: 50px;
+  width: 500px;
+}
+
+input {
+  width: 90%;
+  padding: 10px 5px;
+  border: none;
+  border-bottom: 1px solid black;
+  border-radius: 4px;
+  color: #111517;
+  background-color: #fffffb;
+}
+
+label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+input:focus ~ label,
+input:valid ~ label {
+  top: -18px;
+  left: 10px;
+  font-size: 12px;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.profile__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 4rem;
+}
+
+button {
+  padding: 0.5rem 1.2rem;
+  background-color: #e5e8df;
+  border: none;
+  border-radius: 3rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 0 0.4rem 0 0;
+}
+
+button.selected {
+  background-color: #748067;
+  color: white;
+}
+
+button:hover {
+  background-color: #748067;
+  color: white;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .profile__info-grid{
+    grid-template-columns: auto;
   }
-  
-  .user-box input {
-    width: 100%;
-    padding: 10px 5px;
-    border: none;
-    border-bottom: 1px solid black;
-    border-radius: 4px;
+  input{
+    font-size: 15px;
   }
-  
-  .user-box label {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    pointer-events: none;
-    transition: 0.5s;
-  }
-  
-  .user-box input:focus~label,
-  .user-box input:valid~label {
-    top: -18px;
-    left: 10px;
+}
+
+@media (max-width: 600px) {
+  input{
     font-size: 12px;
   }
-  
-  .password-toggle-icon {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    cursor: pointer;
-  }
-  
-.profile__links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    margin-bottom: 4rem;
 }
-.profile__links a::before {
-    content: "•";
-    margin-right: 0.5rem;
-    font-size: 1rem;
+
+@media (max-width: 400px) {
+    input{
+    font-size: 10px;
+  }
 }

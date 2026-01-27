@@ -9,15 +9,17 @@ h2{
 }
 
 .myRecipies__box{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  justify-items: center;
+  width: 100%;
 }
 
 .myRecipies__boxItem img{
-  width: 12.375rem;
   height: 12.375rem;
+  width: 90%;
   object-fit: cover;
+  justify-content: center;
 }
 
 .myRecipies__boxItem {
@@ -75,3 +77,27 @@ span{
   .no_favourites *{
     width: 100%;
   }
+
+@media (max-width: 1144px) {
+  .myRecipies__box {
+    grid-template-columns: auto auto auto auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .myRecipies__box {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .myRecipies__box {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .myRecipies__box {
+    grid-template-columns: auto;
+  }
+}

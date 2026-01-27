@@ -3,31 +3,39 @@
 
     <div class="profile__info">
         <h2>Korisnički detalji</h2>
-        <table>
-            <tr>
-              <td>Korisničko ime</td>
-              <td>       
-                <div class="user-box">
-                    <input type="text" name="username" [(ngModel)]="username" required />
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Adresa elektroničke pošte</td>
-              <td>
-                <div class="user-box">
-                  <input type="email" name="email" [(ngModel)]="email" required />
-                </div>
-              </td>
-            </tr>
-        </table>
+        <div class="profile__info-grid">
+          <span>Korisničko ime</span>
+          <input type="text" name="username" [(ngModel)]="username" disabled required />
+          <span>Adresa elektroničke pošte</span>
+          <input type="email" name="email" [(ngModel)]="email" disabled required />
+        </div>
     </div>
 
     <div class="profile__links">
         <h2>Korisne poveznice</h2>
-        <a routerLink="uredivanje-profila">Uredi profil</a><br/>
-        <a routerLink="moji-recepti">Moji recepti</a><br/>
-        <a routerLink="moji-favoriti">Moji favoriti</a><br/>
-        <a routerLink="novi-recept">Dodaj novi recept</a><br/>
+        <a routerLink="uredivanje-profila">
+          <button>
+            Uredi profil
+          </button>
+        </a>
+        <br/>
+        <a routerLink="moji-recepti">
+          <button>
+            Moji recepti
+          </button>
+        </a>
+        <br/>
+        <a routerLink="moji-favoriti">
+          <button>
+            Moji favoriti
+          </button>
+        </a>
+        <br/>
+        <a routerLink="novi-recept">
+          <button>
+            Dodaj novi recept
+          </button>
+        </a>
+        <br/>
     </div>
 </div>

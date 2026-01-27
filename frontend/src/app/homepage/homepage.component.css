@@ -6,6 +6,7 @@ h2 {
   height: 12.375rem;
   width: 90%;
   object-fit: cover;
+  justify-content: center;
 }
 
 .homepagebox__recipe {
