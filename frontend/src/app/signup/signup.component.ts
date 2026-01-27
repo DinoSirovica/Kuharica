@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent {
   isPasswordVisible: boolean = false;
+  isRepeatPasswordVisible: boolean = false;
   username: string = '';
   password: string = '';
   email: string = '';
@@ -21,6 +22,10 @@ export class SignupComponent {
 
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  toggleRepeatPasswordVisibility(): void {
+    this.isRepeatPasswordVisible = !this.isRepeatPasswordVisible;
   }
 
   onSubmit(): void {

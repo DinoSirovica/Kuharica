@@ -22,6 +22,8 @@ import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { RecipeDetaisComponent } from './recipe-detais/recipe-detais.component';
 import { CommentsComponent } from './comments/comments.component';
 import { AdminUsersComponent } from './admin/users/users.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   { path: 'profil', component: ProfileComponent },
@@ -63,7 +65,9 @@ const routes: Routes = [
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgToastModule
+    NgToastModule,
+    BrowserAnimationsModule,
+    MatTooltipModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
