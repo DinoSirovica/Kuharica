@@ -367,7 +367,8 @@ module.exports = function (express, pool) {
           username: user.korisnik_ime,
           email: user.email,
           favourites: user.omiljeni_recepti,
-          role: user.rola
+          role: user.rola,
+          google_id: user.google_id || null
         }
       });
     });
@@ -438,9 +439,9 @@ module.exports = function (express, pool) {
           username: user.korisnik_ime,
           email: user.email,
           favourites: user.omiljeni_recepti || '',
-          role: user.rola
-        }
-      });
+          role: user.rola,
+          google_id: user.google_id || googleId
+      }});
     } catch (error) {
       console.error('Google authentication error:', error);
       return res.status(401).json({ error: 'Invalid Google credential' });
@@ -469,18 +470,32 @@ module.exports = function (express, pool) {
     const { username, email, password_hash } = req.body;
 
     try {
-      const hashedPassword = await bcrypt.hash(password_hash, SALT_ROUNDS);
+      // If password_hash is provided, update with new password
+      if (password_hash) {
+        const hashedPassword = await bcrypt.hash(password_hash, SALT_ROUNDS);
+        const updateUserQuery = 'UPDATE korisnik SET korisnik_ime = ?, email = ?, lozinka = ? WHERE id = ?';
 
-      const updateUserQuery = 'UPDATE korisnik SET korisnik_ime = ?, email = ?, lozinka = ? WHERE id = ?';
+        pool.query(updateUserQuery, [username, email, hashedPassword, userId], (error, results) => {
+          if (error) {
+            console.error('Error updating user:', error);
+            res.status(500).send('Error updating user');
+          } else {
+            res.status(200).json({ message: 'User updated successfully' });
+          }
+        });
+      } else {
+        // Update without changing password (for Google users or when password not provided)
+        const updateUserQuery = 'UPDATE korisnik SET korisnik_ime = ?, email = ? WHERE id = ?';
 
-      pool.query(updateUserQuery, [username, email, hashedPassword, userId], (error, results) => {
-        if (error) {
-          console.error('Error updating user:', error);
-          res.status(500).send('Error updating user');
-        } else {
-          res.status(200).json({ message: 'User updated successfully' });
-        }
-      });
+        pool.query(updateUserQuery, [username, email, userId], (error, results) => {
+          if (error) {
+            console.error('Error updating user:', error);
+            res.status(500).send('Error updating user');
+          } else {
+            res.status(200).json({ message: 'User updated successfully' });
+          }
+        });
+      }
     } catch (error) {
       console.error('Error hashing password:', error);
       res.status(500).send('Error updating user');

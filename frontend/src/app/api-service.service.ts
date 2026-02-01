@@ -34,11 +34,13 @@ export class ApiServiceService {
   }
 
   updateUserProfile(userId: number, username: string, password: string, email: string): Observable<any> {
-    const body = {
+    const body: any = {
       username: username,
-      password_hash: password,
       email: email
     };
+    if (password) {
+      body.password_hash = password;
+    }
     return this.http.put(`${this.baseUrl}/users/${userId}`, body);
   }
 

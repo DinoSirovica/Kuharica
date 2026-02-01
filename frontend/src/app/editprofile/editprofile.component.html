@@ -10,6 +10,7 @@
         </div>
         <span>Adresa elektroničke pošte</span>
         <div class="user-box">
+<<<<<<< HEAD
           <input type="email" name="email" [(ngModel)]="email" required />
         </div>
         <span>Lozinka</span>
@@ -24,6 +25,27 @@
           <input [type]="isRepeatPasswordVisible ? 'text' : 'password'" id="passwordRepeat" [(ngModel)]="passwordRepeat" name="passwordRepeat" required />
           <span class="password-toggle-icon" (click)="toggleRepeatPasswordVisibility()">
             <i [ngClass]="isRepeatPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+=======
+          <input type="email" name="email" [(ngModel)]="email" required [disabled]="isGoogleUser">
+          <span class="password-toggle-icon"  *ngIf="isGoogleUser"  matTooltip="Email se ne može mijenjati za Google korisnike" matTooltipPosition="above">
+              <i class="fas fa-circle-info"></i>
+            </span>
+        </div>
+        <span *ngIf="!isGoogleUser">Lozinka</span>
+        <div *ngIf="!isGoogleUser" class="user-box">
+            <input [type]="isPasswordVisible ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" required />
+            <span class="password-toggle-icon" (click)="togglePasswordVisibility()">
+              <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"
+                 [matTooltip]="isPasswordVisible ? 'Sakrij lozinku' : 'Prikaži lozinku'" matTooltipPosition="above"></i>
+            </span>
+        </div>
+        <span *ngIf="!isGoogleUser">Ponovljena lozinka</span>
+        <div *ngIf="!isGoogleUser" class="user-box">
+          <input [type]="isRepeatPasswordVisible ? 'text' : 'password'" id="passwordRepeat" [(ngModel)]="passwordRepeat" name="passwordRepeat" required />
+          <span class="password-toggle-icon" (click)="toggleRepeatPasswordVisibility()">
+            <i [ngClass]="isRepeatPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"
+               [matTooltip]="isRepeatPasswordVisible ? 'Sakrij lozinku' : 'Prikaži lozinku'" matTooltipPosition="above"></i>
+>>>>>>> origin/main
           </span>
         </div>
         <button type="submit">
