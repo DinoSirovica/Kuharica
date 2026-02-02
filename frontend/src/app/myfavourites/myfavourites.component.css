@@ -69,7 +69,7 @@ span {
 
 @media (max-width: 600px) {
   .homepagebox__recipes {
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
   }
 
   .homepagebox__recipe {
@@ -80,13 +80,13 @@ span {
     align-items: center;
     width: inherit;
   }
-  .homepagebox__recipeInfo{
+  .homepagebox__recipeInfo {
     width: 90%;
   }
-}
-
-@media (max-width: 400px) {
-  .homepagebox__recipes {
-    grid-template-columns: auto;
+  .homepagebox__recipe img {
+    height: 20rem;
+    width: 90%;
+    object-fit: cover;
+    justify-content: center;
   }
 }

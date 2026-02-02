@@ -100,7 +100,49 @@ export class EditRecipeComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = () => {
         if (reader.result) {
-          this.selectedFile = reader.result;
+          const img = new Image();
+          img.onload = () => {
+            const MIN_WIDTH = 400;
+            const MIN_HEIGHT = 300;
+            const MAX_WIDTH = 1200;
+            const MAX_HEIGHT = 900;
+
+            // Validate minimum dimensions
+            if (img.width < MIN_WIDTH || img.height < MIN_HEIGHT) {
+              alert(`Slika mora biti minimalno ${MIN_WIDTH}x${MIN_HEIGHT} piksela. Vaša slika je ${img.width}x${img.height}.`);
+              (event.target as HTMLInputElement).value = '';
+              this.selectedFile = '';
+              return;
+            }
+
+            // Calculate new dimensions while maintaining aspect ratio
+            let newWidth = img.width;
+            let newHeight = img.height;
+
+            if (newWidth > MAX_WIDTH || newHeight > MAX_HEIGHT) {
+              const aspectRatio = img.width / img.height;
+              if (newWidth > MAX_WIDTH) {
+                newWidth = MAX_WIDTH;
+                newHeight = Math.round(newWidth / aspectRatio);
+              }
+              if (newHeight > MAX_HEIGHT) {
+                newHeight = MAX_HEIGHT;
+                newWidth = Math.round(newHeight * aspectRatio);
+              }
+            }
+
+            // Create canvas and resize/compress image
+            const canvas = document.createElement('canvas');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              ctx.drawImage(img, 0, 0, newWidth, newHeight);
+              // Convert to JPEG with 80% quality for good compression
+              this.selectedFile = canvas.toDataURL('image/jpeg', 0.8);
+            }
+          };
+          img.src = reader.result as string;
         }
       };
       reader.readAsDataURL(file);
