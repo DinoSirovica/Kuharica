@@ -5,13 +5,13 @@ h1{
 
 h2{
     color: #F58F29;
-    margin: 5rem 0;
+    margin: 4rem 0;
     text-align: center;
 }
 
 h3{
     color: #748067;
-    margin: 5rem 0 2rem 0;
+    margin: 4rem 0 2rem 0;
 }
 
 .recipeDetails__basics{
@@ -57,4 +57,10 @@ img{
 
 .delete-icon:hover {
     transform: scale(1.1);
+}
+
+@media (max-width: 900px) {
+    .recipeDetails__ingredients{
+        padding: 0 0;
+    }
 }

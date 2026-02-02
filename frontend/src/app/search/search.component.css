@@ -127,6 +127,12 @@ span {
   transform: scale(1.05);
 }
 
+.search__boxItem a:hover{
+  transform: scale(1.03);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
 @media (max-width: 1144px) {
   .search__box {
     grid-template-columns: auto auto auto auto;
@@ -149,14 +155,15 @@ span {
 
 @media (max-width: 600px) {
   .search__box {
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
+  }
+  .search__boxItem img{
+    height: 15rem;
+    width: 80vw;
   }
 }
 
 @media (max-width: 400px) {
-  .search__box {
-    grid-template-columns: auto;
-  }
 
   .search__categories{
     grid-template-columns: auto auto auto;

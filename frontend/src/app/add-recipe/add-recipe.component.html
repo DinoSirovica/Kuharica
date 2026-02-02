@@ -1,82 +1,128 @@
-<div class="newRecipe" *ngIf="activeUser" >
-  <!--*ngIf="activeUser" -> osigurava da se stranica prikaže samo ako je korisnik ulogiran -->
-  <a routerLink="/profil">Natrag na detalje ← </a>
+<div class="newRecipe" *ngIf="activeUser">
+  <a routerLink="/profil">Natrag na detalje ←</a>
+
   <h1>Dodaj novi recept</h1>
+
   <div class="newRecipe__form">
     <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
-      <table>
-        <tr>
-          <td colspan="1"><h5>Naziv recepta:</h5></td>
-          <td colspan="3">
-            <div class="user-box">
-              <input type="text" name="recipeName" [(ngModel)]="recipeName" required/>
-              <label>Unesite naziv</label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="1"><h5>Kategorija:</h5></td>
-          <td colspan="3">
-            <div class="user-box">
-              <select name="category" [(ngModel)]="selectedCategory" required>
-                <option value="" disabled selected hidden>Odaberi kategoriju</option>
-                <option *ngFor="let category of categories" [value]="category.id">
-                  {{ category.ime	 }}
-                </option>
-              </select>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="3"><h5>Sastojci:</h5></td>
-          <td colspan="1" style="text-align: right;">
-            <button name="buttonAddIng" type="button" (click)="addIngredientRow()">+ Dodaj sastojak</button>
-          </td>
-        </tr>
-        <tr *ngFor="let ingredient of ingredientsList; let i = index">
-          <td></td>
-          <td>
-            <div class="user-box">
-              <select name="ingredient{{i}}" [(ngModel)]="ingredientsList[i].id" required>
-                <option value="" disabled selected hidden>Odaberi sastojak</option>
-                <option *ngFor="let ing of ingredients" [value]="ing.id">
-                  {{ ing.ime }}
-                </option>
-              </select>
-            </div>
-          </td>
-          <td>
-            <div class="user-box">
-              <input type="text" name="ingredientTotal{{i}}" [(ngModel)]="ingredientsList[i].quantity" required />
-              <label>Unesite količinu</label>
-            </div>
-          </td>
-          <td>
-            <button name="buttonRemoveIng" type="button" (click)="removeIngredientRow(i)">✖</button>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="1"><h5>Fotografija:</h5></td>
-          <td colspan="3">
-            <div class="user-box">
-              <input type="file" name="photo" (change)="onFileSelected($event)" accept="image/*" required />
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4"><h5>Postupak:</h5></td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div class="user-box">
-              <textarea col= "4" name="recipeProcedure" [(ngModel)]="recipeProcedure" required></textarea>
-            </div>
-          </td>
-        </tr>
-      </table>
+
+      <!-- OSNOVNI PODACI -->
+      <div class="form-grid">
+
+        <h5>Naziv recepta:</h5>
+        <div class="grid-span">
+          <div class="user-box">
+            <input
+              type="text"
+              name="recipeName"
+              [(ngModel)]="recipeName"
+              required
+            />
+            <label>Unesite naziv</label>
+          </div>
+        </div>
+
+        <h5>Kategorija:</h5>
+        <div class="grid-span">
+          <div class="user-box">
+            <select
+              name="category"
+              [(ngModel)]="selectedCategory"
+              required
+            >
+              <option value="" disabled hidden>Odaberi kategoriju</option>
+              <option
+                *ngFor="let category of categories"
+                [value]="category.id"
+              >
+                {{ category.ime }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SASTOJCI -->
+      <div class="ingredients-header">
+        <h5>Sastojci:</h5>
+        <button
+          type="button"
+          name="buttonAddIng"
+          (click)="addIngredientRow()"
+        >
+          + Dodaj sastojak
+        </button>
+      </div>
+
+      <div
+        class="ingredient-row"
+        *ngFor="let ingredient of ingredientsList; let i = index"
+      >
+        <div class="user-box">
+          <select
+            name="ingredient{{ i }}"
+            [(ngModel)]="ingredientsList[i].id"
+            required
+          >
+            <option value="" disabled hidden>Odaberi sastojak</option>
+            <option *ngFor="let ing of ingredients" [value]="ing.id">
+              {{ ing.ime }}
+            </option>
+          </select>
+        </div>
+
+        <div class="user-box">
+          <input
+            type="text"
+            name="ingredientTotal{{ i }}"
+            [(ngModel)]="ingredientsList[i].quantity"
+            required
+          />
+          <label>Unesite količinu</label>
+        </div>
+
+        <button
+          type="button"
+          name="buttonRemoveIng"
+          (click)="removeIngredientRow(i)"
+        >
+          ✖
+        </button>
+      </div>
+
+      <!-- FOTOGRAFIJA -->
+      <div class="form-grid single-row">
+        <h5>Fotografija:</h5>
+        <div class="grid-span">
+          <div class="user-box">
+            <input
+              type="file"
+              name="photo"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- POSTUPAK -->
+      <div class="procedure">
+        <h5>Postupak:</h5>
+        <div class="user-box">
+          <textarea
+            name="recipeProcedure"
+            [(ngModel)]="recipeProcedure"
+            required
+          ></textarea>
+        </div>
+      </div>
+
       <button type="submit">
         Spremi recept
       </button>
+
     </form>
   </div>
 </div>
