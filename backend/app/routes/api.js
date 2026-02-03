@@ -262,7 +262,6 @@ module.exports = function (express, pool) {
             user_id: user.id,
             username: user.korisnik_ime,
             email: user.email,
-            password_hash: user.lozinka,
             favourites: user.omiljeni_recepti,
             role: user.rola,
             is_blocked: user.blokiran

@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
       this.activeUser = user;
     });
   }
-  
+
   logoutUser() {
     this.ActiveUserService.clearActiveUser();
     this.router.navigate(['/']);
@@ -37,13 +37,13 @@ toggleMenu() {
   if (!hamburger || !nav || !home || !mobileMenu) return;
 
   const isActive = hamburger.classList.contains('active');
-  
+
   if (!isActive) {
     // OPENING - Lock scroll MULTIPLE ways
     home.style.opacity = '0';
     home.style.transform = 'translateX(-100%)';
     mobileMenu.style.display = 'flex';
-    
+
     // TRIPLE scroll lock
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
@@ -53,7 +53,7 @@ toggleMenu() {
     home.style.opacity = '1';
     home.style.transform = 'translateX(0)';
     mobileMenu.style.display = 'none';
-    
+
     const scrollY = document.body.style.top;
     document.body.style.overflow = '';
     document.body.style.position = '';
@@ -78,7 +78,7 @@ closeMenu() {
     home.style.opacity = '1';
     home.style.transform = 'translateX(0)';
     mobileMenu.style.display = 'none';
-    
+
     const scrollY = document.body.style.top;
     document.body.style.overflow = '';
     document.body.style.position = '';
