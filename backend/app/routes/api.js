@@ -116,8 +116,6 @@ module.exports = function (express, pool) {
     const recipeId = req.params.id;
     const { title, description, instructions, category_id } = req.body;
 
-    console.log(req.body);
-
     const updateRecipeQuery = 'UPDATE recept SET naslov = ?,  upute = ?, kategorija_id = ? WHERE id = ?';
 
     pool.query(updateRecipeQuery, [title, instructions, category_id, recipeId], (error, results) => {
@@ -160,7 +158,6 @@ module.exports = function (express, pool) {
 
     const recipeId = req.body.recipe_id;
 
-    console.log('Inserting ingredients for recipe_id:', recipeId, ingredients);
     ingredients.forEach(ingredient => {
       const values = [recipeId, ingredient.id, ingredient.quantity];
       pool.query(insertIngredientQuery, values, (error, results) => {
@@ -234,8 +231,6 @@ module.exports = function (express, pool) {
     const recipeId = req.params.id;
     const updatedIngredients = req.body;
 
-    console.log(req.params);
-    console.log(req.body);
     const updateIngredientQuery = " UPDATE recpt_sastojak SET kolicina = ? WHERE recept_id = ? AND sastojak_id = ?";
 
     updatedIngredients.forEach(ingredient => {
@@ -252,7 +247,6 @@ module.exports = function (express, pool) {
   });
 
   router.get('/users', (req, res) => {
-    console.log("Im fetching users")
     pool.query('SELECT COUNT(*) AS total FROM korisnik', (countError, countResults) => {
       if (countError) {
         return res.status(500).json({ error: countError.message });
@@ -381,7 +375,6 @@ module.exports = function (express, pool) {
     }
 
     try {
-      // Verify  token
       const ticket = await googleClient.verifyIdToken({
         idToken: credential,
         audience: config.google.clientId
@@ -469,7 +462,6 @@ module.exports = function (express, pool) {
     const { username, email, password_hash } = req.body;
 
     try {
-      // If password_hash is provided, update with new password
       if (password_hash) {
         const hashedPassword = await bcrypt.hash(password_hash, SALT_ROUNDS);
         const updateUserQuery = 'UPDATE korisnik SET korisnik_ime = ?, email = ?, lozinka = ? WHERE id = ?';
@@ -483,7 +475,6 @@ module.exports = function (express, pool) {
           }
         });
       } else {
-        // Update without changing password (for Google users or when password not provided)
         const updateUserQuery = 'UPDATE korisnik SET korisnik_ime = ?, email = ? WHERE id = ?';
 
         pool.query(updateUserQuery, [username, email, userId], (error, results) => {
@@ -504,7 +495,6 @@ module.exports = function (express, pool) {
   router.put('/users/:id/favourites', (req, res) => {
     const userId = req.params.id;
     const { favourites } = req.body;
-    console.log('testing update', userId, favourites);
     const updateUserQuery = 'UPDATE korisnik SET omiljeni_recepti = ? WHERE id = ?';
 
     pool.query(updateUserQuery, [favourites, userId], (error, results) => {
@@ -512,7 +502,6 @@ module.exports = function (express, pool) {
         console.error('Error updating user:', error);
         res.status(500).send('Error updating user');
       } else {
-        console.log('User updated successfully');
         res.status(200).json({ message: 'Favourites updated successfully' });
       }
     });
@@ -542,7 +531,6 @@ module.exports = function (express, pool) {
       return res.status(403).json({ error: 'Unauthorized' });
     }
 
-    // First delete all recipes and their dependencies
     const getUserRecipesQuery = 'SELECT id, slika_id FROM recept WHERE korisnik_id = ?';
 
     pool.query(getUserRecipesQuery, [userId], (error, recipes) => {
@@ -552,20 +540,17 @@ module.exports = function (express, pool) {
 
       const deleteRecipePromises = recipes.map(recipe => {
         return new Promise((resolve, reject) => {
-          // Delete ingredients
           pool.query('DELETE FROM recpt_sastojak WHERE recept_id = ?', [recipe.id], (err) => {
             if (err) {
               return reject(err);
             }
 
-            // Delete recipe image if exists
             if (recipe.slika_id) {
               pool.query('DELETE FROM slika WHERE id = ?', [recipe.slika_id], (err) => {
                 if (err) console.error(`[DELETE USER] Error deleting image ${recipe.slika_id}:`, err);
               });
             }
 
-            // Delete recipe (comments cascade deleted)
             pool.query('DELETE FROM recept WHERE id = ?', [recipe.id], (err) => {
               if (err) {
                 return reject(err);
@@ -578,7 +563,6 @@ module.exports = function (express, pool) {
 
       Promise.all(deleteRecipePromises)
         .then(() => {
-          // Finally delete the user
           pool.query('DELETE FROM korisnik WHERE id = ?', [userId], (err) => {
             if (err) {
               return res.status(500).json({ error: err.message });
@@ -611,6 +595,24 @@ module.exports = function (express, pool) {
 
   router.post('/images', (req, res) => {
     const imageData = req.body.image_data;
+
+    if (!imageData) {
+      return res.status(400).json({ error: 'No image data provided' });
+    }
+
+    const base64ImagePattern = /^data:image\/(jpeg|jpg|png|gif|webp);base64,/;
+    if (!base64ImagePattern.test(imageData)) {
+      return res.status(400).json({ error: 'Invalid image format. Only JPEG, PNG, GIF, and WebP images are allowed.' });
+    }
+
+    const base64Length = imageData.length - imageData.indexOf(',') - 1;
+    const sizeInBytes = (base64Length * 3) / 4;
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    if (sizeInBytes > maxSize) {
+      return res.status(400).json({ error: 'Image size exceeds 10MB limit' });
+    }
+
     const insertImageQuery = 'INSERT INTO slika (data) VALUES (?)';
 
     pool.query(insertImageQuery, [imageData], (error, results) => {
@@ -627,14 +629,32 @@ module.exports = function (express, pool) {
   router.put('/images/:image_id', (req, res) => {
     const imageData = req.body.image_data;
     const imageId = req.params.image_id;
-    const insertImageQuery = 'UPDATE slika SET data = ? WHERE id = ?';
 
-    pool.query(insertImageQuery, [imageData, imageId], (error, results) => {
+    if (!imageData) {
+      return res.status(400).json({ error: 'No image data provided' });
+    }
+
+    const base64ImagePattern = /^data:image\/(jpeg|jpg|png|gif|webp);base64,/;
+    if (!base64ImagePattern.test(imageData)) {
+      return res.status(400).json({ error: 'Invalid image format. Only JPEG, PNG, GIF, and WebP images are allowed.' });
+    }
+
+    const base64Length = imageData.length - imageData.indexOf(',') - 1;
+    const sizeInBytes = (base64Length * 3) / 4;
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    if (sizeInBytes > maxSize) {
+      return res.status(400).json({ error: 'Image size exceeds 10MB limit' });
+    }
+
+    const updateImageQuery = 'UPDATE slika SET data = ? WHERE id = ?';
+
+    pool.query(updateImageQuery, [imageData, imageId], (error, results) => {
       if (error) {
         console.error('Error updating image:', error);
-        res.status(500).json({ error: 'Failed to insert image' });
+        res.status(500).json({ error: 'Failed to update image' });
       } else {
-        res.status(201).json({ message: 'Image added successfully', image_id: imageId });
+        res.status(201).json({ message: 'Image updated successfully', image_id: imageId });
       }
     });
   });
@@ -691,9 +711,7 @@ module.exports = function (express, pool) {
 
   router.delete('/recipes/:id', authenticateToken, (req, res) => {
     const recipeId = req.params.id;
-    const userId = req.user.user_id; // Securely obtained from token
-
-    console.log('Deleting recipe with ID:', recipeId, 'User:', userId);
+    const userId = req.user.user_id;
 
     if (!userId) {
       return res.status(400).json({ error: 'User ID required' });
@@ -832,9 +850,7 @@ module.exports = function (express, pool) {
 
   router.delete('/comments/:id', authenticateToken, (req, res) => {
     const commentId = req.params.id;
-    const userId = req.user.user_id; // Securely obtained from token
-
-    console.log(`[DELETE] Request received for comment ${commentId}. Provided UserID: ${userId}`);
+    const userId = req.user.user_id;
 
     if (!userId) {
       console.error('[DELETE] Failed: No user ID provided');
@@ -850,8 +866,6 @@ module.exports = function (express, pool) {
         console.error(`[DELETE] Failed: Comment ${commentId} not found`);
         return res.status(404).json({ error: 'Comment not found' });
       }
-
-      console.log(`[DELETE] Comment found. Owner in DB: ${results[0].korisnik_id}, Requesting User: ${userId}`);
 
       pool.query('SELECT rola FROM korisnik WHERE id = ?', [userId], (roleError, roleResults) => {
         if (roleError) return res.status(500).json({ error: roleError.message });
@@ -869,7 +883,6 @@ module.exports = function (express, pool) {
             console.error('[DELETE] Database error executing delete:', err);
             return res.status(500).json({ error: err.message });
           }
-          console.log(`[DELETE] Successfully deleted comment ${commentId}`);
           res.json({ message: 'Comment deleted' });
         });
       });

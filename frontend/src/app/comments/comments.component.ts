@@ -73,8 +73,6 @@ export class CommentsComponent implements OnInit {
   }
 
   deleteComment(comment: any) {
-    console.log('Delete button clicked for comment:', comment.id);
-    console.log('Current activeUser:', this.activeUser);
 
     if (!this.activeUser) {
       alert('Error: User not identified. Please re-login.');
@@ -82,11 +80,9 @@ export class CommentsComponent implements OnInit {
     }
 
     if (confirm('Jeste li sigurni da želite obrisati ovaj komentar?')) {
-      console.log('User confirmed delete. Calling API...');
       this.apiService.deleteComment(comment.id, this.activeUser.user_id)
         .subscribe({
           next: (response) => {
-            console.log('API Delete Success:', response);
             this.comments = this.comments.filter(c => c.id !== comment.id);
           },
           error: (err) => {
@@ -94,8 +90,6 @@ export class CommentsComponent implements OnInit {
             alert('Brisanje nije uspjelo. Pogledajte konzolu za detalje.');
           }
         });
-    } else {
-      console.log('User cancelled delete dialog');
     }
   }
 }

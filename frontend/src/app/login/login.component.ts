@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
         }
       );
     } else {
-      // Retry after a short delay if Google script hasn't loaded yet
       setTimeout(() => this.initializeGoogleSignIn(), 100);
     }
   }
@@ -92,7 +91,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.apiService.login(this.username, this.password).subscribe(
       (result: any) => {
-        console.log('Login successful! Redirecting...');
 
         if (result.token) {
           this.storageService.saveToken(result.token);
@@ -107,7 +105,6 @@ export class LoginComponent implements OnInit {
           isGoogleUser: false
         });
         this.router.navigate(['/profil']);
-        console.log('Active user set:', this.activeUserService.getActiveUser());
       },
       (error: any) => {
         console.error('Login failed:', error);

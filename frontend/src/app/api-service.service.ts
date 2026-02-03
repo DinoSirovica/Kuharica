@@ -48,7 +48,6 @@ export class ApiServiceService {
     const body = {
       favourites: favourites,
     };
-    console.log('body', body);
     return this.http.put(`${this.baseUrl}/users/${userId}/favourites`, body);
   }
 
@@ -58,7 +57,7 @@ export class ApiServiceService {
   }
 
   getMe(): Observable<any> {
-    return this.http.get(this.baseUrl + '/auth/me'); // Headers handled by interceptor
+    return this.http.get(this.baseUrl + '/auth/me');
   }
 
   getAuthor(userId: number) {
@@ -133,7 +132,7 @@ export class ApiServiceService {
     title: string,
     instructions: string,
     category_id: string
-  )/*: Observable<any>*/ {
+  ) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     if (imageData) {
       return this.http.put(`${this.baseUrl}/images/${imageId}`, { image_data: imageData }, { headers }).pipe(
@@ -165,7 +164,6 @@ export class ApiServiceService {
       recipe_id: recipeId,
       ingredients: ingredientList
     };
-    console.log('body', body);
     return this.http.post(`${this.baseUrl}/recipe-ingredients`, body, { headers });
   }
 

@@ -36,7 +36,6 @@ export class SearchComponent implements OnInit{
 
     this.apiService.getCategories().subscribe(data => {
       this.allCategories = data;
-      console.log(this.allCategories);
     })
   }
 
@@ -50,8 +49,6 @@ export class SearchComponent implements OnInit{
 
     if(this.selectedCategory){
       this.filteredRecipes = this.filteredRecipes.filter((recipe: any) => {
-        console.log(recipe.category_id);
-        console.log(this.selectedCategory);
         return recipe.category_id == this.selectedCategory;
       });
     }
@@ -61,8 +58,6 @@ export class SearchComponent implements OnInit{
         return recipe.user_id == this.selectedUser;
       });
     }
-
-    console.log(this.filteredRecipes);
 
     this.searchName = '';
     this.selectedCategory = '';

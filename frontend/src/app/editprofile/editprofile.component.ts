@@ -62,10 +62,6 @@ export class EditprofileComponent implements OnInit{
   }
 
   async onSubmit(){
-    console.log("Korisničko ime: " + this.username);
-    console.log("ID: " + this.id);
-    console.log("mail: " + this.email);
-
     if (!this.username || !this.email) {
       alert("Molimo unesite korisničko ime i email.");
       return;
@@ -83,7 +79,6 @@ export class EditprofileComponent implements OnInit{
       }
     }
 
-    // If Google user, do not send password changes
     const passwordToSend = this.isGoogleUser ? '' : this.password;
 
     this.apiService.updateUserProfile(this.id, this.username, passwordToSend, this.email).subscribe(
@@ -92,10 +87,8 @@ export class EditprofileComponent implements OnInit{
           user_id: this.id,
           username: this.username,
           email: this.email,
-          // preserve isGoogleUser flag so other components can react
           isGoogleUser: this.isGoogleUser
         });
-        console.log('User updated successfully');
         alert("Korisnički podatci su uspiješno promijenjeni.");
         this.router.navigate(['/profil']);
       },
