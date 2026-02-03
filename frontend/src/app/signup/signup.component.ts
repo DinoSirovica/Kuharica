@@ -47,7 +47,6 @@ export class SignupComponent {
 
     this.apiService.addUser(newUser).subscribe(
       response => {
-        console.log('User added successfully:', response);
         alert('Registracija uspješna! Sada se možete prijaviti.');
         this.router.navigate(['/profil/prijava']);
       },

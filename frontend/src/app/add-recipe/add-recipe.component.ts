@@ -56,7 +56,6 @@ export class AddRecipeComponent implements OnInit {
             const MAX_WIDTH = 1200;
             const MAX_HEIGHT = 900;
 
-            // Validate minimum dimensions
             if (img.width < MIN_WIDTH || img.height < MIN_HEIGHT) {
               alert(`Slika mora biti minimalno ${MIN_WIDTH}x${MIN_HEIGHT} piksela. Vaša slika je ${img.width}x${img.height}.`);
               (event.target as HTMLInputElement).value = '';
@@ -64,7 +63,6 @@ export class AddRecipeComponent implements OnInit {
               return;
             }
 
-            // Calculate new dimensions while maintaining aspect ratio
             let newWidth = img.width;
             let newHeight = img.height;
 
@@ -80,14 +78,12 @@ export class AddRecipeComponent implements OnInit {
               }
             }
 
-            // Create canvas and resize/compress image
             const canvas = document.createElement('canvas');
             canvas.width = newWidth;
             canvas.height = newHeight;
             const ctx = canvas.getContext('2d');
             if (ctx) {
               ctx.drawImage(img, 0, 0, newWidth, newHeight);
-              // Convert to JPEG with 80% quality for good compression
               this.selectedFile = canvas.toDataURL('image/jpeg', 0.8);
             }
           };
@@ -115,7 +111,6 @@ export class AddRecipeComponent implements OnInit {
     }
     this.ApiService.saveRecipe(this.selectedFile, this.recipeName, this.recipeProcedure, this.author.user_id, this.selectedCategory)
       .subscribe((response: any) => {
-        console.log('Recept uspješno spremljen:', response);
         const recipeId = response.recipe_id;
         this.ApiService.saveRecipeIngredients(recipeId, this.ingredientsList).toPromise();
         alert('Recept uspješno spremljen!');

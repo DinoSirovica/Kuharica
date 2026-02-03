@@ -53,7 +53,7 @@ export class EditRecipeComponent implements OnInit {
       this.apiService.getIngredients().subscribe(ingredientData => {
         const allIngredients = ingredientData.data;
 
-        this.ingredients = allIngredients; // za <select> i getNameById()
+        this.ingredients = allIngredients;
 
         this.ingredientsList = filteredRelations.map((rel: any) => ({
           id: rel.sastojak_id,
@@ -77,14 +77,11 @@ export class EditRecipeComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('onSubmit', this, this.recipe);
 
     this.apiService.updateRecipe(this.recipeId, this.recipe.slika_id, this.selectedFile, this.recipe.naslov, this.recipe.upute, this.recipe.kategorija_id)
       .subscribe((response: any) => {
-        console.log('Recept uspješno ažuriran:', response);
         const recipeId = response.recipe_id;
 
-        // First delete ingredients, then save new ones
         this.apiService.deleteRecipeIngredients(recipeId).subscribe(() => {
           this.apiService.saveRecipeIngredients(recipeId, this.ingredientsList).subscribe(() => {
             alert('Recept uspješno ažuriran!');
@@ -107,7 +104,6 @@ export class EditRecipeComponent implements OnInit {
             const MAX_WIDTH = 1200;
             const MAX_HEIGHT = 900;
 
-            // Validate minimum dimensions
             if (img.width < MIN_WIDTH || img.height < MIN_HEIGHT) {
               alert(`Slika mora biti minimalno ${MIN_WIDTH}x${MIN_HEIGHT} piksela. Vaša slika je ${img.width}x${img.height}.`);
               (event.target as HTMLInputElement).value = '';
@@ -115,7 +111,6 @@ export class EditRecipeComponent implements OnInit {
               return;
             }
 
-            // Calculate new dimensions while maintaining aspect ratio
             let newWidth = img.width;
             let newHeight = img.height;
 
@@ -131,14 +126,12 @@ export class EditRecipeComponent implements OnInit {
               }
             }
 
-            // Create canvas and resize/compress image
             const canvas = document.createElement('canvas');
             canvas.width = newWidth;
             canvas.height = newHeight;
             const ctx = canvas.getContext('2d');
             if (ctx) {
               ctx.drawImage(img, 0, 0, newWidth, newHeight);
-              // Convert to JPEG with 80% quality for good compression
               this.selectedFile = canvas.toDataURL('image/jpeg', 0.8);
             }
           };

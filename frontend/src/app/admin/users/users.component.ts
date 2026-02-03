@@ -48,7 +48,7 @@ export class AdminUsersComponent implements OnInit {
         const newStatus = !user.is_blocked;
         this.apiService.blockUser(user.user_id, newStatus).subscribe(
             (response: any) => {
-                user.is_blocked = newStatus; // Optimistic update
+                user.is_blocked = newStatus;
                 alert(`Korisnik ${newStatus ? 'blokiran' : 'odblokiran'}`);
             },
             (error) => {

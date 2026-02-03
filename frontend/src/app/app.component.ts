@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
   
   logoutUser() {
     this.ActiveUserService.clearActiveUser();
-    console.log("Log out");
     this.router.navigate(['/']);
   }
 
@@ -51,12 +50,10 @@ toggleMenu() {
     document.body.style.width = '100%';
     document.body.style.top = `-${window.scrollY}px`;
   } else {
-    // CLOSING - Unlock scroll
     home.style.opacity = '1';
     home.style.transform = 'translateX(0)';
     mobileMenu.style.display = 'none';
     
-    // Restore ALL scroll properties
     const scrollY = document.body.style.top;
     document.body.style.overflow = '';
     document.body.style.position = '';
@@ -65,7 +62,6 @@ toggleMenu() {
     window.scrollTo(0, parseInt(scrollY || '0') * -1);
   }
 
-  // Toggle classes
   hamburger.classList.toggle('active');
   nav.classList.toggle('active');
 }
@@ -83,7 +79,6 @@ closeMenu() {
     home.style.transform = 'translateX(0)';
     mobileMenu.style.display = 'none';
     
-    // Unlock scroll
     const scrollY = document.body.style.top;
     document.body.style.overflow = '';
     document.body.style.position = '';

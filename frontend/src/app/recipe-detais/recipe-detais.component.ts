@@ -33,7 +33,6 @@ export class RecipeDetaisComponent implements OnInit {
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe(params => {
       const id = params.get('id');
-      console.log(id)
       if (id !== null) {
         this.recipeId = id;
         this.loadActiveUser();
@@ -45,7 +44,6 @@ export class RecipeDetaisComponent implements OnInit {
   loadActiveUser(): void {
     this.activeUserService.activeUser$.subscribe(user => {
       this.activeUser = user;
-      console.log(this.activeUser);
     });
   }
 
@@ -76,7 +74,6 @@ export class RecipeDetaisComponent implements OnInit {
   loadImage(imageId: any): void {
     this.apiService.getImage(imageId).subscribe(data => {
       this.image = data.image.data;
-      console.log(this.image)
     })
   }
 
@@ -127,9 +124,7 @@ export class RecipeDetaisComponent implements OnInit {
         this.activeUser.favourites += ',' + this.recipeId;
       }
     }
-    console.log('data', this.activeUser.favourites);
     this.apiService.updateFavourites(this.activeUser.user_id, this.activeUser.favourites).subscribe(data => {
-      console.log(data);
       this.isFavourite = !this.isFavourite;
     })
 

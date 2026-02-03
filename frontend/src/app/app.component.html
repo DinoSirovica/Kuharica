@@ -13,7 +13,6 @@
       <div class="hamburger__item"></div>
     </div>
 
-    <!-- navigacija koja se prikazuje ukoliko je korisnik ulogiran -->
     <ng-container *ngIf="activeUser; else noUser">
       <div class="navigation secondary desktop-menu">
         <div class="navigation search">
@@ -31,7 +30,6 @@
       </div>
     </ng-container>
 
-    <!-- navigacija koja se prikazuje ukoliko korisnik nije ulogian -->
     <ng-template #noUser>
       <div class="navigation secondary desktop-menu">
         <div class="navigation search">
