@@ -595,6 +595,24 @@ module.exports = function (express, pool) {
 
   router.post('/images', (req, res) => {
     const imageData = req.body.image_data;
+
+    if (!imageData) {
+      return res.status(400).json({ error: 'No image data provided' });
+    }
+
+    const base64ImagePattern = /^data:image\/(jpeg|jpg|png|gif|webp);base64,/;
+    if (!base64ImagePattern.test(imageData)) {
+      return res.status(400).json({ error: 'Invalid image format. Only JPEG, PNG, GIF, and WebP images are allowed.' });
+    }
+
+    const base64Length = imageData.length - imageData.indexOf(',') - 1;
+    const sizeInBytes = (base64Length * 3) / 4;
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    if (sizeInBytes > maxSize) {
+      return res.status(400).json({ error: 'Image size exceeds 10MB limit' });
+    }
+
     const insertImageQuery = 'INSERT INTO slika (data) VALUES (?)';
 
     pool.query(insertImageQuery, [imageData], (error, results) => {
@@ -611,14 +629,32 @@ module.exports = function (express, pool) {
   router.put('/images/:image_id', (req, res) => {
     const imageData = req.body.image_data;
     const imageId = req.params.image_id;
-    const insertImageQuery = 'UPDATE slika SET data = ? WHERE id = ?';
 
-    pool.query(insertImageQuery, [imageData, imageId], (error, results) => {
+    if (!imageData) {
+      return res.status(400).json({ error: 'No image data provided' });
+    }
+
+    const base64ImagePattern = /^data:image\/(jpeg|jpg|png|gif|webp);base64,/;
+    if (!base64ImagePattern.test(imageData)) {
+      return res.status(400).json({ error: 'Invalid image format. Only JPEG, PNG, GIF, and WebP images are allowed.' });
+    }
+
+    const base64Length = imageData.length - imageData.indexOf(',') - 1;
+    const sizeInBytes = (base64Length * 3) / 4;
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    if (sizeInBytes > maxSize) {
+      return res.status(400).json({ error: 'Image size exceeds 10MB limit' });
+    }
+
+    const updateImageQuery = 'UPDATE slika SET data = ? WHERE id = ?';
+
+    pool.query(updateImageQuery, [imageData, imageId], (error, results) => {
       if (error) {
         console.error('Error updating image:', error);
-        res.status(500).json({ error: 'Failed to insert image' });
+        res.status(500).json({ error: 'Failed to update image' });
       } else {
-        res.status(201).json({ message: 'Image added successfully', image_id: imageId });
+        res.status(201).json({ message: 'Image updated successfully', image_id: imageId });
       }
     });
   });
@@ -814,7 +850,7 @@ module.exports = function (express, pool) {
 
   router.delete('/comments/:id', authenticateToken, (req, res) => {
     const commentId = req.params.id;
-    const userId = req.user.user_id; 
+    const userId = req.user.user_id;
 
     if (!userId) {
       console.error('[DELETE] Failed: No user ID provided');

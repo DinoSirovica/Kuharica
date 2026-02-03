@@ -93,7 +93,25 @@ export class EditRecipeComponent implements OnInit {
 
   onFileSelected(event: any) {
     const file = (event.target as HTMLInputElement).files?.[0];
+    const input = event.target as HTMLInputElement;
+
     if (file) {
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('Pogrešan format datoteke! Molimo učitajte sliku (JPG, PNG, GIF ili WebP).');
+        input.value = '';
+        this.selectedFile = '';
+        return;
+      }
+
+      const maxSize = 10 * 1024 * 1024; // 10MB u bytovima
+      if (file.size > maxSize) {
+        alert('Slika je prevelika! Maksimalna veličina je 10MB.');
+        input.value = '';
+        this.selectedFile = '';
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = () => {
         if (reader.result) {
@@ -106,7 +124,7 @@ export class EditRecipeComponent implements OnInit {
 
             if (img.width < MIN_WIDTH || img.height < MIN_HEIGHT) {
               alert(`Slika mora biti minimalno ${MIN_WIDTH}x${MIN_HEIGHT} piksela. Vaša slika je ${img.width}x${img.height}.`);
-              (event.target as HTMLInputElement).value = '';
+              input.value = '';
               this.selectedFile = '';
               return;
             }
@@ -135,8 +153,18 @@ export class EditRecipeComponent implements OnInit {
               this.selectedFile = canvas.toDataURL('image/jpeg', 0.8);
             }
           };
+          img.onerror = () => {
+            alert('Greška pri učitavanju slike. Molimo provjerite da je datoteka ispravna slika.');
+            input.value = '';
+            this.selectedFile = '';
+          };
           img.src = reader.result as string;
         }
+      };
+      reader.onerror = () => {
+        alert('Greška pri čitanju datoteke.');
+        input.value = '';
+        this.selectedFile = '';
       };
       reader.readAsDataURL(file);
     }
