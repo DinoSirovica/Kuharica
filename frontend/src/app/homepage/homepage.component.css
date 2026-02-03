@@ -38,10 +38,27 @@ span {
 }
 
 .homepage-swiper {
-  --swiper-navigation-color: #748067;
-  --swiper-scrollbar-drag-bg-color: #748067;
-  --swiper-scrollbar-bg-color: #e0e0e0;
+  --swiper-navigation-color: #f58f29;
 }
+
+.homepage-swiper::part(button-next),
+.homepage-swiper::part(button-prev) {
+  background: #fffffb;
+  padding: 1rem;
+  border-radius: 4rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.homepage-swiper::part(button-next)::after,
+.homepage-swiper::part(button-prev)::after {
+  font-size: 1.2rem;
+}
+
+.homepage-swiper::part(button-next):hover,
+.homepage-swiper::part(button-prev):hover {
+  transform: scale(1.1);
+}
+
 
 @media (max-width: 600px) {
   .homepagebox__recipe img {

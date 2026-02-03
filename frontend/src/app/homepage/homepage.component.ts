@@ -52,7 +52,7 @@ export class HomepageComponent implements OnInit {
       1280: { slidesPerView: 5 },
     },
     styles: {
-      '--swiper-navigation-color': '#f87d02', //mijenja boju swipera
+      '--swiper-navigation-color': '#f58f29',
     },
   };
 }

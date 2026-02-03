@@ -11,23 +11,27 @@ h2{
 .myRecipies__box{
   display: grid;
   grid-template-columns: auto auto auto auto auto;
-  justify-items: center;
-  width: 100%;
 }
 
 .myRecipies__boxItem img{
   height: 12.375rem;
   width: 90%;
   object-fit: cover;
-  justify-content: center;
 }
 
 .myRecipies__boxItem {
-    width: 200px;
-    text-decoration: none;
-    color: inherit;
-    margin-bottom: 2.75rem;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
   }
+.myRecipies__boxItem:hover{
+  transform: scale(1.03);
+  transition: 0.3s;
+  cursor: pointer;
+}
 
   h5{
     text-align: center;
@@ -42,6 +46,8 @@ span{
 .myRecipies__boxItemButtons {
     display: flex;
     justify-content: space-between;
+    width: 90%;
+    align-self: baseline;
   }
   
   .myRecipies__boxItemButton {
@@ -64,8 +70,8 @@ span{
   }
 
   .myRecipies__boxItemButton:hover {
-    font-weight: 550;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    text-decoration: underline;
+    transition: all 150ms ease-in-out;
   }
   
   .no_favourites{
@@ -90,13 +96,16 @@ span{
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .myRecipies__box {
     grid-template-columns: auto auto;
   }
+  .myRecipies__boxItem img{
+    height: 20rem;
+  }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
   .myRecipies__box {
     grid-template-columns: auto;
   }

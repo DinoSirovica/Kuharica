@@ -7,9 +7,15 @@
       </a>
     </div>
 
+    <div class="hamburger" (click)="toggleMenu()">
+      <div class="hamburger__item"></div>
+      <div class="hamburger__item"></div>
+      <div class="hamburger__item"></div>
+    </div>
+
     <!-- navigacija koja se prikazuje ukoliko je korisnik ulogiran -->
     <ng-container *ngIf="activeUser; else noUser">
-      <div class="navigation secondary">
+      <div class="navigation secondary desktop-menu">
         <div class="navigation search">
           <span><a routerLink="pretrazivanje">Pretraži recepte</a></span>
         </div>
@@ -27,7 +33,7 @@
 
     <!-- navigacija koja se prikazuje ukoliko korisnik nije ulogian -->
     <ng-template #noUser>
-      <div class="navigation secondary">
+      <div class="navigation secondary desktop-menu">
         <div class="navigation search">
           <span><a routerLink="pretrazivanje">Pretraži recepte</a></span>
         </div>
@@ -39,6 +45,23 @@
         </div>
       </div>
     </ng-template>
+
+  <div class="mobile-menu">
+  <ng-container *ngIf="activeUser; else noUserMobile">
+    <a routerLink="/" class="mobile-link" (click)="closeMenu()">Početna stranica</a>
+    <a routerLink="pretrazivanje" class="mobile-link" (click)="closeMenu()">Pretraži recepte</a>
+    <a routerLink="profil" class="mobile-link" (click)="closeMenu()">Moj profil</a>
+    <a routerLink="admin/users" class="mobile-link" *ngIf="activeUser.role === 'admin'" (click)="closeMenu()">Admin</a>
+    <span class="mobile-link" (click)="logoutUser()">Odjava</span>
+  </ng-container>
+  <ng-template #noUserMobile>
+    <a routerLink="/" class="mobile-link" (click)="closeMenu()">Početna stranica</a>
+    <a routerLink="pretrazivanje" class="mobile-link" (click)="closeMenu()">Pretraži recepte</a>
+    <a routerLink="profil/prijava" class="mobile-link" (click)="closeMenu()">Prijava</a>
+    <a routerLink="profil/registracija" class="mobile-link" (click)="closeMenu()">Registracija</a>
+  </ng-template>
+</div>
+
 
   </nav>
 </div>
